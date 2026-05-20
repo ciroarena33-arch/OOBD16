@@ -1,7 +1,7 @@
 package entities;
-import java.util.Date
+import java.util.Date;
 
-public classe Studio extends Gruppo{
+public class Studio extends Gruppo{
 	
 	private String nomeEsame;
 	private Date dataEsame;

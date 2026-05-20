@@ -6,7 +6,7 @@ public class PartecipazioneGruppo{
 	private Date data;
 	private boolean invitoAccettato;
 	private Utente utente;
-	private Gruppo gruppo
+	private Gruppo gruppo;
 
 	//costruttore, get e set
 	

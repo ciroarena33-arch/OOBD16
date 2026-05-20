@@ -6,7 +6,7 @@ public class Utente{
 private String emailIstituzionale;
 private String nome;
 private String cognome;
-private String password
+private String password;
 private String telefono;
 private ArrayList<Gruppo> gruppi;
 
