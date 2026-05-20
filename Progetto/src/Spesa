@@ -6,6 +6,8 @@ public class Spesa{
 	private String descrizione;
 	private Date data;
 	private double importo;
+	private Gruppo gruppo;
+	private Utente utenteEffettuante;
 
 	//costruttore, get e set
 	
