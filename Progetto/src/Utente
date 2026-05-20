@@ -1,0 +1,35 @@
+package ciro;
+import java.util.ArrayList;
+
+public class Utente{
+
+private String emailIstituzionale;
+private String nome;
+private String cognome;
+private String password
+private String telefono;
+private ArrayList<Gruppo> gruppi;
+
+//Costruttore con e senza telefono, inizializzazione degli array
+
+//get, set
+
+public void addGruppo(Gruppo nuovoGruppo){
+	if(gruppi.contains(nuovoGruppo)){
+		throw new IllegalArgumentException("L'Utente già appartiene al gruppo");
+	}
+	else{
+		gruppi.add(nuovoGruppo);
+	}
+}
+
+public void removeGruppo(Gruppo nuovoGruppo){
+	if(gruppi.contains(nuovoGruppo)){
+		throw new IllegalArgumentException("L'Utente non appartiene al gruppo");
+	}
+	else{
+		gruppi.remove(nuovoGruppo);
+	}
+}
+
+}
