@@ -1,0 +1,17 @@
+package entities;
+import java.util.Date
+
+public classe Studio extends Gruppo{
+	
+	private String nomeEsame;
+	private Date dataEsame;
+	
+	//costruttore, get e set
+	
+	
+	
+	
+	
+	
+	
+}
