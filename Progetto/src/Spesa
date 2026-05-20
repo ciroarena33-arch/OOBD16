@@ -6,6 +6,7 @@ public class Spesa{
 	private String descrizione;
 	private Date data;
 	private double importo;
+	private Valuta valuta;
 	private Gruppo gruppo;
 	private Utente utenteEffettuante;
 
