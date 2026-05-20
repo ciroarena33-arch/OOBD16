@@ -10,6 +10,8 @@ private String password
 private String telefono;
 private ArrayList<Gruppo> gruppi;
 
+//Lista spese effettuate
+
 //Costruttore con e senza telefono, inizializzazione degli array
 
 //get, set
