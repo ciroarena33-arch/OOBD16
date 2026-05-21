@@ -6,7 +6,31 @@ public class Coinquilini extends Gruppo{
 	private Indirizzo indirizzo;
 	private ArrayList<Scadenza> scadenze;
 	
-	//Costruttore get e set
+	public Coinquilini(String nome, Utente proprietario, Indirizzo indirizzo, ArrayList<Scadenza> scadenze) {
+		super(nome, proprietario);
+		this.indirizzo = indirizzo;
+		this.scadenze = scadenze;
+	}
+
+	public Indirizzo getIndirizzo() {
+		return indirizzo;
+	}
+
+	public void setIndirizzo(Indirizzo indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+
+	public ArrayList<Scadenza> getScadenze() {
+		return scadenze;
+	}
+
+	
+	
+	
+	
+	
+	
+	
 
 
 

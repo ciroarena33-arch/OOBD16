@@ -2,10 +2,31 @@ package entities;
 
 public class Valuta{
 	
-private String nome;
-private double conversioneEuro;
+	private String nome;
+	private double conversioneEuro;
+	
+	public Valuta(String nome, double conversioneEuro) {
+		this.nome = nome;
+		this.conversioneEuro = conversioneEuro;
+	}
 
-//costruttore get e set	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public double getConversioneEuro() {
+		return conversioneEuro;
+	}
+
+	public void setConversioneEuro(double conversioneEuro) {
+		this.conversioneEuro = conversioneEuro;
+	}
+
+	
 	
 	
 	
