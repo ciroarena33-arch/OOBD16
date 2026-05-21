@@ -22,6 +22,23 @@ public class Coinquilini extends Gruppo{
 
 	public ArrayList<Scadenza> getScadenze() {
 		return scadenze;
+
+	public void addScadenza(Scadenza scadenza){
+		if(scadenze.contains(scadenza)){
+			return;
+		}
+		else{
+			scadenze.add(scadenza);
+	}
+
+public void removeScadenza(Scadenza scadenza){
+		if(scadenze.contains(scadenza)){
+			scadenze.remove(scadenza);
+		}
+		else{
+			return;
+	}
+	
 	}
 
 	
