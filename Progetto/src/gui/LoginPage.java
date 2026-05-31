@@ -1,4 +1,4 @@
-package boundaries;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -29,29 +29,33 @@ public class LoginPage extends JFrame {
 		
 		JLabel lblMail = new JLabel("Mail:");
 		lblMail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMail.setBounds(149, 98, 46, 14);
+		lblMail.setBounds(154, 80, 46, 14);
 		contentPane.add(lblMail);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(149, 123, 46, 14);
+		lblPassword.setBounds(154, 105, 46, 14);
 		contentPane.add(lblPassword);
 		
 		JButton btnAccesso = new JButton("Accedi");
-		btnAccesso.setBounds(170, 155, 89, 23);
+		btnAccesso.setBounds(170, 149, 89, 23);
 		contentPane.add(btnAccesso);
 		
 		MailField = new JTextField();
-		MailField.setBounds(205, 95, 86, 20);
+		MailField.setBounds(210, 77, 86, 20);
 		contentPane.add(MailField);
 		MailField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Registrati");
-		btnNewButton.setBounds(170, 189, 89, 23);
+		btnNewButton.setBounds(170, 176, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		PasswordField = new JPasswordField();
-		PasswordField.setBounds(205, 120, 86, 20);
+		PasswordField.setBounds(210, 102, 86, 20);
 		contentPane.add(PasswordField);
+		
+		JLabel lblTitle = new JLabel("Welcome to Unina-MoneySplit");
+		lblTitle.setBounds(149, 43, 147, 14);
+		contentPane.add(lblTitle);
 
 	}
 }

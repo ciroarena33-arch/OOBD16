@@ -6,7 +6,6 @@ public class Debito{
 	private Utente debitore;
 	private double importo;
 	private boolean debitoSaldato;
-	
 	private Notifica notificaDiSollecito;
 
 	public Debito(Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {

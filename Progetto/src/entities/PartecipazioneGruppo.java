@@ -8,9 +8,9 @@ public class PartecipazioneGruppo{
 	private Utente utente;
 	private Gruppo gruppo;
 	
-	public PartecipazioneGruppo(Date data, boolean invitoAccettato, Utente utente, Gruppo gruppo) {
+	public PartecipazioneGruppo(Date data, Utente utente, Gruppo gruppo) {
 		this.data = data;
-		this.invitoAccettato = invitoAccettato;
+		this.invitoAccettato = false;
 		this.utente = utente;
 		this.gruppo = gruppo;
 	}
@@ -38,18 +38,6 @@ public class PartecipazioneGruppo{
 	public void setInvitoAccettato(boolean invitoAccettato) {
 		this.invitoAccettato = invitoAccettato;
 	}
-
-	public void setUtente(Utente utente) {
-		this.utente = utente;
-	}
-
-	public void setGruppo(Gruppo gruppo) {
-		this.gruppo = gruppo;
-	}
-
-	
-	
-	
 	
 	
 }

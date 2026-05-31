@@ -5,6 +5,9 @@ public class Scadenza {
 	private String nome;
 	private Date dataScadenza;
 	
+	//possibilità di attivare o disattivere
+	//dal punto di vista pratico come verranno usate
+	
 	public Scadenza(String nome, Date dataScadenza) {
 		this.nome = nome;
 		this.dataScadenza = dataScadenza;
