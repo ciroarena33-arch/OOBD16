@@ -14,10 +14,6 @@ private ArrayList<Gruppo> gruppi;
 
 //Lista spese effettuate dubbio: movimenti specializza spese e debiti? cosi da fare un unico array
 
-
-
-//Costruttore con e senza telefono,
-
 public Utente(String emailIstituzionale, String nome, String cognome, String password, String telefono) {
 	this.emailIstituzionale = emailIstituzionale;
 	this.nome = nome;
