@@ -32,18 +32,18 @@ public class Gruppo{
 	public ArrayList<PartecipazioneGruppo> getComponenti() {
 		return componenti;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void addComponente(PartecipazioneGruppo componente) {
+		if (componenti.contains(componente)) {
+			throw new IllegalArgumentException("Il componente appartiene già al gruppo");
+		}
+		componenti.add(componente);
+	}
+
+	public void removeComponente(PartecipazioneGruppo componente) {
+		if (!componenti.contains(componente)) {
+			throw new IllegalArgumentException("Il componente non fa parte del gruppo");
+		}
+		componenti.remove(componente);
+	}
 }

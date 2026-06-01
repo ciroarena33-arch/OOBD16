@@ -18,22 +18,17 @@ private ArrayList<Gruppo> gruppi;
 
 //Costruttore con e senza telefono,
 
-public Utente(String emailIstituzionale, String nome, String cognome, String password, String telefono,
-		ArrayList<Gruppo> gruppi) {
+public Utente(String emailIstituzionale, String nome, String cognome, String password, String telefono) {
 	this.emailIstituzionale = emailIstituzionale;
 	this.nome = nome;
 	this.cognome = cognome;
 	this.password = password;
 	this.telefono = telefono;
-	this.gruppi=new ArrayList<>();
+	this.gruppi = new ArrayList<>();
 }
 
 public Utente(String emailIstituzionale, String nome, String cognome, String password) {
-	this.emailIstituzionale = emailIstituzionale;
-	this.nome = nome;
-	this.cognome = cognome;
-	this.password = password;
-	this.gruppi=new ArrayList<>();
+	this(emailIstituzionale, nome, cognome, password, null);
 }
 
 
@@ -88,7 +83,7 @@ public void addGruppo(Gruppo nuovoGruppo){
 }
 
 public void removeGruppo(Gruppo nuovoGruppo){
-	if(gruppi.contains(nuovoGruppo)){
+	if(!gruppi.contains(nuovoGruppo)){
 		throw new IllegalArgumentException("L'Utente non appartiene al gruppo");
 	}
 	else{

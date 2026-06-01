@@ -6,7 +6,7 @@ import gui.*;
 public class AutenticationController {
 
 	private LoginFrame loginPage;
-	private RegisterFrame registerPage;;
+	private RegisterFrame registerPage;
 
 	public AutenticationController() {
 		loginPage=new LoginFrame(this);
