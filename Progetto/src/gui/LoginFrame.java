@@ -32,6 +32,7 @@ public class LoginFrame extends JFrame {
 			setTitle("Unina MoneySplit");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 300, 300);
+			setLocationRelativeTo(null);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
@@ -50,9 +51,10 @@ public class LoginFrame extends JFrame {
 			JButton btnAccesso = new JButton("Accedi");
 			btnAccesso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					theController.btnEffettuaAccesso();
 				}
 			});	
-			btnAccesso.setBounds(91, 151, 99, 23);
+			btnAccesso.setBounds(79, 154, 114, 23);
 			contentPane.add(btnAccesso);
 			
 			MailField = new JTextField();
@@ -66,7 +68,7 @@ public class LoginFrame extends JFrame {
 					theController.btnNuovoUtente();
 				}
 			});
-			btnNewButton.setBounds(91, 178, 99, 23);
+			btnNewButton.setBounds(79, 181, 114, 23);
 			contentPane.add(btnNewButton);
 			
 			PasswordField = new JPasswordField();

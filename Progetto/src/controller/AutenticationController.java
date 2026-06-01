@@ -1,4 +1,6 @@
 package controller;
+import javax.swing.JOptionPane;
+
 import gui.*;
 
 public class AutenticationController {
@@ -21,4 +23,22 @@ public class AutenticationController {
 		loginPage.setVisible(true);
 		registerPage.setVisible(false);
 	}
-}
+	
+	public void btnEffettuaAccesso() {
+		try {
+			JOptionPane.showMessageDialog(loginPage, "Accesso effettuato", "Valide Login", 1);
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(loginPage, e.getMessage(), "Error", 0);
+		}
+	}
+		public void btnEffettuaregistrazione() {
+			try {
+				JOptionPane.showMessageDialog(registerPage, "Registrazione utente effettuata", "Valide Registration", 1);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(registerPage, e.getMessage(), "Error", 0);
+			}
+		}
+	}
+

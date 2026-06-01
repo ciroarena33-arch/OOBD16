@@ -27,11 +27,13 @@ public class RegisterFrame extends JFrame {
 
 
 	public RegisterFrame(AutenticationController theController) {
+			this.theController=theController;
+			
 		setResizable(false);
 		setTitle("Registrazione");
-		this.theController=theController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,6 +75,11 @@ public class RegisterFrame extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton btnRegistrazione = new JButton("Registrati");
+		btnRegistrazione.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				theController.btnEffettuaregistrazione();
+			}
+		});
 		btnRegistrazione.setBounds(92, 187, 89, 23);
 		contentPane.add(btnRegistrazione);
 		
