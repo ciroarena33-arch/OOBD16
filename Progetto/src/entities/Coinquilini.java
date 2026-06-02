@@ -16,13 +16,10 @@ public class Coinquilini extends Gruppo{
 		return indirizzo;
 	}
 
-	public void setIndirizzo(Indirizzo indirizzo) {
-		this.indirizzo = indirizzo;
-	}
-
 	public ArrayList<Scadenza> getScadenze() {
 		return scadenze;
 	}
+
 	public void addScadenza(Scadenza scadenza){
 		if(scadenze.contains(scadenza)){
 			return;
@@ -31,25 +28,14 @@ public class Coinquilini extends Gruppo{
 			scadenze.add(scadenza);
 		}
 	}
-public void removeScadenza(Scadenza scadenza){
+	public void removeScadenza(Scadenza scadenza){
 		if(scadenze.contains(scadenza)){
 			scadenze.remove(scadenza);
 		}
 		else{
 			return;
+		}
 	}
-	
-	}
-
-	
-	
-	
-	
-	
-	
-	
-
-
 
 
 }
