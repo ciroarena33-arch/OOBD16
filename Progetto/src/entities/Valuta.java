@@ -14,10 +14,6 @@ public class Valuta{
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public double getConversioneEuro() {
 		return conversioneEuro;
 	}
