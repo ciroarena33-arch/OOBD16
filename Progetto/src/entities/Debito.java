@@ -35,10 +35,6 @@ public class Debito{
 		return notificaDiSollecito;
 	}
 
-	public void setSpesa(Spesa spesa) {
-		this.spesa = spesa;
-	}
-
 	public void setDebitoSaldato(boolean debitoSaldato) {
 		this.debitoSaldato = debitoSaldato;
 	}
