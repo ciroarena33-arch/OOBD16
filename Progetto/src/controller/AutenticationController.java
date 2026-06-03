@@ -32,12 +32,13 @@ public class AutenticationController {
 			JOptionPane.showMessageDialog(loginPage, e.getMessage(), "Error", 0);
 		}
 	}
-		public void btnEffettuaregistrazione() {
-			try {
-				JOptionPane.showMessageDialog(registerPage, "Registrazione utente effettuata", "Valide Registration", 1);
-			}
-			catch(Exception e) {
-				JOptionPane.showMessageDialog(registerPage, e.getMessage(), "Error", 0);
-			}
+	
+	public void btnEffettuaregistrazione() {
+		try {
+			JOptionPane.showMessageDialog(registerPage, "Registrazione utente effettuata", "Valide Registration", 1);
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(registerPage, e.getMessage(), "Error", 0);
 		}
 	}
+}
