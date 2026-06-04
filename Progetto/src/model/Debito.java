@@ -1,6 +1,6 @@
 package model;
 
-public class Debito{
+public class Debito extends Movimento{
 	
 	private Spesa spesa;
 	private Utente debitore;
@@ -9,6 +9,7 @@ public class Debito{
 	private Notifica notificaDiSollecito;
 
 	public Debito(Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {
+		super();
 		this.spesa = spesa;
 		this.debitore = debitore;
 		this.importo = importo;

@@ -13,8 +13,6 @@ public class Notifica{
 		this.debito = debito;
 		this.data1 = data1;
 		this.descrizione1 = descrizione1;
-		this.dataRisposta = dataRisposta;
-		this.descrizioneRisposta = descrizioneRisposta;
 	}
 
 	public Debito getDebito() {

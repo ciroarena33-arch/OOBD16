@@ -1,5 +1,5 @@
 package model;
 
-public class Movimento {
+public abstract class Movimento {
 
 }

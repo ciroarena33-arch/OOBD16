@@ -4,13 +4,13 @@ import java.util.Date;
 public class Scadenza {
 	private String nome;
 	private Date dataScadenza;
+	private double importo;
 	
-	//possibilità di attivare o disattivere
-	//dal punto di vista pratico come verranno usate
 	
-	public Scadenza(String nome, Date dataScadenza) {
+	public Scadenza(String nome, Date dataScadenza, double importo) {
 		this.nome = nome;
 		this.dataScadenza = dataScadenza;
+		this.importo=importo;
 	}
 
 	public String getNome() {
@@ -29,6 +29,9 @@ public class Scadenza {
 		this.dataScadenza = dataScadenza;
 	}
 
+	public void setImporto(double importo) {
+		this.importo=importo;
+	}
 	
 	
 	

@@ -61,6 +61,10 @@ public class Spesa{
 	public void setData(Date data) {
 		this.data = data;
 	}
+	
+	public void setValuta(Valuta valuta) {
+		this.valuta=valuta;
+	}
 
 
 
