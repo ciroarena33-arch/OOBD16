@@ -8,25 +8,18 @@ private String nome;
 private String cognome;
 private String password;
 private String telefono;
-private ArrayList<Gruppo> gruppi;
+private ArrayList<PartecipazioneGruppo> partecipazioniGruppi;
+private ArrayList<Movimento> movimenti;
 
 
-
-//Lista spese effettuate dubbio: movimenti specializza spese e debiti? cosi da fare un unico array
-
-public Utente(String emailIstituzionale, String nome, String cognome, String password, String telefono) {
+public Utente(String emailIstituzionale, String nome, String cognome, String password) {
 	this.emailIstituzionale = emailIstituzionale;
 	this.nome = nome;
 	this.cognome = cognome;
 	this.password = password;
-	this.telefono = telefono;
-	this.gruppi = new ArrayList<>();
+	this.partecipazioniGruppi = new ArrayList<>();
+	this.movimenti = new ArrayList<>();
 }
-
-public Utente(String emailIstituzionale, String nome, String cognome, String password) {
-	this(emailIstituzionale, nome, cognome, password, null);
-}
-
 
 public String getEmailIstituzionale() {
 	return emailIstituzionale;
@@ -48,8 +41,8 @@ public String getTelefono() {
 	return telefono;
 }
 
-public ArrayList<Gruppo> getGruppi() {
-	return gruppi;
+public ArrayList<PartecipazioneGruppo> getPartecipazioniGruppi() {
+	return partecipazioniGruppi;
 }
 
 public void setNome(String nome) {
@@ -69,22 +62,25 @@ public void setTelefono(String telefono) {
 }
 
 
-public void addGruppo(Gruppo nuovoGruppo){
-	if(gruppi.contains(nuovoGruppo)){
-		throw new IllegalArgumentException("L'Utente già appartiene al gruppo");
+public void addGruppo(PartecipazioneGruppo nuovoGruppo){
+	for(PartecipazioneGruppo p:partecipazioniGruppi) {
+		if(p.getGruppo()==nuovoGruppo.getGruppo()){
+			throw new IllegalArgumentException("L'Utente già appartiene al gruppo");
+		}
 	}
-	else{
-		gruppi.add(nuovoGruppo);
-	}
+	partecipazioniGruppi.add(nuovoGruppo);
 }
 
 public void removeGruppo(Gruppo nuovoGruppo){
-	if(!gruppi.contains(nuovoGruppo)){
-		throw new IllegalArgumentException("L'Utente non appartiene al gruppo");
+	for(PartecipazioneGruppo p:partecipazioniGruppi) {
+		if(p.getGruppo()==nuovoGruppo){
+			partecipazioniGruppi.remove(p);
+			return;
+		}
 	}
-	else{
-		gruppi.remove(nuovoGruppo);
-	}
-}
+	throw new IllegalArgumentException("L'Utente non appartiene al gruppo");
+}	
+	
+	
 
 }
