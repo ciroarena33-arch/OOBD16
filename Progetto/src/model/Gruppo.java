@@ -6,11 +6,13 @@ public class Gruppo{
 	private String nome;
 	private ArrayList<PartecipazioneGruppo> componenti;
 	private Utente proprietario;
+	private ArrayList<Spesa> spese;
 	
 	public Gruppo(String nome, Utente proprietario) {
 		this.nome = nome;
 		this.proprietario = proprietario;
 		this.componenti=new ArrayList<PartecipazioneGruppo>();
+		this.spese=new ArrayList<Spesa>();
 	}
 
 	public String getNome() {
