@@ -31,7 +31,7 @@ public class LoginGUI {
         JLabel password = new JLabel("Password");
         password.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JTextField inserisciPassword = new JTextField();
+        JPasswordField inserisciPassword = new JPasswordField();
         inserisciPassword.setFont(new Font("Arial", Font.PLAIN, 18));
 
         JButton accedi = new JButton("ACCEDI");

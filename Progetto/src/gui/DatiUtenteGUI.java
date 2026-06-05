@@ -3,6 +3,7 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 
 public class DatiUtenteGUI {
@@ -38,22 +39,22 @@ public class DatiUtenteGUI {
         JTextField fieldTelefono = new JTextField("");
 
         JLabel labelPassword = new JLabel("Password:");
-        JTextField fieldPassword = new JTextField("1234");
-
+        JPasswordField fieldPassword = new JPasswordField("1234");
+        
         panelCampi.add(labelNome);
         panelCampi.add(fieldNome);
 
         panelCampi.add(labelCognome);
         panelCampi.add(fieldCognome);
 
+        panelCampi.add(labelPassword);
+        panelCampi.add(fieldPassword);
+        
         panelCampi.add(labelEmail);
         panelCampi.add(fieldEmail);
 
         panelCampi.add(labelTelefono);
         panelCampi.add(fieldTelefono);
-
-        panelCampi.add(labelPassword);
-        panelCampi.add(fieldPassword);
 
         JPanel panelBottoni = new JPanel();
         panelBottoni.setLayout(new FlowLayout());
@@ -77,6 +78,16 @@ public class DatiUtenteGUI {
         panel.add(panelBasso, BorderLayout.SOUTH);
 
         panelPrincipale.add(panel);
+        JCheckBox showPasswordCheckBox= new JCheckBox("Mostra Password");
+        panel.add(showPasswordCheckBox, BorderLayout.EAST);
+        showPasswordCheckBox.addItemListener(e->{
+        	if(e.getStateChange()==ItemEvent.SELECTED) {
+        		fieldPassword.setEchoChar('\u0000');
+        	}
+        	else {
+        		fieldPassword.setEchoChar('*');
+        	}
+        });
 
         salvaModifiche.addActionListener(new ActionListener() {
             @Override
