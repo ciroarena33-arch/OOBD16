@@ -1,91 +1,66 @@
 package gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.EventQueue;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
-public class NotificheGUI {
-    public static void main(String[] args) {
+public class NotificheGUI extends JFrame {
 
-        JFrame frame = new JFrame("Notifiche");
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTable table;
 
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					NotificheGUI frame = new NotificheGUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(850, 520));
-        panel.setLayout(new BorderLayout(10, 20));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+	public NotificheGUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNotInviate=new JButton("Notifiche Inviate");
+		JButton btnNotRicevute=new JButton("Notifiche Ricevute");
+		JButton btnRichieste=new JButton("Notifiche Inviti");		
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(50, 0, 330, 20);
+		menuBar.add(btnRichieste);
+		menuBar.add(btnNotInviate);
+		menuBar.add(btnNotRicevute);
+		
+		contentPane.add(menuBar);
+		
+		JButton btnNewButton = new JButton("CreaNotifica");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(174, 230, 98, 22);
+		contentPane.add(btnNewButton);
+		
+		table = new JTable();
+		table.setBounds(60, 41, 320, 178);
+		contentPane.add(table);
 
-        JLabel titolo = new JLabel("Notifiche", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
-
-        JPanel panelListe = new JPanel();
-        panelListe.setLayout(new GridLayout(1, 2, 20, 10));
-
-        String[] notificheInviate = {
-                "A Marco: Ricordati di saldare 10€",
-                "A Luca: Debito ancora in sospeso"
-        };
-
-        String[] notificheRicevute = {
-                "Da Marco: Pago domani",
-                "Da Luca: Ho saldato il debito"
-        };
-
-        JList<String> listaInviate = new JList<>(notificheInviate);
-        JList<String> listaRicevute = new JList<>(notificheRicevute);
-
-        JPanel panelInviate = new JPanel();
-        panelInviate.setLayout(new BorderLayout(5, 5));
-        JLabel labelInviate = new JLabel("Inviate", SwingConstants.CENTER);
-        panelInviate.add(labelInviate, BorderLayout.NORTH);
-        panelInviate.add(new JScrollPane(listaInviate), BorderLayout.CENTER);
-
-        JPanel panelRicevute = new JPanel();
-        panelRicevute.setLayout(new BorderLayout(5, 5));
-        JLabel labelRicevute = new JLabel("Ricevute", SwingConstants.CENTER);
-        panelRicevute.add(labelRicevute, BorderLayout.NORTH);
-        panelRicevute.add(new JScrollPane(listaRicevute), BorderLayout.CENTER);
-
-        panelListe.add(panelInviate);
-        panelListe.add(panelRicevute);
-
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout());
-
-        JButton creaNotifica = new JButton("CREA NOTIFICA");
-        JButton tornaHome = new JButton("TORNA HOME");
-
-        panelBottoni.add(creaNotifica);
-        panelBottoni.add(tornaHome);
-
-        panel.add(titolo, BorderLayout.NORTH);
-        panel.add(panelListe, BorderLayout.CENTER);
-        panel.add(panelBottoni, BorderLayout.SOUTH);
-
-        panelPrincipale.add(panel);
-
-        creaNotifica.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CreaNotificaGUI.main(null);
-            }
-        });
-
-        tornaHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                HomeGUI.main(null);
-            }
-        });
-
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
+	}
 }

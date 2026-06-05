@@ -22,14 +22,15 @@ public class GestioneSpeseGUI {
         titolo.setFont(new Font("Arial", Font.BOLD, 28));
 
         String[] colonne = {
-                "Debitore",
-                "Importo"
+                "Creditore",
+                "Importo",
+                "Tipo di Spesa"
         };
 
         String[][] dati = {
-                {"Marco", "10.00 €"},
-                {"Luca", "10.00 €"},
-                {"Davide", "5.00 €"}
+                {"Marco", "10.00 €", "Spesa comune"},
+                {"Luca M.", "10.00 €", "Spesa personale"},
+                {"Luca P.", "5.00 €", "Spesa comune"}
         };
 
         JTable tabellaDebiti = new JTable(dati, colonne);
@@ -66,7 +67,7 @@ public class GestioneSpeseGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                DettaglioGruppoGUI.main(null);
+                DettagliGruppoGUI.main(null);
             }
         });
 

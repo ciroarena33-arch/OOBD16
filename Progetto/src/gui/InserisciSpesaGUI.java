@@ -35,6 +35,7 @@ public class InserisciSpesaGUI {
 
         JLabel labelData = new JLabel("Data spesa:");
         JTextField fieldData = new JTextField();
+        
 
         JLabel labelTipo = new JLabel("Tipo spesa:");
         String[] tipiSpesa = {"COMUNE", "PERSONALE"};
@@ -106,7 +107,7 @@ public class InserisciSpesaGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                DettaglioGruppoGUI.main(null);
+                DettagliGruppoGUI.main(null);
             }
         });
 

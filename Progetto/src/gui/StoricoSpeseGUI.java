@@ -25,14 +25,14 @@ public class StoricoSpeseGUI {
                 "Nome spesa",
                 "Data",
                 "Importo",
-                "Tipo",
+                "Valuta",
                 "Pagata da"
         };
 
         String[][] dati = {
-                {"Cena", "10/06/2026", "45.00 €", "COMUNE", "Davide"},
-                {"Taxi", "11/06/2026", "20.00 €", "COMUNE", "Marco"},
-                {"Libro", "12/06/2026", "18.00 €", "PERSONALE", "Luca"}
+                {"Cena", "10/06/2026", "45.00", "Euro", "Davide"},
+                {"Taxi", "11/06/2026", "20.00", "Dollaro Americano", "Marco"},
+                {"Libro", "12/06/2026", "18.00", "Sterlina", "Luca"}
         };
 
         JTable tabellaSpese = new JTable(dati, colonne);
@@ -54,7 +54,7 @@ public class StoricoSpeseGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                DettaglioGruppoGUI.main(null);
+                DettagliGruppoGUI.main(null);
             }
         });
 
