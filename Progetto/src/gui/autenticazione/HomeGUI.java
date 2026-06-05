@@ -37,7 +37,7 @@ public class HomeGUI {
         JButton mieiGruppi = new JButton("I MIEI GRUPPI");
         JButton reportGenerale = new JButton("REPORT GENERALE");
         JButton datiUtente = new JButton("VISUALIZZA DATI UTENTE");
-        JButton visualizzaNotifiche = new JButton("VISUALIZZA NOTIFICHE");
+        JButton visualizzaNotifiche = new JButton("CENTRO NOTIFICHE");
         JButton esci = new JButton("ESCI");
 
         JLabel messaggio = new JLabel("Seleziona un'operazione");

@@ -1,4 +1,4 @@
-package gui;
+package gui.scadenze;
 
 import java.awt.EventQueue;
 

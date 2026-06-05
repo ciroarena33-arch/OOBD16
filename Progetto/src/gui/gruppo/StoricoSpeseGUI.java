@@ -1,4 +1,4 @@
-package gui;
+package gui.gruppo;
 
 import javax.swing.*;
 import java.awt.*;

@@ -32,10 +32,10 @@ public class CreazioneGruppoGUI {
         panelBottoni.setLayout(new FlowLayout());
 
         JButton confermaCreazione = new JButton("CONFERMA CREAZIONE");
-        JButton tornaHome = new JButton("TORNA HOME");
+        JButton tornaHomeGruppi = new JButton("ANNULLA");
 
         panelBottoni.add(confermaCreazione);
-        panelBottoni.add(tornaHome);
+        panelBottoni.add(tornaHomeGruppi);
 
         JLabel messaggio = new JLabel("", SwingConstants.CENTER);
         messaggio.setFont(new Font("Arial", Font.BOLD, 15));
@@ -64,11 +64,11 @@ public class CreazioneGruppoGUI {
             }
         });
 
-        tornaHome.addActionListener(new ActionListener() {
+        tornaHomeGruppi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                HomeGUI.main(null);
+                I_Miei_GruppiGUI.main(null);
             }
         });
 

@@ -1,4 +1,4 @@
-package gui;
+package gui.notifica;
 
 import java.awt.EventQueue;
 
