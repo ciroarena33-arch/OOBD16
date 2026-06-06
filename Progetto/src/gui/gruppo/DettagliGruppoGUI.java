@@ -37,7 +37,7 @@ public class DettagliGruppoGUI {
         JButton inserisciSpesa = new JButton("INSERISCI SPESA");
         JButton storicoSpese = new JButton("STORICO SPESE");
         JButton visualizzaPartecipanti = new JButton("VISUALIZZA PARTECIPANTI");
-        JButton aggiungiPartecipante = new JButton("AGGIUNGI PARTECIPANTE");
+        JButton infoGruppo = new JButton("INFO GRUPPO");
         JButton tornaGruppi = new JButton("TORNA AI GRUPPI");
 
         panel.add(logo);
@@ -46,7 +46,7 @@ public class DettagliGruppoGUI {
         panel.add(inserisciSpesa);
         panel.add(storicoSpese);
         panel.add(visualizzaPartecipanti);
-        panel.add(aggiungiPartecipante);
+        panel.add(infoGruppo);
         panel.add(tornaGruppi);
 
         panelPrincipale.add(panel);
@@ -74,7 +74,7 @@ public class DettagliGruppoGUI {
             }
         });
 
-        aggiungiPartecipante.addActionListener(new ActionListener() {
+        infoGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AggiungiPartecipanteGruppoGUI.main(null);

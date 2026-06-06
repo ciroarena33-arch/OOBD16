@@ -43,6 +43,9 @@ public class VisualizzaPartecipantiGUI {
 
         JButton vediDettagli = new JButton("VEDI DETTAGLI");
         JButton tornaGruppo = new JButton("TORNA AL GRUPPO");
+        
+        JButton btnAggiungiPartecipante = new JButton("AGGIUNGI PARTECIPANTE");
+        panelBottoni.add(btnAggiungiPartecipante);
 
         panelBottoni.add(vediDettagli);
         panelBottoni.add(tornaGruppo);
