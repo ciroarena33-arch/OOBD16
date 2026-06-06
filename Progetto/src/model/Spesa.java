@@ -1,7 +1,7 @@
 package model;
 import java.util.Date;
 
-public class Spesa{
+public class Spesa extends Movimento{
 	
 	private String nomeSpesa;
 	private String descrizione;

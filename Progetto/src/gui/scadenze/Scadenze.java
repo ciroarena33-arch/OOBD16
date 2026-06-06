@@ -67,9 +67,9 @@ public class Scadenze extends JFrame {
 		btnModifica.setBounds(176, 230, 88, 22);
 		contentPane.add(btnModifica);
 		
-		JButton btnCancella = new JButton("Cancella");
-		btnCancella.setBounds(268, 230, 88, 22);
-		contentPane.add(btnCancella);
+		JButton btnIndietro = new JButton("Indietro");
+		btnIndietro.setBounds(268, 230, 88, 22);
+		contentPane.add(btnIndietro);
 
 	}
 

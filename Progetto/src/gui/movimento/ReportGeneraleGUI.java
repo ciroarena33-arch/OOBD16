@@ -1,4 +1,4 @@
-package gui.speseUtente;
+package gui.movimento;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -34,17 +34,17 @@ public class ReportGeneraleGUI extends JFrame {
         setTitle("Report generale");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
-        setLocationRelativeTo(null); // Centra la finestra sullo schermo
+        setLocationRelativeTo(null); 
         
         contentPane = new JPanel();
-        contentPane.setBackground(Color.WHITE); // Sfondo bianco pulito per il grafico
+        contentPane.setBackground(Color.WHITE); 
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(null); // <--- ATTIVA L'ABSOLUTE LAYOUT
+        contentPane.setLayout(null);
         setContentPane(contentPane);
 
         JLabel titolo = new JLabel("Report generale", SwingConstants.CENTER);
         titolo.setFont(new Font("Arial", Font.BOLD, 28));
-        titolo.setBounds(300, 30, 400, 40); // (X, Y, Larghezza, Altezza)
+        titolo.setBounds(300, 30, 400, 40);
         contentPane.add(titolo);
 
         JLabel totaleSpeso = new JLabel("Totale speso: 350.00 €", SwingConstants.CENTER);
@@ -54,8 +54,13 @@ public class ReportGeneraleGUI extends JFrame {
 
         JButton tornaHome = new JButton("TORNA HOME");
         tornaHome.setFont(new Font("Arial", Font.BOLD, 14));
-        tornaHome.setBounds(400, 580, 200, 40);
+        tornaHome.setBounds(539, 581, 200, 40);
         contentPane.add(tornaHome);
+        
+        JButton btnVisualizzaDettagli = new JButton("VISUALIZZA DETTAGLI");
+        btnVisualizzaDettagli.setFont(new Font("Arial", Font.BOLD, 14));
+        btnVisualizzaDettagli.setBounds(250, 581, 200, 40);
+        contentPane.add(btnVisualizzaDettagli);
 
         tornaHome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

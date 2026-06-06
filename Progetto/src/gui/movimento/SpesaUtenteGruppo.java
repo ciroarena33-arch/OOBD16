@@ -1,4 +1,4 @@
-package gui.speseUtente;
+package gui.movimento;
 
 import java.awt.EventQueue;
 

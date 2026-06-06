@@ -35,7 +35,7 @@ public class CreaNotificaGUI extends JFrame {
 
 	public CreaNotificaGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 385);
+		setBounds(100, 100, 727, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -44,32 +44,37 @@ public class CreaNotificaGUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("Crea Notifica");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(158, 10, 212, 26);
+		lblNewLabel.setBounds(235, 11, 212, 26);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Debito");
-		lblNewLabel_1.setBounds(67, 85, 59, 13);
+		lblNewLabel_1.setBounds(82, 75, 59, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		textField = new JTextField();
-		textField.setBounds(143, 82, 96, 18);
+		textField.setEditable(false);
+		textField.setBounds(158, 72, 280, 26);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Scelta");
-		btnNewButton.setBounds(273, 78, 84, 20);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(448, 71, 84, 27);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel_2 = new JLabel("Descrizione ");
-		lblNewLabel_2.setBounds(67, 169, 69, 12);
+		lblNewLabel_2.setBounds(82, 159, 69, 12);
 		contentPane.add(lblNewLabel_2);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(143, 138, 111, 79);
+		textArea.setBounds(158, 128, 374, 122);
 		contentPane.add(textArea);
 		
 		JButton btnNewButton_1 = new JButton("Invia ");
-		btnNewButton_1.setBounds(170, 271, 84, 20);
+		btnNewButton_1.setBounds(185, 261, 144, 36);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Annulla");
@@ -77,7 +82,7 @@ public class CreaNotificaGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_2.setBounds(286, 271, 71, 20);
+		btnNewButton_2.setBounds(380, 261, 120, 36);
 		contentPane.add(btnNewButton_2);
 
 	}

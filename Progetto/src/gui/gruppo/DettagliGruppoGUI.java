@@ -2,6 +2,10 @@
 package gui.gruppo;
 
 import javax.swing.*;
+
+import gui.spesa.InserisciSpesaGUI;
+import gui.spesa.StoricoSpeseGUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +36,6 @@ public class DettagliGruppoGUI {
 
         JButton inserisciSpesa = new JButton("INSERISCI SPESA");
         JButton storicoSpese = new JButton("STORICO SPESE");
-        JButton reportSaldi = new JButton("GESTIONE SPESA");
         JButton visualizzaPartecipanti = new JButton("VISUALIZZA PARTECIPANTI");
         JButton aggiungiPartecipante = new JButton("AGGIUNGI PARTECIPANTE");
         JButton tornaGruppi = new JButton("TORNA AI GRUPPI");
@@ -42,7 +45,6 @@ public class DettagliGruppoGUI {
         panel.add(numeroPartecipanti);
         panel.add(inserisciSpesa);
         panel.add(storicoSpese);
-        panel.add(reportSaldi);
         panel.add(visualizzaPartecipanti);
         panel.add(aggiungiPartecipante);
         panel.add(tornaGruppi);
@@ -62,14 +64,6 @@ public class DettagliGruppoGUI {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 StoricoSpeseGUI.main(null);
-            }
-        });
-
-        reportSaldi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                GestioneSpeseGUI.main(null);
             }
         });
 

@@ -1,4 +1,4 @@
-package gui.gruppo;
+package gui.partecipanti;
 
 import javax.swing.*;
 import java.awt.*;

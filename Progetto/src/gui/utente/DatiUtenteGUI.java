@@ -1,4 +1,4 @@
-package gui.autenticazione;
+package gui.utente;
 
 import javax.swing.*;
 import java.awt.*;

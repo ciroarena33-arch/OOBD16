@@ -1,4 +1,4 @@
-package gui.speseUtente;
+package gui.movimento;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -82,7 +82,7 @@ public class ListaSpese extends JFrame {
 	        	public void actionPerformed(ActionEvent e) {
 	        	}
 	        });
-	        btnApriSpesa.setBounds(142, 382, 89, 23);
+	        btnApriSpesa.setBounds(126, 382, 105, 23);
 	        contentPane.add(btnApriSpesa);
 	        
 	        JButton btnIndietro = new JButton("Indietro");
@@ -90,7 +90,7 @@ public class ListaSpese extends JFrame {
 	        	public void actionPerformed(ActionEvent e) {
 	        	}
 	        });
-	        btnIndietro.setBounds(241, 382, 89, 23);
+	        btnIndietro.setBounds(241, 382, 119, 23);
 	        contentPane.add(btnIndietro);
 	        
 

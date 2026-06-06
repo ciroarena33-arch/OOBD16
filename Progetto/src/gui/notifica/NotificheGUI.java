@@ -32,7 +32,7 @@ public class NotificheGUI extends JFrame {
 
 	public NotificheGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 621, 462);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -40,10 +40,10 @@ public class NotificheGUI extends JFrame {
 		
 		JButton btnNotInviate=new JButton("Notifiche Inviate");
 		JButton btnNotRicevute=new JButton("Notifiche Ricevute");
-		JButton btnRichieste=new JButton("Notifiche Inviti");		
+		JButton btnRichieste=new JButton("Inviti");		
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(50, 0, 330, 20);
+		menuBar.setBounds(154, 10, 330, 20);
 		menuBar.add(btnRichieste);
 		menuBar.add(btnNotInviate);
 		menuBar.add(btnNotRicevute);
@@ -55,11 +55,11 @@ public class NotificheGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(174, 230, 98, 22);
+		btnNewButton.setBounds(256, 340, 98, 22);
 		contentPane.add(btnNewButton);
 		
 		table = new JTable();
-		table.setBounds(60, 41, 320, 178);
+		table.setBounds(60, 41, 495, 294);
 		contentPane.add(table);
 
 	}

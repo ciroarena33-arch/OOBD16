@@ -1,6 +1,9 @@
-package gui.gruppo;
+package gui.spesa;
 
 import javax.swing.*;
+
+import gui.gruppo.DettagliGruppoGUI;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
