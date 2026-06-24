@@ -1,14 +1,22 @@
 package gui.utente;
 
 import javax.swing.*;
+
+import control.UtenteController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegistrazioneGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
 
-        JFrame frame = new JFrame("Registrazione");
+public class RegistrazioneGUI extends JFrame {
+
+    private UtenteController controller;
+
+    public RegistrazioneGUI(UtenteController controller) {
+        super("Registrazione");
+        this.controller=controller;
 
         JPanel panelPrincipale = new JPanel();
         JPanel panel = new JPanel();
@@ -87,8 +95,7 @@ public class RegistrazioneGUI {
                     messaggio.setText("Compila tutti i campi");
                 } else {
                     messaggio.setText("Registrazione effettuata");
-                    frame.dispose();
-                    HomeGUI.main(null);
+                    controller.btn_registrazione_registrati(email1, password1, nome1, cognome1);
                 }
             }
         });
@@ -96,15 +103,15 @@ public class RegistrazioneGUI {
         tornaLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                LoginGUI.main(null);
+                controller.btn_registrazione_tornaLogin();
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null); // facciamo partire a centro schermo
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        //Bottone per eliminare account con dialog di conferma e ritorno a login
+        
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

@@ -1,15 +1,23 @@
 package gui.utente;
 
 import javax.swing.*;
+
+import control.UtenteController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
 
-        JFrame frame = new JFrame("Login");
+public class LoginGUI extends JFrame {
 
+    private UtenteController controller;
+
+    public LoginGUI(UtenteController controller) {
+        super("Login");
+        this.controller=controller;
+        
         JPanel panelPrincipale = new JPanel();
         JPanel panel = new JPanel();
 
@@ -68,8 +76,7 @@ public class LoginGUI {
                     messaggio.setText("Credenziali non valide");
                 } else {
                     messaggio.setText("Accesso effettuato");
-                    frame.dispose();
-                    HomeGUI.main(null);
+                    controller.btn_login_accedi(email1, password1);
                 }
             }
         });
@@ -77,22 +84,20 @@ public class LoginGUI {
         registrati.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                RegistrazioneGUI.main(null);
+                controller.btn_login_registrati();
             }
         });
 
         esci.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                controller.btn_login_esci();
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

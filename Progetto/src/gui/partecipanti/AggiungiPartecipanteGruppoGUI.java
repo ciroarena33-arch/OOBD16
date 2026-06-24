@@ -5,10 +5,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AggiungiPartecipanteGruppoGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
 
-        JFrame frame = new JFrame("Aggiungi partecipante");
+public class AggiungiPartecipanteGruppoGUI extends JFrame {
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    AggiungiPartecipanteGruppoGUI frame = new AggiungiPartecipanteGruppoGUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public AggiungiPartecipanteGruppoGUI() {
+        super("Aggiungi partecipante");
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1, 10, 10));
@@ -53,13 +68,12 @@ public class AggiungiPartecipanteGruppoGUI {
         annulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
             }
         });
 
-        frame.setContentPane(panel);
-        frame.setSize(450, 300);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // chiudo solo la finestra
-        frame.setVisible(true);
+        setContentPane(panel);
+        setSize(450, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // chiudo solo la finestra
     }
 }

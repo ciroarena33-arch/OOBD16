@@ -8,10 +8,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StoricoSpeseGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
 
-        JFrame frame = new JFrame("Storico spese");
+public class StoricoSpeseGUI extends JFrame {
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    StoricoSpeseGUI frame = new StoricoSpeseGUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public StoricoSpeseGUI() {
+        super("Storico spese");
 
         JPanel panelPrincipale = new JPanel();
         panelPrincipale.setLayout(new GridBagLayout());
@@ -56,15 +71,14 @@ public class StoricoSpeseGUI {
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 DettagliGruppoGUI.main(null);
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

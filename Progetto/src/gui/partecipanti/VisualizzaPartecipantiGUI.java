@@ -5,10 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class VisualizzaPartecipantiGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
+import gui.gruppo.DettagliGruppoGUI;
 
-        JFrame frame = new JFrame("Partecipanti gruppo");
+public class VisualizzaPartecipantiGUI extends JFrame {
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    VisualizzaPartecipantiGUI frame = new VisualizzaPartecipantiGUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public VisualizzaPartecipantiGUI() {
+        super("Partecipanti gruppo");
 
         JPanel panelPrincipale = new JPanel();
         panelPrincipale.setLayout(new GridBagLayout());
@@ -76,7 +92,7 @@ public class VisualizzaPartecipantiGUI {
                     String cognome = dettagliUtenti[indice][1];
                     String email = dettagliUtenti[indice][2];
 
-                    JOptionPane.showMessageDialog(frame,"Nome: " + nome + "\nCognome: " + cognome + "\nEmail: " + email);
+                    JOptionPane.showMessageDialog(VisualizzaPartecipantiGUI.this,"Nome: " + nome + "\nCognome: " + cognome + "\nEmail: " + email);
                 }
             }
         });
@@ -84,15 +100,14 @@ public class VisualizzaPartecipantiGUI {
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 DettagliGruppoGUI.main(null);
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

@@ -39,6 +39,7 @@ public class ListaSpese extends JFrame {
 	 * Create the frame.
 	 */
 	public ListaSpese() {
+		super("Lista Delle Spese");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 498, 486);
 		contentPane = new JPanel();

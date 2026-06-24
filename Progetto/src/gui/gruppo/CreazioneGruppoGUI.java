@@ -5,10 +5,25 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class CreazioneGruppoGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
 
-        JFrame frame = new JFrame("Creazione gruppo");
+public class CreazioneGruppoGUI extends JFrame {
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    CreazioneGruppoGUI frame = new CreazioneGruppoGUI();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public CreazioneGruppoGUI() {
+        super("Creazione gruppo");
 
         JPanel panelPrincipale = new JPanel();
         panelPrincipale.setLayout(new GridBagLayout());
@@ -67,15 +82,14 @@ public class CreazioneGruppoGUI {
         tornaHomeGruppi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                I_Miei_GruppiGUI.main(null);
+                dispose();
+                IMieiGruppiGUI.main(null);
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

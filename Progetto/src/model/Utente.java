@@ -7,7 +7,7 @@ private String emailIstituzionale;
 private String nome;
 private String cognome;
 private String password;
-private String telefono;
+private long telefono;
 private ArrayList<PartecipazioneGruppo> partecipazioniGruppi;
 private ArrayList<Movimento> movimenti;
 
@@ -20,6 +20,20 @@ public Utente(String emailIstituzionale, String nome, String cognome, String pas
 	this.partecipazioniGruppi = new ArrayList<>();
 	this.movimenti = new ArrayList<>();
 }
+
+
+
+public Utente(String emailIstituzionale, String nome, String cognome, String password, long telefono) {
+	this.emailIstituzionale = emailIstituzionale;
+	this.nome = nome;
+	this.cognome = cognome;
+	this.password = password;
+	this.telefono = telefono;
+	this.partecipazioniGruppi = new ArrayList<>();
+	this.movimenti = new ArrayList<>();
+}
+
+
 
 public String getEmailIstituzionale() {
 	return emailIstituzionale;
@@ -37,7 +51,7 @@ public String getPassword() {
 	return password;
 }
 
-public String getTelefono() {
+public long getTelefono() {
 	return telefono;
 }
 
@@ -57,7 +71,7 @@ public void setPassword(String password) {
 	this.password = password;
 }
 
-public void setTelefono(String telefono) {
+public void setTelefono(long telefono) {
 	this.telefono = telefono;
 }
 

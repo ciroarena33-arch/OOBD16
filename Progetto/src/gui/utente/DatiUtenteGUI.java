@@ -5,11 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
 
-public class DatiUtenteGUI {
-    public static void main(String[] args) {
+import control.UtenteController;
+import model.Utente;
 
-        JFrame frame = new JFrame("Dati utente");
+public class DatiUtenteGUI extends JFrame {
+	
+	private UtenteController controller;
+	
+    public DatiUtenteGUI(UtenteController controller) {
+        super("Dati utente");
+        this.controller=controller;
 
         JPanel panelPrincipale = new JPanel();
         panelPrincipale.setLayout(new GridBagLayout());
@@ -59,11 +66,11 @@ public class DatiUtenteGUI {
         JPanel panelBottoni = new JPanel();
         panelBottoni.setLayout(new FlowLayout());
 
-        JButton salvaModifiche = new JButton("SALVA MODIFICHE");
-        JButton tornaHome = new JButton("TORNA HOME");
+        JButton SalvaModifiche = new JButton("SALVA MODIFICHE");
+        JButton TornaHome = new JButton("TORNA HOME");
 
-        panelBottoni.add(salvaModifiche);
-        panelBottoni.add(tornaHome);
+        panelBottoni.add(SalvaModifiche);
+        panelBottoni.add(TornaHome);
 
         JLabel messaggio = new JLabel("", SwingConstants.CENTER);
         messaggio.setFont(new Font("Arial", Font.BOLD, 15));
@@ -89,7 +96,7 @@ public class DatiUtenteGUI {
         	}
         });
 
-        salvaModifiche.addActionListener(new ActionListener() {
+        SalvaModifiche.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = fieldNome.getText();
@@ -100,23 +107,21 @@ public class DatiUtenteGUI {
                 if (nome.isEmpty() || cognome.isEmpty() || password.isEmpty()) {
                     messaggio.setText("Nome, cognome e password non possono essere vuoti");
                 } else {
-                    messaggio.setText("Dati utente aggiornati correttamente");
+                    controller.btn_datiUtente_salvaModifiche(password, nome, cognome, telefono);
                 }
             }
         });
 
-        tornaHome.addActionListener(new ActionListener() {
+        TornaHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                HomeGUI.main(null);
+                controller.btn_datiUtente_tornaHome();
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

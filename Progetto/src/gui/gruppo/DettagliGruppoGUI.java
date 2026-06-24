@@ -10,13 +10,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DettagliGruppoGUI {
+import java.awt.EventQueue;
+import gui.partecipanti.VisualizzaPartecipantiGUI;
+import gui.partecipanti.AggiungiPartecipanteGruppoGUI;
+
+public class DettagliGruppoGUI extends JFrame {
 
     public static String nomeGruppoSelezionato = "Nessun gruppo selezionato";
 
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame("Dettaglio gruppo");
+    public DettagliGruppoGUI() {
+        super("Dettaglio gruppo");
 
         JPanel panelPrincipale = new JPanel();
         panelPrincipale.setLayout(new GridBagLayout());
@@ -54,7 +57,7 @@ public class DettagliGruppoGUI {
         inserisciSpesa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 InserisciSpesaGUI.main(null);
             }
         });
@@ -62,7 +65,7 @@ public class DettagliGruppoGUI {
         storicoSpese.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 StoricoSpeseGUI.main(null);
             }
         });
@@ -84,15 +87,14 @@ public class DettagliGruppoGUI {
         tornaGruppi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                I_Miei_GruppiGUI.main(null);
+                dispose();
+                IMieiGruppiGUI.main(null);
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

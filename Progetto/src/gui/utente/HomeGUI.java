@@ -1,6 +1,9 @@
 package gui.utente;
 
 import javax.swing.*;
+
+import control.UtenteController;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -8,10 +11,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 
-public class HomeGUI {
-    public static void main(String[] args) {
+import java.awt.EventQueue;
+import gui.gruppo.IMieiGruppiGUI;
+import gui.movimento.ReportGeneraleGUI;
+import gui.notifica.NotificheGUI;
 
-        JFrame frame = new JFrame("Home");
+public class HomeGUI extends JFrame {
+
+    private UtenteController controller;
+
+    public HomeGUI(UtenteController controller) {
+        super("Home");
 
         JPanel panelPrincipale = new JPanel();
         JPanel panel = new JPanel();
@@ -58,15 +68,14 @@ public class HomeGUI {
         mieiGruppi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                I_Miei_GruppiGUI.main(null);
+                controller.btn_home_mieiGruppi();
             }
         });
 
         reportGenerale.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 ReportGeneraleGUI.main(null);
             }
         });
@@ -74,15 +83,13 @@ public class HomeGUI {
         datiUtente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                DatiUtenteGUI.main(null);
-            }
+                controller.btn_home_datiUtente();}
         });
         
         visualizzaNotifiche.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                dispose();
                 NotificheGUI.main(null);
             }
         });
@@ -90,14 +97,13 @@ public class HomeGUI {
         esci.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                controller.btn_home_esci();
             }
         });
 
-        frame.setContentPane(panelPrincipale);
-        frame.setSize(1000, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        setContentPane(panelPrincipale);
+        setSize(1000, 700);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
