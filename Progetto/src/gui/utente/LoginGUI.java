@@ -75,7 +75,6 @@ public class LoginGUI extends JFrame {
                 if (email1.isEmpty() || password1.isEmpty()) {
                     messaggio.setText("Credenziali non valide");
                 } else {
-                    messaggio.setText("Accesso effettuato");
                     controller.btn_login_accedi(email1, password1);
                 }
             }

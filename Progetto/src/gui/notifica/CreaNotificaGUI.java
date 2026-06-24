@@ -34,6 +34,7 @@ public class CreaNotificaGUI extends JFrame {
 	}
 
 	public CreaNotificaGUI() {
+		super("Crea notifica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 727, 417);
 		contentPane = new JPanel();

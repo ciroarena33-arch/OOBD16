@@ -31,6 +31,7 @@ public class NotificheGUI extends JFrame {
 	}
 
 	public NotificheGUI() {
+		super("Centro notifiche");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 621, 462);
 		contentPane = new JPanel();

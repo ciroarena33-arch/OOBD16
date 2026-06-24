@@ -11,7 +11,7 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JButton;
 
-public class Scadenze extends JFrame {
+public class ScadenzeGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -21,7 +21,7 @@ public class Scadenze extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Scadenze frame = new Scadenze();
+					ScadenzeGUI frame = new ScadenzeGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,7 +30,7 @@ public class Scadenze extends JFrame {
 		});
 	}
 
-	public Scadenze() {
+	public ScadenzeGUI() {
 		setTitle("Scadenze");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

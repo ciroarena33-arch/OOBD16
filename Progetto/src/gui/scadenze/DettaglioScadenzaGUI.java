@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
-public class DettaglioScadenza extends JFrame {
+public class DettaglioScadenzaGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -26,7 +26,7 @@ public class DettaglioScadenza extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DettaglioScadenza frame = new DettaglioScadenza();
+					DettaglioScadenzaGUI frame = new DettaglioScadenzaGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class DettaglioScadenza extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DettaglioScadenza() {
+	public DettaglioScadenzaGUI() {
 		setTitle("DettaglioScadenza");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

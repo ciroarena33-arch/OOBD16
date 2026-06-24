@@ -27,7 +27,7 @@ public class DBConnection {
 				b=new BufferedReader(new FileReader(new File("src/pwd")));
 				pwd=b.readLine();	
 				Class.forName("oracle.jdbc.driver.OracleDriver");
-				DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "OOBD16", "DE1000111");
+				conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "OOBD16", "DE1000111");
 				
 			}
 		}catch(SQLException|IOException|ClassNotFoundException throwables) {

@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class AggiungiScadenza extends JFrame {
+public class AggiungiScadenzaGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -23,7 +23,7 @@ public class AggiungiScadenza extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AggiungiScadenza frame = new AggiungiScadenza();
+					AggiungiScadenzaGUI frame = new AggiungiScadenzaGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,7 +32,7 @@ public class AggiungiScadenza extends JFrame {
 		});
 	}
 
-	public AggiungiScadenza() {
+	public AggiungiScadenzaGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
