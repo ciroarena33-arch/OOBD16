@@ -11,8 +11,8 @@ import model.Utente;
 public class JDBCUtenteDAO implements UtenteDAO {
 	private Connection conn;
 	
-	public JDBCUtenteDAO(Connection conn) {
-		this.conn=conn;
+	public JDBCUtenteDAO() {
+		this.conn = DBConnection.getDBConnection().getConnection();
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class JDBCUtenteDAO implements UtenteDAO {
 			ps.executeUpdate();
 		}
 		catch(SQLException e) {
-			throw new RuntimeException("Errore in inserimento del nuovo utente");
+			throw new RuntimeException("Errore in inserimento del nuovo utente, "+e.getMessage());
 		}
 	}
 
@@ -39,36 +39,35 @@ public class JDBCUtenteDAO implements UtenteDAO {
 			if(rs.next()) {
 				return new Utente(
 						rs.getString("EmailIstituzionale"),
-						rs.getString("Password"),
-						rs.getString("Cognome"),
 						rs.getString("Nome"),
-						rs.getInt("Telefono"));
+						rs.getString("Cognome"),
+						rs.getString("Password"),
+						rs.getString("Telefono"));
 			}
 			else {
 				return null;
 			}
 		}
 		catch(SQLException e) {
-			throw new RuntimeException("Errore durante la ricerca dell'utente con mail "+email,e);
+			throw new RuntimeException("Errore durante la ricerca dell'utente con mail "+email+", "+e.getMessage());
 		}
 
 	}
 
 	@Override
-	public void aggiornaUtente(String email, String password, String nome, String cognome, long telefono) {
-		String sql="UPDATE on UTENTE SET password=?, nome=?, cognome=?, telefono=? WHERE email=?";
+	public void aggiornaUtente(Utente u) {
+		String sql="UPDATE Utente SET password=?, nome=?, cognome=?, telefono=? WHERE EmailIstituzionale=?";
 		try(PreparedStatement ps=conn.prepareStatement(sql)){
-			ps.setString(1, password);
-			ps.setString(2, nome);
-			ps.setString(3, cognome);
-			ps.setLong(4, telefono);
-			ps.setString(5,  email);
-			ps.executeQuery();
+			ps.setString(1, u.getPassword());
+			ps.setString(2, u.getNome());
+			ps.setString(3, u.getCognome());
+			ps.setString(4, u.getTelefono());
+			ps.setString(5, u.getEmailIstituzionale());
+			ps.executeUpdate();
 		}
 		catch(SQLException e) {
-			
+			throw new RuntimeException("Errore: "+ e.getMessage());
 		}
-		
 	}
 
 	@Override
@@ -95,7 +94,7 @@ public class JDBCUtenteDAO implements UtenteDAO {
 						rs.getString("Password"),
 						rs.getString("Cognome"),
 						rs.getString("Nome"),
-						rs.getInt("Telefono"));
+						rs.getString("Telefono"));
 				utenti.add(u);
 			}
 		}
@@ -104,8 +103,6 @@ public class JDBCUtenteDAO implements UtenteDAO {
 		}
 		return utenti;
 	}
-
-	
 	
 	
 }

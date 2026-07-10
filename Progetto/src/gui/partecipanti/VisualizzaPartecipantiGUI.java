@@ -4,19 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.awt.EventQueue;
+import control.PartecipantiController;
 import gui.gruppo.DettagliGruppoGUI;
 
 public class VisualizzaPartecipantiGUI extends JFrame {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private PartecipantiController controller;
 
-	public static void main(String[] args) {
+    private JPanel contentPane;
+    private JLabel titolo;
+    private JList<String> listaUtenti;
+    private JScrollPane scrollPane;
+    private JButton btnAggiungiPartecipante;
+    private JButton vediDettagli;
+    private JButton tornaGruppo;
+    private JLabel messaggio;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    VisualizzaPartecipantiGUI frame = new VisualizzaPartecipantiGUI();
+                    VisualizzaPartecipantiGUI frame = new VisualizzaPartecipantiGUI(null);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -25,19 +37,26 @@ public class VisualizzaPartecipantiGUI extends JFrame {
         });
     }
 
-    public VisualizzaPartecipantiGUI() {
-        super("Partecipanti gruppo");
+    /**
+     * Create the frame.
+     */
+    public VisualizzaPartecipantiGUI(PartecipantiController controller) {
+        this.controller = controller;
 
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+        setTitle("Partecipanti gruppo");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(550, 520);
+        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(650, 500));
-        panel.setLayout(new BorderLayout(10, 20));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        JLabel titolo = new JLabel("Partecipanti del gruppo", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+        titolo = new JLabel("Partecipanti del gruppo", SwingConstants.CENTER);
+        titolo.setFont(new Font("Arial", Font.BOLD, 26));
+        titolo.setBounds(100, 30, 350, 35);
+        contentPane.add(titolo);
 
         String[] nomiUtenti = {
                 "Davide Cotena",
@@ -45,42 +64,38 @@ public class VisualizzaPartecipantiGUI extends JFrame {
                 "Luca Bianchi"
         };
 
-        String[][] dettagliUtenti = {
+        final String[][] dettagliUtenti = {
                 {"Davide", "Cotena", "davide@unina.it"},
                 {"Marco", "Rossi", "marco@unina.it"},
                 {"Luca", "Bianchi", "luca@unina.it"}
         };
 
-        JList<String> listaUtenti = new JList<>(nomiUtenti);
-        listaUtenti.setFont(new Font("Arial", Font.PLAIN, 20));
+        listaUtenti = new JList<>(nomiUtenti);
+        listaUtenti.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        JScrollPane scrollPane = new JScrollPane(listaUtenti);
+        scrollPane = new JScrollPane(listaUtenti);
+        scrollPane.setBounds(50, 80, 450, 250);
+        contentPane.add(scrollPane);
 
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout());
+        btnAggiungiPartecipante = new JButton("AGGIUNGI");
+        btnAggiungiPartecipante.setFont(new Font("Arial", Font.BOLD, 13));
+        btnAggiungiPartecipante.setBounds(50, 360, 140, 35);
+        contentPane.add(btnAggiungiPartecipante);
 
-        JButton vediDettagli = new JButton("VEDI DETTAGLI");
-        JButton tornaGruppo = new JButton("TORNA AL GRUPPO");
-        
-        JButton btnAggiungiPartecipante = new JButton("AGGIUNGI PARTECIPANTE");
-        panelBottoni.add(btnAggiungiPartecipante);
+        vediDettagli = new JButton("VEDI DETTAGLI");
+        vediDettagli.setFont(new Font("Arial", Font.BOLD, 13));
+        vediDettagli.setBounds(205, 360, 140, 35);
+        contentPane.add(vediDettagli);
 
-        panelBottoni.add(vediDettagli);
-        panelBottoni.add(tornaGruppo);
+        tornaGruppo = new JButton("TORNA AL GRUPPO");
+        tornaGruppo.setFont(new Font("Arial", Font.BOLD, 13));
+        tornaGruppo.setBounds(360, 360, 140, 35);
+        contentPane.add(tornaGruppo);
 
-        JLabel messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
-
-        JPanel panelBasso = new JPanel();
-        panelBasso.setLayout(new GridLayout(2, 1, 10, 10));
-        panelBasso.add(panelBottoni);
-        panelBasso.add(messaggio);
-
-        panel.add(titolo, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(panelBasso, BorderLayout.SOUTH);
-
-        panelPrincipale.add(panel);
+        messaggio = new JLabel("", SwingConstants.CENTER);
+        messaggio.setFont(new Font("Arial", Font.BOLD, 13));
+        messaggio.setBounds(50, 415, 450, 25);
+        contentPane.add(messaggio);
 
         vediDettagli.addActionListener(new ActionListener() {
             @Override
@@ -94,7 +109,8 @@ public class VisualizzaPartecipantiGUI extends JFrame {
                     String cognome = dettagliUtenti[indice][1];
                     String email = dettagliUtenti[indice][2];
 
-                    JOptionPane.showMessageDialog(VisualizzaPartecipantiGUI.this,"Nome: " + nome + "\nCognome: " + cognome + "\nEmail: " + email);
+                    JOptionPane.showMessageDialog(VisualizzaPartecipantiGUI.this,
+                            "Nome: " + nome + "\nCognome: " + cognome + "\nEmail: " + email);
                 }
             }
         });
@@ -106,10 +122,5 @@ public class VisualizzaPartecipantiGUI extends JFrame {
                 DettagliGruppoGUI.main(null);
             }
         });
-
-        setContentPane(panelPrincipale);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

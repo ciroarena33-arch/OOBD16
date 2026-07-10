@@ -1,22 +1,31 @@
 package gui.spesa;
 
 import javax.swing.*;
-
 import gui.gruppo.DettagliGruppoGUI;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.awt.EventQueue;
+import control.SpesaController;
 
 public class StoricoSpeseGUI extends JFrame {
+    private static final long serialVersionUID = 1L;
 
+    private SpesaController controller;
+
+    private JPanel contentPane;
+    private JLabel titolo;
+    private JTable tabellaSpese;
+    private JScrollPane scrollPane;
+    private JButton tornaGruppo;
+
+    /**
+     * Launch the application.
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    StoricoSpeseGUI frame = new StoricoSpeseGUI();
+                    StoricoSpeseGUI frame = new StoricoSpeseGUI(null);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -25,19 +34,26 @@ public class StoricoSpeseGUI extends JFrame {
         });
     }
 
-    public StoricoSpeseGUI() {
-        super("Storico spese");
+    /**
+     * Create the frame.
+     */
+    public StoricoSpeseGUI(SpesaController controller) {
+        this.controller = controller;
 
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+        setTitle("Storico spese");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(650, 500);
+        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(850, 500));
-        panel.setLayout(new BorderLayout(10, 20));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        JLabel titolo = new JLabel("Storico spese", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+        titolo = new JLabel("Storico spese", SwingConstants.CENTER);
+        titolo.setFont(new Font("Arial", Font.BOLD, 26));
+        titolo.setBounds(150, 30, 350, 35);
+        contentPane.add(titolo);
 
         String[] colonne = {
                 "Nome spesa",
@@ -53,20 +69,17 @@ public class StoricoSpeseGUI extends JFrame {
                 {"Libro", "12/06/2026", "18.00", "Sterlina", "Luca"}
         };
 
-        JTable tabellaSpese = new JTable(dati, colonne);
-        JScrollPane scrollPane = new JScrollPane(tabellaSpese);
+        tabellaSpese = new JTable(dati, colonne);
+        tabellaSpese.setFont(new Font("Arial", Font.PLAIN, 13));
+        tabellaSpese.setRowHeight(24);
+        scrollPane = new JScrollPane(tabellaSpese);
+        scrollPane.setBounds(50, 80, 550, 260);
+        contentPane.add(scrollPane);
 
-        JButton tornaGruppo = new JButton("TORNA AL GRUPPO");
-
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout());
-        panelBottoni.add(tornaGruppo);
-
-        panel.add(titolo, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(panelBottoni, BorderLayout.SOUTH);
-
-        panelPrincipale.add(panel);
+        tornaGruppo = new JButton("TORNA AL GRUPPO");
+        tornaGruppo.setFont(new Font("Arial", Font.BOLD, 14));
+        tornaGruppo.setBounds(225, 370, 200, 35);
+        contentPane.add(tornaGruppo);
 
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
@@ -75,10 +88,5 @@ public class StoricoSpeseGUI extends JFrame {
                 DettagliGruppoGUI.main(null);
             }
         });
-
-        setContentPane(panelPrincipale);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

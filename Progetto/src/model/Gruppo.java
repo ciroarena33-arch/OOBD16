@@ -3,16 +3,30 @@ import java.util.ArrayList;
 
 public class Gruppo{
 	
+	private int id;
 	private String nome;
 	private ArrayList<PartecipazioneGruppo> componenti;
 	private Utente proprietario;
 	private ArrayList<Spesa> spese;
 	
-	public Gruppo(String nome, Utente proprietario) {
+	public Gruppo(int id,String nome, Utente proprietario) {
+		this.id=id;
 		this.nome = nome;
 		this.proprietario = proprietario;
 		this.componenti=new ArrayList<PartecipazioneGruppo>();
 		this.spese=new ArrayList<Spesa>();
+	}
+	
+	public Gruppo(String nome, Utente proprietario) {
+		this((Integer)null, nome, proprietario);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNome() {

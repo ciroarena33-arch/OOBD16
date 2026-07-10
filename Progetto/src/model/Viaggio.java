@@ -1,32 +1,32 @@
 package model;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Viaggio extends Gruppo{
 	
-	private Date dataInizio;
-	private Date dataFine;
+	private LocalDate dataInizio;
+	private LocalDate dataFine;
 	private String destinazione;
 	
-	public Viaggio(String nome, Utente proprietario, Date dataInizio, Date dataFine, String destinazione) {
-		super(nome, proprietario);
+	public Viaggio(int id, String nome, Utente proprietario, LocalDate dataInizio, LocalDate dataFine, String destinazione) {
+		super(id, nome, proprietario);
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
 		this.destinazione = destinazione;
 	}
 
-	public Date getDataInizio() {
+	public LocalDate getDataInizio() {
 		return dataInizio;
 	}
 
-	public void setDataInizio(Date dataInizio) {
+	public void setDataInizio(LocalDate dataInizio) {
 		this.dataInizio = dataInizio;
 	}
 
-	public Date getDataFine() {
+	public LocalDate getDataFine() {
 		return dataFine;
 	}
 
-	public void setDataFine(Date dataFine) {
+	public void setDataFine(LocalDate dataFine) {
 		this.dataFine = dataFine;
 	}
 

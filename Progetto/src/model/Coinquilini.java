@@ -6,10 +6,9 @@ public class Coinquilini extends Gruppo{
 	private Indirizzo indirizzo;
 	private ArrayList<Scadenza> scadenze;
 	
-	public Coinquilini(String nome, Utente proprietario, Indirizzo indirizzo, ArrayList<Scadenza> scadenze) {
-		super(nome, proprietario);
+	public Coinquilini(int id, String nome, Utente proprietario, Indirizzo indirizzo) {
+		super(id, nome, proprietario);
 		this.indirizzo = indirizzo;
-		this.scadenze = scadenze;
 	}
 
 	public Indirizzo getIndirizzo() {
@@ -18,6 +17,10 @@ public class Coinquilini extends Gruppo{
 
 	public ArrayList<Scadenza> getScadenze() {
 		return scadenze;
+	}
+	
+	public void setIndirizzo(Indirizzo indirizzo) {
+		this.indirizzo=indirizzo;
 	}
 
 	public void addScadenza(Scadenza scadenza){

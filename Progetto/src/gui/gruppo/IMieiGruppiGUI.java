@@ -8,67 +8,61 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.awt.EventQueue;
-import gui.utente.HomeGUI;
-
 public class IMieiGruppiGUI extends JFrame {
 
-	private GruppoController controller;
-	
+    private GruppoController controller;
+    private JList<ListaGruppi> listaGruppi;
+
     public IMieiGruppiGUI(GruppoController controller) {
         super("I miei gruppi");
-        this.controller=controller;
-        
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+        this.controller = controller;
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(700, 500));
-        panel.setLayout(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
+        panel.setLayout(null);
 
         JLabel titolo = new JLabel("I miei gruppi", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+        titolo.setFont(new Font("Arial", Font.BOLD, 50));
+        titolo.setBounds(250, 45, 500, 70);
 
-        String[] gruppi = {
-                "Viaggio Roma",
-                "Coinquilini Napoli",
-                "Studio Basi di Dati"
-        };
-
-        JList<String> listaGruppi = new JList<>(gruppi);
+        listaGruppi = new JList<>();
         listaGruppi.setFont(new Font("Arial", Font.PLAIN, 20));
+        listaGruppi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollPane = new JScrollPane(listaGruppi);
-
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout());
+        scrollPane.setBounds(315, 150, 400, 260);
 
         JButton apriGruppo = new JButton("APRI GRUPPO");
+        apriGruppo.setFont(new Font("Arial", Font.BOLD, 16));
+        apriGruppo.setBounds(315, 450, 190, 40);
+
         JButton creaGruppo = new JButton("CREA NUOVO GRUPPO");
+        creaGruppo.setFont(new Font("Arial", Font.BOLD, 16));
+        creaGruppo.setBounds(525, 450, 190, 40);
+
         JButton tornaHome = new JButton("TORNA HOME");
+        tornaHome.setFont(new Font("Arial", Font.BOLD, 16));
+        tornaHome.setBounds(315, 510, 400, 40);
 
-        panelBottoni.add(apriGruppo);
-        panelBottoni.add(creaGruppo);
-        panelBottoni.add(tornaHome);
+        JLabel messaggio = new JLabel("Seleziona un gruppo", SwingConstants.CENTER);
+        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
+        messaggio.setBounds(250, 565, 500, 35);
 
-        panel.add(titolo, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(panelBottoni, BorderLayout.SOUTH);
-
-        panelPrincipale.add(panel);
+        panel.add(titolo);
+        panel.add(scrollPane);
+        panel.add(apriGruppo);
+        panel.add(creaGruppo);
+        panel.add(tornaHome);
+        panel.add(messaggio);
 
         apriGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String gruppoSelezionato = listaGruppi.getSelectedValue();
+                ListaGruppi gruppoSelezionato = listaGruppi.getSelectedValue();
 
                 if (gruppoSelezionato == null) {
                     JOptionPane.showMessageDialog(IMieiGruppiGUI.this, "Seleziona prima un gruppo");
                 } else {
-                    DettagliGruppoGUI.nomeGruppoSelezionato = gruppoSelezionato;
-                    dispose();
-                    DettagliGruppoGUI.main(null);
+                    controller.btn_iMieiGruppi_apriGruppo(gruppoSelezionato);
                 }
             }
         });
@@ -76,22 +70,24 @@ public class IMieiGruppiGUI extends JFrame {
         creaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                CreazioneGruppoGUI.main(null);
+                controller.btn_iMieiGruppi_creaGruppo();
             }
         });
 
         tornaHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                HomeGUI.main(null);
+                controller.btn_iMieiGruppi_tornaHome();
             }
         });
 
-        setContentPane(panelPrincipale);
+        setContentPane(panel);
         setSize(1000, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+    
+	public void aggiornaJList(DefaultListModel<ListaGruppi> model) {
+		listaGruppi.setModel(model);
+	}
 }

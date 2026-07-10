@@ -4,16 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.awt.EventQueue;
+import control.GruppoController;
 
 public class CreazioneGruppoGUI extends JFrame {
+    private static final long serialVersionUID = 1L;
 
+    private GruppoController controller;
+
+    private JPanel contentPane;
+    private JLabel titolo;
+    private JLabel nomeGruppo;
+    private JTextField scriviNome;
+    private JLabel categoriaGruppo;
+    private JComboBox<String> scegliCategoria;
+    private JButton confermaCreazione;
+    private JButton tornaHomeGruppi;
+    private JLabel messaggio;
+
+    /**
+     * Launch the application.
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CreazioneGruppoGUI frame = new CreazioneGruppoGUI();
+                    CreazioneGruppoGUI frame = new CreazioneGruppoGUI(null);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -22,48 +37,62 @@ public class CreazioneGruppoGUI extends JFrame {
         });
     }
 
-    public CreazioneGruppoGUI() {
-        super("Creazione gruppo");
+    /**
+     * Create the frame.
+     */
+    public CreazioneGruppoGUI(GruppoController controller) {
+        this.controller = controller;
 
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+        setTitle("Creazione gruppo");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(480, 500);
+        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(700, 500));
-        panel.setLayout(new GridLayout(7, 1, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        JLabel titolo = new JLabel("Crea nuovo gruppo", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+        titolo = new JLabel("Crea nuovo gruppo", SwingConstants.CENTER);
+        titolo.setFont(new Font("Arial", Font.BOLD, 26));
+        titolo.setBounds(50, 30, 380, 35);
+        contentPane.add(titolo);
 
-        JLabel nomeGruppo = new JLabel("Nome gruppo:");
-        JTextField scriviNome = new JTextField();
+        nomeGruppo = new JLabel("Nome gruppo:");
+        nomeGruppo.setFont(new Font("Arial", Font.BOLD, 14));
+        nomeGruppo.setBounds(60, 95, 360, 20);
+        contentPane.add(nomeGruppo);
 
-        JLabel categoriaGruppo = new JLabel("Tipologia gruppo:");
+        scriviNome = new JTextField();
+        scriviNome.setFont(new Font("Arial", Font.PLAIN, 15));
+        scriviNome.setBounds(60, 120, 360, 30);
+        contentPane.add(scriviNome);
+
+        categoriaGruppo = new JLabel("Tipologia gruppo:");
+        categoriaGruppo.setFont(new Font("Arial", Font.BOLD, 14));
+        categoriaGruppo.setBounds(60, 175, 360, 20);
+        contentPane.add(categoriaGruppo);
+
         String[] tipiGruppo = {"GENERICO", "VIAGGIO", "COINQUILINI", "STUDIO"};
-        JComboBox<String> scegliCategoria = new JComboBox<>(tipiGruppo);
+        scegliCategoria = new JComboBox<>(tipiGruppo);
+        scegliCategoria.setFont(new Font("Arial", Font.PLAIN, 14));
+        scegliCategoria.setBounds(60, 200, 360, 30);
+        contentPane.add(scegliCategoria);
 
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout());
+        confermaCreazione = new JButton("CONFERMA CREAZIONE");
+        confermaCreazione.setFont(new Font("Arial", Font.BOLD, 13));
+        confermaCreazione.setBounds(60, 275, 160, 35);
+        contentPane.add(confermaCreazione);
 
-        JButton confermaCreazione = new JButton("CONFERMA CREAZIONE");
-        JButton tornaHomeGruppi = new JButton("ANNULLA");
+        tornaHomeGruppi = new JButton("ANNULLA");
+        tornaHomeGruppi.setFont(new Font("Arial", Font.BOLD, 13));
+        tornaHomeGruppi.setBounds(260, 275, 160, 35);
+        contentPane.add(tornaHomeGruppi);
 
-        panelBottoni.add(confermaCreazione);
-        panelBottoni.add(tornaHomeGruppi);
-
-        JLabel messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
-
-        panel.add(titolo);
-        panel.add(nomeGruppo);
-        panel.add(scriviNome);
-        panel.add(categoriaGruppo);
-        panel.add(scegliCategoria);
-        panel.add(panelBottoni);
-        panel.add(messaggio);
-
-        panelPrincipale.add(panel);
+        messaggio = new JLabel("", SwingConstants.CENTER);
+        messaggio.setFont(new Font("Arial", Font.BOLD, 13));
+        messaggio.setBounds(60, 335, 360, 25);
+        contentPane.add(messaggio);
 
         confermaCreazione.addActionListener(new ActionListener() {
             @Override
@@ -82,14 +111,8 @@ public class CreazioneGruppoGUI extends JFrame {
         tornaHomeGruppi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                IMieiGruppiGUI.main(null);
+                controller.btn_creazioneGruppo_tornaHome();
             }
         });
-
-        setContentPane(panelPrincipale);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

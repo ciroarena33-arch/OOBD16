@@ -12,7 +12,7 @@ public class DBConnection {
 	
 	private DBConnection() {}
 	
-	public static DBConnection getDBConnection() {
+	public static synchronized DBConnection getDBConnection() {
 		if(dbconn==null) {
 			dbconn=new DBConnection();
 		}
@@ -20,17 +20,13 @@ public class DBConnection {
 	}
 	
 	public Connection getConnection() {
-		String pwd=null;
-		BufferedReader b=null;
 		try {
 			if(conn==null||conn.isClosed()) {
-				b=new BufferedReader(new FileReader(new File("src/pwd")));
-				pwd=b.readLine();	
-				Class.forName("oracle.jdbc.driver.OracleDriver");
+				
 				conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "OOBD16", "DE1000111");
 				
 			}
-		}catch(SQLException|IOException|ClassNotFoundException throwables) {
+		}catch(SQLException throwables) {
 			 throwables.printStackTrace();
 		 }
 		return conn;

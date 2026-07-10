@@ -2,6 +2,7 @@ package model;
 
 public class Debito extends Movimento{
 	
+	private int id;
 	private Spesa spesa;
 	private Utente debitore;
 	private double importo;

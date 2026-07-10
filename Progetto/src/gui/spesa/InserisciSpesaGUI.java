@@ -1,22 +1,43 @@
 package gui.spesa;
 
 import javax.swing.*;
-
 import gui.gruppo.DettagliGruppoGUI;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.awt.EventQueue;
+import control.SpesaController;
 
 public class InserisciSpesaGUI extends JFrame {
+    private static final long serialVersionUID = 1L;
 
+    private SpesaController controller;
+
+    private JPanel contentPane;
+    private JLabel titolo;
+    private JLabel labelNome;
+    private JTextField fieldNome;
+    private JLabel labelDescrizione;
+    private JTextField fieldDescrizione;
+    private JLabel labelImporto;
+    private JTextField fieldImporto;
+    private JLabel labelData;
+    private JTextField fieldData;
+    private JLabel labelTipo;
+    private JComboBox<String> comboTipo;
+    private JLabel labelPagataDa;
+    private JTextField fieldPagataDa;
+    private JButton registraSpesa;
+    private JButton tornaGruppo;
+    private JLabel messaggio;
+
+    /**
+     * Launch the application.
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    InserisciSpesaGUI frame = new InserisciSpesaGUI();
+                    InserisciSpesaGUI frame = new InserisciSpesaGUI(null);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -25,83 +46,109 @@ public class InserisciSpesaGUI extends JFrame {
         });
     }
 
-    public InserisciSpesaGUI() {
-        super("Inserisci spesa");
+    /**
+     * Create the frame.
+     */
+    public InserisciSpesaGUI(SpesaController controller) {
+        this.controller = controller;
 
-        JPanel panelPrincipale = new JPanel();
-        panelPrincipale.setLayout(new GridBagLayout());
+        setTitle("Inserisci spesa");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(550, 580);
+        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(750, 520));
-        panel.setLayout(new BorderLayout(10, 20));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        JLabel titolo = new JLabel("Inserisci nuova spesa", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+        titolo = new JLabel("Inserisci nuova spesa", SwingConstants.CENTER);
+        titolo.setFont(new Font("Arial", Font.BOLD, 24));
+        titolo.setBounds(100, 30, 350, 35);
+        contentPane.add(titolo);
 
-        JPanel panelCampi = new JPanel();
-        panelCampi.setLayout(new GridLayout(6, 2, 10, 15));
+        // Nome spesa
+        labelNome = new JLabel("Nome spesa:");
+        labelNome.setFont(new Font("Arial", Font.BOLD, 14));
+        labelNome.setBounds(60, 80, 120, 25);
+        contentPane.add(labelNome);
 
-        JLabel labelNome = new JLabel("Nome spesa:");
-        JTextField fieldNome = new JTextField();
+        fieldNome = new JTextField();
+        fieldNome.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldNome.setBounds(190, 80, 280, 25);
+        contentPane.add(fieldNome);
 
-        JLabel labelDescrizione = new JLabel("Descrizione:");
-        JTextField fieldDescrizione = new JTextField();
+        // Descrizione
+        labelDescrizione = new JLabel("Descrizione:");
+        labelDescrizione.setFont(new Font("Arial", Font.BOLD, 14));
+        labelDescrizione.setBounds(60, 125, 120, 25);
+        contentPane.add(labelDescrizione);
 
-        JLabel labelImporto = new JLabel("Importo:");
-        JTextField fieldImporto = new JTextField();
+        fieldDescrizione = new JTextField();
+        fieldDescrizione.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldDescrizione.setBounds(190, 125, 280, 25);
+        contentPane.add(fieldDescrizione);
 
-        JLabel labelData = new JLabel("Data spesa:");
-        JTextField fieldData = new JTextField();
-        
+        // Importo
+        labelImporto = new JLabel("Importo:");
+        labelImporto.setFont(new Font("Arial", Font.BOLD, 14));
+        labelImporto.setBounds(60, 170, 120, 25);
+        contentPane.add(labelImporto);
 
-        JLabel labelTipo = new JLabel("Tipo spesa:");
+        fieldImporto = new JTextField();
+        fieldImporto.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldImporto.setBounds(190, 170, 280, 25);
+        contentPane.add(fieldImporto);
+
+        // Data
+        labelData = new JLabel("Data spesa:");
+        labelData.setFont(new Font("Arial", Font.BOLD, 14));
+        labelData.setBounds(60, 215, 120, 25);
+        contentPane.add(labelData);
+
+        fieldData = new JTextField();
+        fieldData.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldData.setBounds(190, 215, 280, 25);
+        contentPane.add(fieldData);
+
+        // Tipo spesa
+        labelTipo = new JLabel("Tipo spesa:");
+        labelTipo.setFont(new Font("Arial", Font.BOLD, 14));
+        labelTipo.setBounds(60, 260, 120, 25);
+        contentPane.add(labelTipo);
+
         String[] tipiSpesa = {"COMUNE", "PERSONALE"};
-        JComboBox<String> comboTipo = new JComboBox<>(tipiSpesa);
+        comboTipo = new JComboBox<>(tipiSpesa);
+        comboTipo.setFont(new Font("Arial", Font.PLAIN, 14));
+        comboTipo.setBounds(190, 260, 280, 25);
+        contentPane.add(comboTipo);
 
-        JLabel labelPagataDa = new JLabel("Pagata da:");
-        JTextField fieldPagataDa = new JTextField();
+        // Pagata da
+        labelPagataDa = new JLabel("Pagata da:");
+        labelPagataDa.setFont(new Font("Arial", Font.BOLD, 14));
+        labelPagataDa.setBounds(60, 305, 120, 25);
+        contentPane.add(labelPagataDa);
 
-        panelCampi.add(labelNome);
-        panelCampi.add(fieldNome);
+        fieldPagataDa = new JTextField();
+        fieldPagataDa.setFont(new Font("Arial", Font.PLAIN, 14));
+        fieldPagataDa.setBounds(190, 305, 280, 25);
+        contentPane.add(fieldPagataDa);
 
-        panelCampi.add(labelDescrizione);
-        panelCampi.add(fieldDescrizione);
+        // Pulsanti
+        registraSpesa = new JButton("REGISTRA SPESA");
+        registraSpesa.setFont(new Font("Arial", Font.BOLD, 13));
+        registraSpesa.setBounds(60, 380, 190, 35);
+        contentPane.add(registraSpesa);
 
-        panelCampi.add(labelImporto);
-        panelCampi.add(fieldImporto);
+        tornaGruppo = new JButton("TORNA AL GRUPPO");
+        tornaGruppo.setFont(new Font("Arial", Font.BOLD, 13));
+        tornaGruppo.setBounds(280, 380, 190, 35);
+        contentPane.add(tornaGruppo);
 
-        panelCampi.add(labelData);
-        panelCampi.add(fieldData);
-
-        panelCampi.add(labelTipo);
-        panelCampi.add(comboTipo);
-
-        panelCampi.add(labelPagataDa);
-        panelCampi.add(fieldPagataDa);
-
-        JPanel panelBottoni = new JPanel();
-        panelBottoni.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-
-        JButton registraSpesa = new JButton("REGISTRA SPESA");
-        JButton tornaGruppo = new JButton("TORNA AL GRUPPO");
-
-        panelBottoni.add(registraSpesa);
-        panelBottoni.add(tornaGruppo);
-
-        JLabel messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
-
-        JPanel panelBasso = new JPanel();
-        panelBasso.setLayout(new GridLayout(2, 1, 10, 10));
-        panelBasso.add(panelBottoni);
-        panelBasso.add(messaggio);
-
-        panel.add(titolo, BorderLayout.NORTH);
-        panel.add(panelCampi, BorderLayout.CENTER);
-        panel.add(panelBasso, BorderLayout.SOUTH);
-
-        panelPrincipale.add(panel);
+        messaggio = new JLabel("", SwingConstants.CENTER);
+        messaggio.setFont(new Font("Arial", Font.BOLD, 13));
+        messaggio.setBounds(60, 440, 410, 25);
+        contentPane.add(messaggio);
 
         registraSpesa.addActionListener(new ActionListener() {
             @Override
@@ -128,10 +175,5 @@ public class InserisciSpesaGUI extends JFrame {
                 DettagliGruppoGUI.main(null);
             }
         });
-
-        setContentPane(panelPrincipale);
-        setSize(1000, 700);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

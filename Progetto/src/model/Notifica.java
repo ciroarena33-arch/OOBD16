@@ -3,18 +3,27 @@ import java.util.Date;
 
 public class Notifica{
 	
+	private int id;
 	private Debito debito;
 	private Date data1;
 	private String descrizione1;
 	private Date dataRisposta;
 	private String descrizioneRisposta;
 	
-	public Notifica(Debito debito, Date data1, String descrizione1, Date dataRisposta, String descrizioneRisposta) {
+	public Notifica(Debito debito, Date data1, String descrizione1) {
 		this.debito = debito;
 		this.data1 = data1;
 		this.descrizione1 = descrizione1;
 	}
 
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id=id;
+	}
+	
 	public Debito getDebito() {
 		return debito;
 	}

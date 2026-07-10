@@ -1,13 +1,13 @@
 package model;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Studio extends Gruppo{
 	
 	private String nomeEsame;
-	private Date dataEsame;
+	private LocalDate dataEsame;
 	
-	public Studio(String nome, Utente proprietario, String nomeEsame, Date dataEsame) {
-		super(nome, proprietario);
+	public Studio(int id, String nome, Utente proprietario, String nomeEsame, LocalDate dataEsame) {
+		super(id, nome, proprietario);
 		this.nomeEsame = nomeEsame;
 		this.dataEsame = dataEsame;
 	}
@@ -20,11 +20,11 @@ public class Studio extends Gruppo{
 		this.nomeEsame = nomeEsame;
 	}
 
-	public Date getDataEsame() {
+	public LocalDate getDataEsame() {
 		return dataEsame;
 	}
 
-	public void setDataEsame(Date dataEsame) {
+	public void setDataEsame(LocalDate dataEsame) {
 		this.dataEsame = dataEsame;
 	}
 	

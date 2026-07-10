@@ -5,25 +5,32 @@ import gui.utente.DatiUtenteGUI;
 import gui.utente.HomeGUI;
 import gui.utente.LoginGUI;
 import gui.utente.RegistrazioneGUI;
+import jdbc.JDBCUtenteDAO;
 import model.Utente;
 import dao.*;
 
 
 public class UtenteController {
-	private Utente utente;
+	private Utente utenteLoggato;
 	private DatiUtenteGUI datiUtenteGUI;
 	private HomeGUI homeGUI;
 	private LoginGUI loginGUI;
 	private RegistrazioneGUI registrazioneGUI;
+	private JDBCUtenteDAO utenteDAO;
 	
 	public UtenteController() {
+		utenteDAO=new JDBCUtenteDAO();
 		loginGUI=new LoginGUI(this);
 		registrazioneGUI=new RegistrazioneGUI(this);
 		loginGUI.setVisible(true);
 	};
 	
 	public Utente getUtente() {
-		return utente;
+		return utenteLoggato;
+	}
+	
+	public JDBCUtenteDAO getUtenteDAO() {
+		return utenteDAO;
 	}
 	
 	public void tornaHome() {
@@ -40,24 +47,39 @@ public class UtenteController {
 	}
 	
 	public void btn_login_accedi(String email, String password) {
+		try {
+		Utente u=utenteDAO.cercaUtentePerEmail(email.toLowerCase());
+		if(u==null) {
+			throw new RuntimeException("Utente non trovato");
+		}
+		u.accessoValido(email, password);
 		loginGUI.dispose();
 		registrazioneGUI.dispose();
-		
-		utente=null;
-		
+		utenteLoggato=u;
 		homeGUI=new HomeGUI(this);
-		
 		homeGUI.setVisible(true);
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(loginGUI, "Errore nel login: "+e.getMessage());
+		}
 	}
 	
 	public void btn_registrazione_registrati(String email, String password, String nome, String cognome) {
+		try{
+		if(utenteDAO.cercaUtentePerEmail(email.toLowerCase())!=null)
+		utenteDAO.nuovoUtente(new Utente(email, nome, cognome, password));
+		
+		utenteLoggato=new Utente(email, nome, cognome, password);
 		loginGUI.dispose();
 		registrazioneGUI.dispose();
 		
 		homeGUI=new HomeGUI(this);
-		datiUtenteGUI=new DatiUtenteGUI(this);
 		
 		homeGUI.setVisible(true);
+		}
+		catch(RuntimeException e){
+			JOptionPane.showMessageDialog(registrazioneGUI, e.getMessage());
+		}
 	}
 	
 	public void btn_registrazione_tornaLogin() {
@@ -66,7 +88,23 @@ public class UtenteController {
 	}
 	
 	public void btn_datiUtente_salvaModifiche(String password, String nome, String cognome, String telefono) {
-		JOptionPane.showMessageDialog(datiUtenteGUI, "Modifiche Salvate");
+		try {
+			if (nome.isEmpty() || cognome.isEmpty() || password.isEmpty()) {
+                throw new RuntimeException("Nome, cognome e password non possono essere vuoti");
+            }
+			Utente utenteModificato= new Utente(utenteLoggato.getEmailIstituzionale(), nome, cognome, password, telefono);
+			utenteDAO.aggiornaUtente(utenteModificato);
+			utenteLoggato.setCognome(cognome);
+			utenteLoggato.setNome(nome);
+			utenteLoggato.setPassword(password);
+			utenteLoggato.setTelefono(telefono);
+			JOptionPane.showMessageDialog(datiUtenteGUI, "Modifiche Salvate");
+
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(datiUtenteGUI, e.getMessage());
+		}
+		
 	}
 	
 	public void btn_datiUtente_tornaHome() {
@@ -87,8 +125,11 @@ public class UtenteController {
 	}
 	
 	public void btn_home_esci() {
+		utenteLoggato=null;
 		System.exit(0);
 	}
+	
+	
 	
 	
 	

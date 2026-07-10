@@ -1,7 +1,6 @@
 package gui.notifica;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,12 +12,19 @@ import java.awt.*;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import control.NotificaController;
 
 public class SceltaDebito extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private NotificaController controller;
+
 	private JPanel contentPane;
 	private JTable table;
+	private JLabel lblNewLabel;
+	private JTable tabellaSpese;
+	private JScrollPane scrollPane;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -27,7 +33,7 @@ public class SceltaDebito extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SceltaDebito frame = new SceltaDebito();
+					SceltaDebito frame = new SceltaDebito(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,15 +45,19 @@ public class SceltaDebito extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SceltaDebito() {
+	public SceltaDebito(NotificaController controller) {
+		this.controller = controller;
+
+		setTitle("Scelta Debito");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 721, 401);
+		setResizable(false);
+		setSize(680, 380);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-
         String[] colonne = {
                 "Nome spesa",
                 "Debitore",
@@ -60,24 +70,23 @@ public class SceltaDebito extends JFrame {
                 {"Libro", "Mirko", "18.00 €"}
         };
         
-		JLabel lblNewLabel = new JLabel("Scegli il debito da notificare");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			lblNewLabel.setBounds(237, 21, 221, 12);
+		lblNewLabel = new JLabel("Scegli il debito da notificare");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		lblNewLabel.setBounds(200, 18, 280, 22);
 		contentPane.add(lblNewLabel);
 
-        JTable tabellaSpese = new JTable(dati, colonne);
-        JScrollPane scrollPane = new JScrollPane(tabellaSpese);
+        tabellaSpese = new JTable(dati, colonne);
+        scrollPane = new JScrollPane(tabellaSpese);
         scrollPane.setBounds(61, 44, 571, 231);
 		contentPane.add(scrollPane);
 		
-		JButton btnNewButton = new JButton("Ok");
+		btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnNewButton.setBounds(274, 286, 162, 44);
 		contentPane.add(btnNewButton);
-		
 
 	}
 }
