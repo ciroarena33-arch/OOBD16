@@ -27,13 +27,12 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 	}
 	@Override
 	public void nuovaPartecipazione(PartecipazioneGruppo p) {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void aggiornaPartecipazione(PartecipazioneGruppo p) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
