@@ -84,8 +84,7 @@ public class StoricoSpeseGUI extends JFrame {
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                DettagliGruppoGUI.main(null);
+                controller.btn_storicoSpese_tornaGruppo();
             }
         });
     }

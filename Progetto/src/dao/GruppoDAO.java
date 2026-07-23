@@ -8,5 +8,4 @@ public interface GruppoDAO {
 	Gruppo cercaGruppoById(int id);
 	void aggiornaGruppo(Gruppo gruppo);
 	void eliminaGruppo(Gruppo g);
-	ArrayList<Gruppo> tuttiIGruppi();
 }

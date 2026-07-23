@@ -13,33 +13,13 @@ public class VisualizzaPartecipantiGUI extends JFrame {
     private PartecipantiController controller;
 
     private JPanel contentPane;
-    private JLabel titolo;
-    private JList<String> listaUtenti;
+    private JList<Object> listaUtenti;
     private JScrollPane scrollPane;
     private JButton btnAggiungiPartecipante;
     private JButton vediDettagli;
     private JButton tornaGruppo;
-    private JLabel messaggio;
+   
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    VisualizzaPartecipantiGUI frame = new VisualizzaPartecipantiGUI(null);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public VisualizzaPartecipantiGUI(PartecipantiController controller) {
         this.controller = controller;
 
@@ -53,24 +33,7 @@ public class VisualizzaPartecipantiGUI extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        titolo = new JLabel("Partecipanti del gruppo", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 26));
-        titolo.setBounds(100, 30, 350, 35);
-        contentPane.add(titolo);
-
-        String[] nomiUtenti = {
-                "Davide Cotena",
-                "Marco Rossi",
-                "Luca Bianchi"
-        };
-
-        final String[][] dettagliUtenti = {
-                {"Davide", "Cotena", "davide@unina.it"},
-                {"Marco", "Rossi", "marco@unina.it"},
-                {"Luca", "Bianchi", "luca@unina.it"}
-        };
-
-        listaUtenti = new JList<>(nomiUtenti);
+        listaUtenti = new JList<>();
         listaUtenti.setFont(new Font("Arial", Font.PLAIN, 18));
 
         scrollPane = new JScrollPane(listaUtenti);
@@ -78,6 +41,12 @@ public class VisualizzaPartecipantiGUI extends JFrame {
         contentPane.add(scrollPane);
 
         btnAggiungiPartecipante = new JButton("AGGIUNGI");
+        btnAggiungiPartecipante.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.btn_visualizzaPartecipanti_aggiungiPartecipante();
+            }
+        });
         btnAggiungiPartecipante.setFont(new Font("Arial", Font.BOLD, 13));
         btnAggiungiPartecipante.setBounds(50, 360, 140, 35);
         contentPane.add(btnAggiungiPartecipante);
@@ -92,35 +61,34 @@ public class VisualizzaPartecipantiGUI extends JFrame {
         tornaGruppo.setBounds(360, 360, 140, 35);
         contentPane.add(tornaGruppo);
 
-        messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 13));
-        messaggio.setBounds(50, 415, 450, 25);
-        contentPane.add(messaggio);
-
         vediDettagli.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int indice = listaUtenti.getSelectedIndex();
-
-                if (indice == -1) {
-                    messaggio.setText("Seleziona prima un utente");
-                } else {
-                    String nome = dettagliUtenti[indice][0];
-                    String cognome = dettagliUtenti[indice][1];
-                    String email = dettagliUtenti[indice][2];
-
-                    JOptionPane.showMessageDialog(VisualizzaPartecipantiGUI.this,
-                            "Nome: " + nome + "\nCognome: " + cognome + "\nEmail: " + email);
-                }
+            	Object utenteSelezionato=listaUtenti.getSelectedValue();
+            	if(utenteSelezionato==null) {
+            		JOptionPane.showMessageDialog(null, "Nessun partecipante selezionato", "Errore", 0);
+            	}
+            	else {
+            		controller.btn_visualizzaPartecipanti_vediDettagli(utenteSelezionato);
+            	}
+            	
             }
         });
 
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                DettagliGruppoGUI.main(null);
+                controller.btn_visualizzaPartecipanti_tornaGruppo();
             }
         });
     }
+    
+	public void aggiornaJList(DefaultListModel<Object> model) {
+		listaUtenti.setModel(model);
+		JLabel numeroPartecipanti = new JLabel("Numero Partecipanti: " + (model.getSize() == 0 ? "nessuno" : model.getSize()+1),SwingConstants.CENTER);
+        numeroPartecipanti.setFont(new Font("Arial", Font.BOLD, 16));
+        numeroPartecipanti.setBounds(24, 37, 500, 30);
+        contentPane.add(numeroPartecipanti);
+	}
+	
 }

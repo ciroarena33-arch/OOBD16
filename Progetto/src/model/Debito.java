@@ -6,10 +6,17 @@ public class Debito extends Movimento{
 	private Utente debitore;
 	private double importo;
 	private boolean debitoSaldato;
-	private Notifica notificaDiSollecito;
 
 	public Debito(Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {
 		super();
+		this.spesa = spesa;
+		this.debitore = debitore;
+		this.importo = importo;
+		this.debitoSaldato = debitoSaldato;
+	}
+	
+	public Debito(int id, Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {
+		super(id);
 		this.spesa = spesa;
 		this.debitore = debitore;
 		this.importo = importo;
@@ -32,17 +39,10 @@ public class Debito extends Movimento{
 		return debitoSaldato;
 	}
 
-	public Notifica getNotificaDiSollecito() {
-		return notificaDiSollecito;
-	}
-
 	public void setDebitoSaldato(boolean debitoSaldato) {
 		this.debitoSaldato = debitoSaldato;
 	}
 
-	public void setNotificaDiSollecito(Notifica notificaDiSollecito) {
-		this.notificaDiSollecito = notificaDiSollecito;
-	}
 
 	
 	

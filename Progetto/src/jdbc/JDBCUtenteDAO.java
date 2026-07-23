@@ -49,7 +49,7 @@ public class JDBCUtenteDAO implements UtenteDAO {
 			}
 		}
 		catch(SQLException e) {
-			throw new RuntimeException("Errore durante la ricerca dell'utente con mail "+email+", "+e.getMessage());
+			throw new RuntimeException("Errore durante la ricerca dell'utente con mail "+email);
 		}
 
 	}
@@ -80,6 +80,28 @@ public class JDBCUtenteDAO implements UtenteDAO {
 		catch(SQLException e){
 			throw new RuntimeException("Errore durante la cancellazione dell'utente con email"+email,e);
 		}
+	}
+
+	@Override
+	public ArrayList<Utente> tuttiGliUtenti() {
+		ArrayList<Utente> utenti=new ArrayList<>();
+		String sql="SELECT * FROM Utente";
+		try(PreparedStatement ps=conn.prepareStatement(sql)){
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				Utente u=new Utente(
+						rs.getString("EmailIstituzionale"),
+						rs.getString("Password"),
+						rs.getString("Cognome"),
+						rs.getString("Nome"),
+						rs.getString("Telefono"));
+				utenti.add(u);
+			}
+		}
+		catch(SQLException e) {
+			throw new RuntimeException("Errore durante la selezione di tutti gli utenti", e);
+		}
+		return utenti;
 	}
 	
 	

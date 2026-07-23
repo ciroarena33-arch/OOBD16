@@ -101,8 +101,8 @@ public class RegistrazioneGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String nome1 = inserisciNome.getText();
                 String cognome1 = inserisciCognome.getText();
-                String email1 = inserisciEmail.getText();
-                String password1 = new String(inserisciPassword.getPassword());
+                String email1 = inserisciEmail.getText().trim();
+                String password1 = new String(inserisciPassword.getPassword()).trim();
 
                 if (nome1.isEmpty() || cognome1.isEmpty() || email1.isEmpty() || password1.isEmpty()) {
                     messaggio.setText("Compila tutti i campi");

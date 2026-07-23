@@ -6,8 +6,14 @@ public class Studio extends Gruppo{
 	private String nomeEsame;
 	private LocalDate dataEsame;
 	
-	public Studio(int id, String nome, Utente proprietario, String nomeEsame, LocalDate dataEsame) {
-		super(id, nome, proprietario);
+	public Studio(String nome, Utente proprietario, LocalDate dataCreazione, String nomeEsame, LocalDate dataEsame) {
+		super(nome, proprietario, dataCreazione);
+		this.nomeEsame = nomeEsame;
+		this.dataEsame = dataEsame;
+	}
+
+	public Studio(int id, String nome, Utente proprietario,LocalDate dataCreazione, String nomeEsame, LocalDate dataEsame) {
+		super(id, nome, proprietario, dataCreazione);
 		this.nomeEsame = nomeEsame;
 		this.dataEsame = dataEsame;
 	}

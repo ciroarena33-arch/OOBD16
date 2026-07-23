@@ -54,6 +54,7 @@ public class NotificheGUI extends JFrame {
 		btnNewButton = new JButton("CreaNotifica");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.btn_notifiche_creaNotifica();
 			}
 		});
 		btnNewButton.setBounds(230, 340, 124, 22);

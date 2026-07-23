@@ -1,22 +1,29 @@
 package control;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
+import model.Coinquilini;
 import model.Gruppo;
+import model.Indirizzo;
 import model.PartecipazioneGruppo;
+import model.Studio;
 import model.Utente;
+import model.Viaggio;
 import gui.gruppo.*;
 import jdbc.JDBCGruppoDAO;
+import jdbc.JDBCIndirizzoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
 import jdbc.JDBCUtenteDAO;
 
 public class GruppoController {
 
-	private ArrayList<PartecipazioneGruppo> partecipazioniGruppi;
 	private Gruppo gruppoSelezionato;
 	private Utente utenteLoggato;
+	private PartecipazioneGruppo partecipazioneSelezionata;
 	
 	private CreazioneGruppoGUI creazioneGruppoGUI;
 	private DettagliGruppoGUI dettagliGruppoGUI;
@@ -26,13 +33,11 @@ public class GruppoController {
 	private JDBCUtenteDAO utenteDAO;
 	private JDBCPartecipazioneGruppoDAO partecipazioneGruppoDAO;
 	private JDBCGruppoDAO gruppoDAO;
+	private JDBCIndirizzoDAO indirizzoDAO;
 	
 	public UtenteController utenteController;
+	public SpesaController spesaController;
 	
-	
-	public ArrayList<PartecipazioneGruppo> getPartecipazioniGruppi() {
-		return partecipazioniGruppi;
-	}
 
 	public Gruppo getGruppoSelezionato() {
 		return gruppoSelezionato;
@@ -41,36 +46,50 @@ public class GruppoController {
 	public Utente getUtenteLoggato() {
 		return utenteLoggato;
 	}
+	
+	public PartecipazioneGruppo getPartecipazioneSelezionata() {
+		return partecipazioneSelezionata;
+	}
 
 	public UtenteController getUtenteController() {
 		return utenteController;
 	}
 
-	public void setPartecipazioniGruppi(ArrayList<PartecipazioneGruppo> partecipazioniGruppi) {
-		this.partecipazioniGruppi = partecipazioniGruppi;
-	}
-
 	public GruppoController(UtenteController utenteController) {
-		this.utenteDAO=utenteController.getUtenteDAO(); 
-		this.gruppoDAO=new JDBCGruppoDAO(utenteDAO);
-		this.partecipazioneGruppoDAO=new JDBCPartecipazioneGruppoDAO(gruppoDAO, utenteDAO);
+		try {
+			this.utenteDAO=utenteController.getUtenteDAO(); 
+			this.gruppoDAO=new JDBCGruppoDAO(utenteDAO);
+			this.partecipazioneGruppoDAO=new JDBCPartecipazioneGruppoDAO(gruppoDAO, utenteDAO);
+			this.indirizzoDAO=new JDBCIndirizzoDAO();
+			
+			this.utenteController=utenteController;
+			this.spesaController = new SpesaController(this);
+			
+			this.utenteLoggato=utenteController.getUtente();
+			
+			partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(null, e.getStackTrace());
+		}
 		
-		this.utenteController=utenteController;
-		this.utenteLoggato=utenteController.getUtente();
-		partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
-		this.partecipazioniGruppi=utenteController.getUtente().getPartecipazioniGruppi();
 	}
 	
 	public void caricaGruppi() {
+		try {
+
+		    DefaultListModel<Object> model = new DefaultListModel<>();
+		    
+		    for (PartecipazioneGruppo g : utenteLoggato.getPartecipazioniGruppi()) {
+		        model.addElement(g);
+		    }
+		    
+		    iMieiGruppiGUI.aggiornaJList(model);
 		
-	    ArrayList<PartecipazioneGruppo> partecipazioniUtente = partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
-	    DefaultListModel<ListaGruppi> model = new DefaultListModel<>();
-	    
-	    for (PartecipazioneGruppo g : partecipazioniUtente) {
-	        model.addElement(new ListaGruppi(g.getId(), g.getGruppo().getNome()));
-	    }
-	    
-	    iMieiGruppiGUI.aggiornaJList(model);
+		}catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(null, e.getStackTrace());
+		}
+		
 	}
 	
 	public void avvia() {
@@ -84,11 +103,17 @@ public class GruppoController {
 		utenteController.tornaHome();
 	}	
 	
-	public void btn_iMieiGruppi_apriGruppo(ListaGruppi l) {
-		gruppoSelezionato=gruppoDAO.cercaGruppoById(l.getId());
-		iMieiGruppiGUI.dispose();
-		dettagliGruppoGUI= new DettagliGruppoGUI(this);
-		dettagliGruppoGUI.setVisible(true);
+	public void btn_iMieiGruppi_apriGruppo(Object gruppo) {
+		partecipazioneSelezionata = (PartecipazioneGruppo) gruppo;
+		try {
+			gruppoSelezionato = partecipazioneSelezionata.getGruppo();
+			dettagliGruppoGUI = new DettagliGruppoGUI(this);
+			dettagliGruppoGUI.setVisible(true);
+			iMieiGruppiGUI.dispose();
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 	}
 	
 	public void btn_iMieiGruppi_creaGruppo() {
@@ -108,8 +133,99 @@ public class GruppoController {
         }
 
         iMieiGruppiGUI = new IMieiGruppiGUI(this);
+		caricaGruppi();
         iMieiGruppiGUI.setVisible(true);
     }
+	
+	
+	
+	
+	public void btn_creazioneGruppo_generico(String nome) {
+		try {
+		if(JOptionPane.showConfirmDialog(null, "Confermi la creazione del gruppo \""+nome+"\"?")==JOptionPane.YES_OPTION) {
+			Gruppo g=new Gruppo(nome, utenteLoggato, LocalDate.now());
+			
+			gruppoDAO.inserisciGruppo(g);
+			PartecipazioneGruppo p =partecipazioneGruppoDAO.getPartecipazione(utenteLoggato, g);
+			utenteLoggato.addGruppo(p);
+			
+			creazioneGruppoGUI.dispose();
+			iMieiGruppiGUI = new IMieiGruppiGUI(this);
+			caricaGruppi();
+	        iMieiGruppiGUI.setVisible(true);
+			}
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(creazioneGruppoGUI, e.getMessage());
+		}
+		
+	}
+	
+	public void btn_creazioneGruppo_studio(String nome, String nomeEsame, String dataAppelloStr) {
+		try {
+			if (JOptionPane.showConfirmDialog(null, "Confermi la creazione del gruppo studio \"" + nome + "\"?") == JOptionPane.YES_OPTION) {
+				LocalDate dataEsame = LocalDate.parse(dataAppelloStr);
+				Studio g = new Studio(nome, utenteLoggato, LocalDate.now(), nomeEsame, dataEsame);
+				
+				gruppoDAO.inserisciGruppo(g);
+				PartecipazioneGruppo p = partecipazioneGruppoDAO.getPartecipazione(utenteLoggato, g);
+				utenteLoggato.addGruppo(p);
+				
+				creazioneGruppoGUI.dispose();
+				iMieiGruppiGUI = new IMieiGruppiGUI(this);
+				caricaGruppi();
+				iMieiGruppiGUI.setVisible(true);
+			}
+		} catch (RuntimeException e) {
+			JOptionPane.showMessageDialog(creazioneGruppoGUI, e.getMessage());
+		}
+	}
+
+	public void btn_creazioneGruppo_viaggio(String nome, String destinazione, String dataInizioStr, String dataFineStr) {
+		try {
+			if (JOptionPane.showConfirmDialog(null, "Confermi la creazione del gruppo viaggio \"" + nome + "\"?") == JOptionPane.YES_OPTION) {
+				LocalDate dataInizio = LocalDate.parse(dataInizioStr);
+				LocalDate dataFine = LocalDate.parse(dataFineStr);
+				Viaggio g = new Viaggio(nome, utenteLoggato, LocalDate.now(), dataInizio, dataFine, destinazione);
+				
+				gruppoDAO.inserisciGruppo(g);
+				PartecipazioneGruppo p = partecipazioneGruppoDAO.getPartecipazione(utenteLoggato, g);
+				utenteLoggato.addGruppo(p);
+				
+				creazioneGruppoGUI.dispose();
+				iMieiGruppiGUI = new IMieiGruppiGUI(this);
+				caricaGruppi();
+				iMieiGruppiGUI.setVisible(true);
+			}
+		} catch (RuntimeException e) {
+			JOptionPane.showMessageDialog(creazioneGruppoGUI, e.getMessage());
+		}
+	}
+
+	public void btn_creazioneGruppo_coinquilini(String nome, String provincia, String citta, String via, String numCivicoStr) {
+		try {
+			if (JOptionPane.showConfirmDialog(null, "Confermi la creazione del gruppo coinquilini \"" + nome + "\"?") == JOptionPane.YES_OPTION) {
+				int numCivico = Integer.parseInt(numCivicoStr);
+				Indirizzo indirizzo = new Indirizzo(provincia.toUpperCase(), citta, via, numCivico);
+				indirizzoDAO.nuovoIndirizzo(indirizzo);
+				Coinquilini g = new Coinquilini(nome, utenteLoggato, LocalDate.now(), indirizzo);
+				gruppoDAO.inserisciGruppo(g);
+				PartecipazioneGruppo p = partecipazioneGruppoDAO.getPartecipazione(utenteLoggato, g);
+				utenteLoggato.addGruppo(p);
+				
+				creazioneGruppoGUI.dispose();
+				iMieiGruppiGUI = new IMieiGruppiGUI(this);
+				caricaGruppi();
+				iMieiGruppiGUI.setVisible(true);
+			}
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(creazioneGruppoGUI, "Numero civico non valido");
+		} catch (RuntimeException e) {
+			JOptionPane.showMessageDialog(creazioneGruppoGUI, e.getMessage());
+		}
+	}
+	
+
 
     public void btn_creazioneGruppo_annulla() {
         if (creazioneGruppoGUI != null) {
@@ -117,6 +233,7 @@ public class GruppoController {
         }
 
         iMieiGruppiGUI = new IMieiGruppiGUI(this);
+        caricaGruppi();
         iMieiGruppiGUI.setVisible(true);
     }
 
@@ -133,7 +250,6 @@ public class GruppoController {
             dettagliGruppoGUI.dispose();
         }
 
-        SpesaController spesaController = new SpesaController(this);
         spesaController.avviaInserisciSpesa();
     }
 
@@ -142,7 +258,6 @@ public class GruppoController {
             dettagliGruppoGUI.dispose();
         }
 
-        SpesaController spesaController = new SpesaController(this);
         spesaController.avviaStoricoSpese();
     }
 
@@ -152,6 +267,7 @@ public class GruppoController {
         }
 
         iMieiGruppiGUI = new IMieiGruppiGUI(this);
+        caricaGruppi();
         iMieiGruppiGUI.setVisible(true);
     }
 
@@ -213,12 +329,20 @@ public class GruppoController {
     }
     
     public void btn_dettagliGruppo_scadenze() {
-        if (dettagliGruppoGUI != null) {
-            dettagliGruppoGUI.dispose();
-        }
+        
+    	if(gruppoSelezionato instanceof Coinquilini) {
+    		if (dettagliGruppoGUI != null) {
+                dettagliGruppoGUI.dispose();
+            }
 
-        ScadenzeController scadenzeController = new ScadenzeController(this);
-        scadenzeController.avvia();
+            ScadenzeController scadenzeController = new ScadenzeController(this);
+            scadenzeController.avvia();
+    	}
+    	else {
+    		JOptionPane.showMessageDialog(dettagliGruppoGUI, "Funzione non utilizzabile perchè il gruppo non è di tipo Coinquilini");
+    	}
+    	
+    	
     }
 
     public void tornaDettagliGruppoDaScadenze() {

@@ -45,7 +45,7 @@ public class JDBCIndirizzoDAO implements IndirizzoDAO{
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()) {
 				return new Indirizzo(
-						rs.getInt("id"),
+						rs.getInt("idindirizzo"),
 						rs.getString("provincia"),
 						rs.getString("citta"),
 						rs.getString("via"),

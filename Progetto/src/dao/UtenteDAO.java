@@ -9,5 +9,6 @@ public interface UtenteDAO {
 	Utente cercaUtentePerEmail(String email);
 	void aggiornaUtente(Utente u);
 	void eliminaUtente(String email);
+	ArrayList<Utente> tuttiGliUtenti();
 	
 }

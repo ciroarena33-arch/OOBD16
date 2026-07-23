@@ -24,7 +24,6 @@ public class DBConnection {
 			if(conn==null||conn.isClosed()) {
 				
 				conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "OOBD16", "DE1000111");
-				
 			}
 		}catch(SQLException throwables) {
 			 throwables.printStackTrace();

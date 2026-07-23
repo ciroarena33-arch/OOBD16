@@ -2,7 +2,7 @@ package control;
 
 import gui.notifica.NotificheGUI;
 import gui.notifica.CreaNotificaGUI;
-import gui.notifica.SceltaDebito;
+import gui.notifica.SceltaDebitoGUI;
 
 public class NotificaController {
 
@@ -10,7 +10,7 @@ public class NotificaController {
 
     private NotificheGUI notificheGUI;
     private CreaNotificaGUI creaNotificaGUI;
-    private SceltaDebito sceltaDebitoGUI;
+    private SceltaDebitoGUI sceltaDebitoGUI;
 
     public NotificaController(UtenteController utenteController) {
         this.utenteController = utenteController;
@@ -39,7 +39,7 @@ public class NotificaController {
     }
 
     public void btn_creaNotifica_sceltaDebito() {
-        sceltaDebitoGUI = new SceltaDebito(this);
+        sceltaDebitoGUI = new SceltaDebitoGUI(this);
         sceltaDebitoGUI.setVisible(true);
     }
 

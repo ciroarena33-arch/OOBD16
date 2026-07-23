@@ -19,30 +19,11 @@ public class AggiungiPartecipanteGruppoGUI extends JFrame {
     private JButton annulla;
     private JLabel messaggio;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AggiungiPartecipanteGruppoGUI frame = new AggiungiPartecipanteGruppoGUI(null);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public AggiungiPartecipanteGruppoGUI(PartecipantiController controller) {
         this.controller = controller;
 
         setTitle("Aggiungi partecipante");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // chiudo solo la finestra
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // chiudo solo la finestra
         setResizable(false);
         setSize(400, 280);
         setLocationRelativeTo(null);
@@ -84,12 +65,12 @@ public class AggiungiPartecipanteGruppoGUI extends JFrame {
         aggiungi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String email = fieldEmail.getText();
+                String email = fieldEmail.getText().trim();
 
                 if (email.isEmpty()) {
                     messaggio.setText("Inserisci una email");
                 } else {
-                    messaggio.setText("Partecipante aggiunto: " + email);
+                    controller.btn_aggiungiPartecipante_aggiungi(email);
                 }
             }
         });
@@ -97,7 +78,7 @@ public class AggiungiPartecipanteGruppoGUI extends JFrame {
         annulla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                controller.btn_aggiungiPartecipante_annulla();
             }
         });
     }

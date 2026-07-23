@@ -7,8 +7,16 @@ public class Viaggio extends Gruppo{
 	private LocalDate dataFine;
 	private String destinazione;
 	
-	public Viaggio(int id, String nome, Utente proprietario, LocalDate dataInizio, LocalDate dataFine, String destinazione) {
-		super(id, nome, proprietario);
+	public Viaggio(String nome, Utente proprietario, LocalDate dataCreazione, LocalDate dataInizio, LocalDate dataFine, String destinazione) {
+		super(nome, proprietario, dataCreazione);
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.destinazione = destinazione;
+		
+	}
+
+	public Viaggio(int id, String nome, Utente proprietario,LocalDate dataCreazione, LocalDate dataInizio, LocalDate dataFine, String destinazione) {
+		super(id, nome, proprietario, dataCreazione);
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
 		this.destinazione = destinazione;
@@ -38,6 +46,11 @@ public class Viaggio extends Gruppo{
 		this.destinazione = destinazione;
 	}
 	
+	public void verificaDate() {
+		if(dataInizio.isAfter(dataFine)) {
+			throw new RuntimeException("Le date inserite non sono valide: La data di partenza è successiva alla data di ritorno");
+		}
+	}
 	
 
 	

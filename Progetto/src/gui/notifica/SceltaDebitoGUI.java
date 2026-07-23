@@ -2,6 +2,7 @@ package gui.notifica;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
@@ -14,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import control.NotificaController;
 
-public class SceltaDebito extends JFrame {
+public class SceltaDebitoGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private NotificaController controller;
@@ -26,30 +27,11 @@ public class SceltaDebito extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton btnNewButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SceltaDebito frame = new SceltaDebito(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public SceltaDebito(NotificaController controller) {
+	public SceltaDebitoGUI(NotificaController controller) {
 		this.controller = controller;
 
 		setTitle("Scelta Debito");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setSize(680, 380);
 		setLocationRelativeTo(null);
@@ -83,6 +65,15 @@ public class SceltaDebito extends JFrame {
 		btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int selectedRow = tabellaSpese.getSelectedRow();
+				if (selectedRow != -1) {
+					String spesa = (String) tabellaSpese.getValueAt(selectedRow, 0);
+					String debitore = (String) tabellaSpese.getValueAt(selectedRow, 1);
+					String importo = (String) tabellaSpese.getValueAt(selectedRow, 2);
+					controller.btn_sceltaDebito_ok(spesa + " (" + debitore + ": " + importo + ")");
+				} else {
+					JOptionPane.showMessageDialog(SceltaDebitoGUI.this, "Seleziona un debito");
+				}
 			}
 		});
 		btnNewButton.setBounds(274, 286, 162, 44);

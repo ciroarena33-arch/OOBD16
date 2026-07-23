@@ -74,6 +74,7 @@ public class CreaNotificaGUI extends JFrame {
 		btnNewButton = new JButton("Scelta");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.btn_creaNotifica_sceltaDebito();
 			}
 		});
 		btnNewButton.setBounds(448, 71, 84, 27);
@@ -88,16 +89,26 @@ public class CreaNotificaGUI extends JFrame {
 		contentPane.add(textArea);
 		
 		btnNewButton_1 = new JButton("Invia ");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.btn_creaNotifica_invia(textField.getText(), textArea.getText());
+			}
+		});
 		btnNewButton_1.setBounds(185, 261, 144, 36);
 		contentPane.add(btnNewButton_1);
 		
 		btnNewButton_2 = new JButton("Annulla");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.btn_creaNotifica_annulla();
 			}
 		});
 		btnNewButton_2.setBounds(380, 261, 120, 36);
 		contentPane.add(btnNewButton_2);
 
+	}
+
+	public void setDebitoSelezionato(String debito) {
+		textField.setText(debito);
 	}
 }

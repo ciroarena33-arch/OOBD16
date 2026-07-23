@@ -1,6 +1,6 @@
 package gui.gruppo;
 
-import javax.swing.*;
+import javax.swing.*; 
 
 import control.GruppoController;
 
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class IMieiGruppiGUI extends JFrame {
 
     private GruppoController controller;
-    private JList<ListaGruppi> listaGruppi;
+    private JList<Object> listaGruppi;
 
     public IMieiGruppiGUI(GruppoController controller) {
         super("I miei gruppi");
@@ -57,7 +57,7 @@ public class IMieiGruppiGUI extends JFrame {
         apriGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListaGruppi gruppoSelezionato = listaGruppi.getSelectedValue();
+                Object gruppoSelezionato = listaGruppi.getSelectedValue();
 
                 if (gruppoSelezionato == null) {
                     JOptionPane.showMessageDialog(IMieiGruppiGUI.this, "Seleziona prima un gruppo");
@@ -87,7 +87,7 @@ public class IMieiGruppiGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-	public void aggiornaJList(DefaultListModel<ListaGruppi> model) {
+	public void aggiornaJList(DefaultListModel<Object> model) {
 		listaGruppi.setModel(model);
 	}
 }

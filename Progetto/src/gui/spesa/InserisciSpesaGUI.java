@@ -163,7 +163,7 @@ public class InserisciSpesaGUI extends JFrame {
                 if (nome.isEmpty() || importo.isEmpty() || data.isEmpty() || pagataDa.isEmpty()) {
                     messaggio.setText("Compila nome, importo, data e pagante");
                 } else {
-                    messaggio.setText("Spesa registrata: " + nome + " - " + importo + "€ - " + tipo);
+                    controller.btn_inserisciSpesa_registraSpesa(nome, descrizione, importo, "EUR", data, tipo);
                 }
             }
         });
@@ -171,8 +171,7 @@ public class InserisciSpesaGUI extends JFrame {
         tornaGruppo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                DettagliGruppoGUI.main(null);
+                controller.btn_inserisciSpesa_tornaGruppo();
             }
         });
     }

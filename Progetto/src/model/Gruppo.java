@@ -1,4 +1,5 @@
 package model;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Gruppo{
@@ -7,18 +8,25 @@ public class Gruppo{
 	private String nome;
 	private ArrayList<PartecipazioneGruppo> componenti;
 	private Utente proprietario;
+	
+	private LocalDate dataCreazione;
 	private ArrayList<Spesa> spese;
 	
-	public Gruppo(int id,String nome, Utente proprietario) {
+	public Gruppo(int id,String nome, Utente proprietario, LocalDate dataCreazione) {
 		this.id=id;
 		this.nome = nome;
 		this.proprietario = proprietario;
 		this.componenti=new ArrayList<PartecipazioneGruppo>();
+		this.dataCreazione=dataCreazione;
 		this.spese=new ArrayList<Spesa>();
 	}
 	
-	public Gruppo(String nome, Utente proprietario) {
-		this((Integer)null, nome, proprietario);
+	public Gruppo(String nome, Utente proprietario, LocalDate dataCreazione) {
+		this.nome = nome;
+		this.proprietario = proprietario;
+		this.componenti=new ArrayList<PartecipazioneGruppo>();
+		this.dataCreazione=LocalDate.now();
+		this.spese=new ArrayList<Spesa>();
 	}
 
 	public int getId() {
@@ -48,10 +56,16 @@ public class Gruppo{
 	public ArrayList<PartecipazioneGruppo> getComponenti() {
 		return componenti;
 	}
+	
+	public LocalDate getDataCreazione() {
+		return dataCreazione;
+	}
 
 	public void addComponente(PartecipazioneGruppo componente) {
-		if (componenti.contains(componente)) {
-			throw new IllegalArgumentException("Il componente appartiene già al gruppo");
+		for(PartecipazioneGruppo p:componenti) {
+			if (p.equals(componente)) {
+				return;
+			}
 		}
 		componenti.add(componente);
 	}

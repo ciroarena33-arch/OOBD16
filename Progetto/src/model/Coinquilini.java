@@ -1,13 +1,19 @@
 package model;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Coinquilini extends Gruppo{
 
 	private Indirizzo indirizzo;
-	private ArrayList<Scadenza> scadenze;
+	private ArrayList<Scadenza> scadenze=new ArrayList<>();
 	
-	public Coinquilini(int id, String nome, Utente proprietario, Indirizzo indirizzo) {
-		super(id, nome, proprietario);
+	public Coinquilini(String nome, Utente proprietario, LocalDate dataCreazione, Indirizzo indirizzo) {
+		super(nome, proprietario, dataCreazione);
+		this.indirizzo = indirizzo;
+	}
+
+	public Coinquilini(int id, String nome, Utente proprietario, LocalDate dataCreazione, Indirizzo indirizzo) {
+		super(id, nome, proprietario, dataCreazione);
 		this.indirizzo = indirizzo;
 	}
 

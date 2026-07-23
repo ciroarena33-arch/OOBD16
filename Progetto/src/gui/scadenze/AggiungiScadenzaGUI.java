@@ -1,60 +1,62 @@
 package gui.scadenze;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.time.ZoneId;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import control.ScadenzeController;
+import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class AggiungiScadenzaGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private ScadenzeController controller;
+
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JCalendarComboBox textField_1;
 	private JTextField textField_2;
+	private JLabel lblTitolo;
+	private JLabel lblNome;
+	private JLabel lblNewLabel;
+	private JLabel lblImporto;
+	private JButton btnNewScadenza;
+	private JButton btnIndietro;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AggiungiScadenzaGUI frame = new AggiungiScadenzaGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public AggiungiScadenzaGUI(ScadenzeController controller) {
+		this.controller = controller;
 
-	public AggiungiScadenzaGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setResizable(false);
+		setSize(430, 290);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTitolo = new JLabel("Nuova Scadenza");
+		lblTitolo = new JLabel("Nuova Scadenza");
 		lblTitolo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitolo.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblTitolo.setBounds(110, 11, 215, 31);
+		lblTitolo.setFont(new Font("Arial", Font.BOLD, 24));
+		lblTitolo.setBounds(90, 10, 230, 35);
 		contentPane.add(lblTitolo);
 		
-		JLabel lblNome = new JLabel("Nome");
+		lblNome = new JLabel("Nome");
 		lblNome.setBounds(110, 66, 95, 14);
 		contentPane.add(lblNome);
 		
-		JLabel lblNewLabel = new JLabel("Data di Scadenza");
+		lblNewLabel = new JLabel("Data di Scadenza");
 		lblNewLabel.setBounds(110, 100, 95, 14);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblImporto = new JLabel("Importo");
+		lblImporto = new JLabel("Importo");
 		lblImporto.setBounds(110, 134, 95, 14);
 		contentPane.add(lblImporto);
 		
@@ -63,8 +65,7 @@ public class AggiungiScadenzaGUI extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		textField_1 = new JCalendarComboBox();
 		textField_1.setBounds(229, 97, 96, 20);
 		contentPane.add(textField_1);
 		
@@ -73,14 +74,24 @@ public class AggiungiScadenzaGUI extends JFrame {
 		textField_2.setBounds(229, 131, 96, 20);
 		contentPane.add(textField_2);
 		
-		JButton btnNewScadenza = new JButton("Aggiungi");
+		btnNewScadenza = new JButton("Aggiungi");
+		btnNewScadenza.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				controller.btn_aggiungiScadenza_aggiungi(textField.getText(), textField_1.getDate().toInstant()
+                        .atZone(ZoneId.systemDefault()).toLocalDate(), textField_2.getText());
+			}
+		});
 		btnNewScadenza.setBounds(117, 192, 88, 22);
 		contentPane.add(btnNewScadenza);
 		
-		JButton btnIndietro = new JButton("Indietro");
+		btnIndietro = new JButton("Indietro");
+		btnIndietro.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				controller.btn_aggiungiScadenza_indietro();
+			}
+		});
 		btnIndietro.setBounds(229, 192, 88, 22);
 		contentPane.add(btnIndietro);
 
 	}
-
 }

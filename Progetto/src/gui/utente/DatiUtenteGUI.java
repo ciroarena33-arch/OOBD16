@@ -28,7 +28,7 @@ public class DatiUtenteGUI extends JFrame {
         labelNome.setFont(new Font("Arial", Font.BOLD, 16));
         labelNome.setBounds(315, 145, 180, 30);
 
-        JTextField fieldNome = new JTextField("Davide");
+        JTextField fieldNome = new JTextField(controller.getUtente().getNome());
         fieldNome.setFont(new Font("Arial", Font.PLAIN, 18));
         fieldNome.setBounds(455, 145, 260, 35);
 
@@ -36,7 +36,7 @@ public class DatiUtenteGUI extends JFrame {
         labelCognome.setFont(new Font("Arial", Font.BOLD, 16));
         labelCognome.setBounds(315, 200, 180, 30);
 
-        JTextField fieldCognome = new JTextField("Cotena");
+        JTextField fieldCognome = new JTextField(controller.getUtente().getCognome());
         fieldCognome.setFont(new Font("Arial", Font.PLAIN, 18));
         fieldCognome.setBounds(455, 200, 260, 35);
 
@@ -44,7 +44,7 @@ public class DatiUtenteGUI extends JFrame {
         labelPassword.setFont(new Font("Arial", Font.BOLD, 16));
         labelPassword.setBounds(315, 255, 180, 30);
 
-        JPasswordField fieldPassword = new JPasswordField("1234");
+        JPasswordField fieldPassword = new JPasswordField(controller.getUtente().getPassword());
         fieldPassword.setFont(new Font("Arial", Font.PLAIN, 18));
         fieldPassword.setBounds(455, 255, 260, 35);
 
@@ -56,7 +56,7 @@ public class DatiUtenteGUI extends JFrame {
         labelEmail.setFont(new Font("Arial", Font.BOLD, 16));
         labelEmail.setBounds(315, 310, 180, 30);
 
-        JTextField fieldEmail = new JTextField("davide@unina.it");
+        JTextField fieldEmail = new JTextField(controller.getUtente().getEmailIstituzionale());
         fieldEmail.setFont(new Font("Arial", Font.PLAIN, 18));
         fieldEmail.setBounds(455, 310, 260, 35);
         fieldEmail.setEditable(false);
@@ -65,7 +65,8 @@ public class DatiUtenteGUI extends JFrame {
         labelTelefono.setFont(new Font("Arial", Font.BOLD, 16));
         labelTelefono.setBounds(315, 365, 180, 30);
 
-        JTextField fieldTelefono = new JTextField("");
+        String telefono=controller.getUtente().getTelefono();
+        JTextField fieldTelefono = new JTextField(telefono.isEmpty()?"":telefono);
         fieldTelefono.setFont(new Font("Arial", Font.PLAIN, 18));
         fieldTelefono.setBounds(455, 365, 260, 35);
 

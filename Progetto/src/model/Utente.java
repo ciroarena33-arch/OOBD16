@@ -11,21 +11,24 @@ private String telefono;
 private ArrayList<PartecipazioneGruppo> partecipazioniGruppi;
 private ArrayList<Movimento> movimenti;
 
-
 public Utente(String emailIstituzionale, String nome, String cognome, String password) {
+	
 	this(emailIstituzionale, nome, cognome, password, null);
+	
 }
 
 public Utente(String emailIstituzionale, String nome, String cognome, String password, String telefono) {
-	super();
+	
+	validaEmailIstituzionale(emailIstituzionale);
+	validaPassword(password);
+	validaTelefono(telefono);
+	
 	this.emailIstituzionale = emailIstituzionale;
-	validaEmailIstituzionale();
 	this.nome = nome;
 	this.cognome = cognome;
 	this.password = password;
-	validaPassword();
 	this.telefono = telefono;
-	validaTelefono();
+	
 	this.partecipazioniGruppi = new ArrayList<>();
 	this.movimenti = new ArrayList<>();
 }
@@ -83,7 +86,7 @@ public void accessoValido(String mail, String password) {
 public void addGruppo(PartecipazioneGruppo nuovoGruppo){
 	for(PartecipazioneGruppo p:partecipazioniGruppi) {
 		if(p.getGruppo()==nuovoGruppo.getGruppo()){
-			throw new IllegalArgumentException("L'Utente già appartiene al gruppo");
+			return;
 		}
 	}
 	partecipazioniGruppi.add(nuovoGruppo);
@@ -99,7 +102,7 @@ public void removeGruppo(Gruppo nuovoGruppo){
 	throw new IllegalArgumentException("L'Utente non appartiene al gruppo");
 }	
 
-public void validaEmailIstituzionale() {
+public void validaEmailIstituzionale(String emailIstituzionale) {
 	if (!emailIstituzionale.contains("@")) {
 		throw new RuntimeException("La mail inserita non contiene il simbolo @");
 	}
@@ -108,7 +111,7 @@ public void validaEmailIstituzionale() {
 	}
 }
 
-public void validaPassword() {
+public void validaPassword(String password) {
 	if(password.length()<8) {
 		throw new RuntimeException("La password deve contenere almeno 8 caratteri");
 	}
@@ -123,7 +126,7 @@ public void validaPassword() {
     }
 }
 
-public void validaTelefono() {
+public void validaTelefono(String telefono) {
 	if(telefono==null) {
 		return;
 	}
@@ -134,6 +137,9 @@ public void validaTelefono() {
         throw new RuntimeException("Il numero di telefono deve essere lungo esattamente 10 cifre.");
     }
 }
-	
+
+public String toString() {
+	return this.cognome+" "+this.nome;
+}
 
 }

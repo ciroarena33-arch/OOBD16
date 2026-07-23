@@ -16,6 +16,9 @@ public class DettagliGruppoGUI extends JFrame {
         super("Dettaglio gruppo");
         this.controller = controller;
 
+        String nome = controller.getGruppoSelezionato().getNome();
+        int numPartecipanti = controller.getGruppoSelezionato().getComponenti().size();
+        
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
@@ -23,14 +26,14 @@ public class DettagliGruppoGUI extends JFrame {
         logo.setFont(new Font("Arial", Font.BOLD, 50));
         logo.setBounds(250, 35, 500, 70);
 
-        JLabel titoloGruppo = new JLabel("Gruppo: " + controller.getGruppoSelezionato().getNome(), SwingConstants.CENTER);
+        JLabel titoloGruppo = new JLabel("Gruppo: " + nome, SwingConstants.CENTER);
         titoloGruppo.setFont(new Font("Arial", Font.BOLD, 24));
         titoloGruppo.setBounds(200, 115, 600, 40);
 
-        JLabel numeroPartecipanti = new JLabel("Numero partecipanti: 3", SwingConstants.CENTER);
-        numeroPartecipanti.setFont(new Font("Arial", Font.BOLD, 16));
-        numeroPartecipanti.setBounds(250, 160, 500, 30);
-
+        JLabel proprietario = new JLabel("Proprietario: "+controller.getGruppoSelezionato().getProprietario().toString(), SwingConstants.CENTER);
+        proprietario.setFont(new Font("Arial", Font.BOLD, 16));
+        proprietario.setBounds(250, 160, 500, 30);
+        
         JButton inserisciSpesa = new JButton("INSERISCI SPESA");
         inserisciSpesa.setFont(new Font("Arial", Font.BOLD, 16));
         inserisciSpesa.setBounds(315, 220, 400, 40);
@@ -61,7 +64,6 @@ public class DettagliGruppoGUI extends JFrame {
 
         panel.add(logo);
         panel.add(titoloGruppo);
-        panel.add(numeroPartecipanti);
         panel.add(inserisciSpesa);
         panel.add(storicoSpese);
         panel.add(visualizzaPartecipanti);
@@ -69,7 +71,8 @@ public class DettagliGruppoGUI extends JFrame {
         panel.add(infoGruppo);
         panel.add(tornaGruppi);
         panel.add(messaggio);
-
+        panel.add(proprietario);
+        
         inserisciSpesa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +116,7 @@ public class DettagliGruppoGUI extends JFrame {
         });
 
         setContentPane(panel);
+        
         setSize(1000, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

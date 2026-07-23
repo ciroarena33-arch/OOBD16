@@ -36,7 +36,7 @@ public class HomeGUI extends JFrame {
 
         JButton mieiGruppi = new JButton("I MIEI GRUPPI");
         mieiGruppi.setFont(new Font("Arial", Font.BOLD, 16));
-        mieiGruppi.setBounds(315, 245, 400, 40);
+        mieiGruppi.setBounds(315, 355, 400, 40);
 
         JButton reportGenerale = new JButton("REPORT GENERALE");
         reportGenerale.setFont(new Font("Arial", Font.BOLD, 16));
@@ -44,7 +44,7 @@ public class HomeGUI extends JFrame {
 
         JButton datiUtente = new JButton("VISUALIZZA DATI UTENTE");
         datiUtente.setFont(new Font("Arial", Font.BOLD, 16));
-        datiUtente.setBounds(315, 355, 400, 40);
+        datiUtente.setBounds(315, 245, 400, 40);
 
         JButton visualizzaNotifiche = new JButton("CENTRO NOTIFICHE");
         visualizzaNotifiche.setFont(new Font("Arial", Font.BOLD, 16));
@@ -78,8 +78,7 @@ public class HomeGUI extends JFrame {
         reportGenerale.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                ReportGeneraleGUI.main(null);
+                controller.btn_home_reportGenerale();
             }
         });
 
@@ -93,7 +92,7 @@ public class HomeGUI extends JFrame {
         visualizzaNotifiche.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                controller.btn_home_visualizzaNotifiche();
             }
         });
 

@@ -6,6 +6,7 @@ import model.PartecipazioneGruppo;
 import model.Utente;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,14 +26,42 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 		this.gruppoDAO=gruppoDAO;
 		this.utenteDAO=utenteDAO;
 	}
+	
 	@Override
 	public void nuovaPartecipazione(PartecipazioneGruppo p) {
-		// TODO Auto-generated method stub
+		String sql="INSERT INTO PartecipazioneGruppo (datainvito,statoinvito,emailutente,idgruppo) VALUES (?,?,?,?)";
+		try(PreparedStatement ps=conn.prepareStatement(sql)){
+			ps.setDate(1,  Date.valueOf(p.getData()));
+			ps.setInt(2, 0);
+			ps.setString(3,  p.getUtente().getEmailIstituzionale());
+			ps.setInt(4,  p.getGruppo().getId());
+			int righeInserite = ps.executeUpdate();
+		    if (righeInserite > 0) {
+		        try (ResultSet rs = ps.getGeneratedKeys()) {
+		            if (rs.next()) {
+		                int idGenerato = rs.getInt(1); 
+		                p.setId(idGenerato);      
+		            }
+		        }
+		    }
+		}
+		catch(SQLException e) {
+			throw new RuntimeException("Errore nell'inserimento della partecipazione");
+		}
 	}
 
 	@Override
 	public void aggiornaPartecipazione(PartecipazioneGruppo p) {
-		// TODO Auto-generated method stub
+		String sql="UPDATE PartecipazioneGruppo SET datainvito=? ,statoinvito=? WHERE idpartecipazione=?";
+		try(PreparedStatement ps=conn.prepareStatement(sql)){
+			ps.setDate(1,  Date.valueOf(p.getData()));
+			ps.setInt(2, 1);
+			ps.setInt(3,  p.getId());
+			ps.execute();		
+		}
+		catch(SQLException e) {
+			throw new RuntimeException("Errore nell'aggiornamento della partecipazione");
+		}		
 	}
 
 	@Override
@@ -71,10 +100,12 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
 				LocalDate data = rs.getObject("DataInvito", LocalDate.class);
+				int i=rs.getInt("idpartecipazione");
+				Boolean statoInvito=rs.getBoolean("statoInvito");
 				PartecipazioneGruppo p=new PartecipazioneGruppo(
-						rs.getInt("idpartecipazione"),
+						i,
 						data,
-						rs.getBoolean("statoInvito"),
+						statoInvito,
 						utenteDAO.cercaUtentePerEmail(rs.getString("emailUtente")),
 						g
 						);
@@ -88,6 +119,7 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 		}
 	}
 
+	
 	@Override
 	public void eliminaPartecipazione(PartecipazioneGruppo p) {
 		String sql="DELETE FROM PartecipazioneGruppo WHERE idPartecipazione=?";
@@ -98,6 +130,36 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 		catch(SQLException e) {
 			throw new RuntimeException("Errore nella cancellazione del gruppo "+p.getGruppo().getNome());
 		}
+	}
+	
+	
+	@Override
+	public PartecipazioneGruppo getPartecipazione(Utente u, Gruppo g) {
+		
+		String sql="SELECT * FROM PartecipazioneGruppo WHERE emailUtente=? AND idgruppo=?";
+		PartecipazioneGruppo p=null;
+		try(PreparedStatement ps=conn.prepareStatement(sql)){
+			ps.setString(1, u.getEmailIstituzionale());
+			ps.setInt(2, g.getId());
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				LocalDate data = rs.getObject("DataInvito", LocalDate.class);
+				p=new PartecipazioneGruppo(
+						rs.getInt("idpartecipazione"),
+						data,
+						rs.getBoolean("statoInvito"),
+						u,
+						g
+						);
+				u.addGruppo(p);
+			}
+			
+			return p;
+		}
+		catch(SQLException e) {
+			throw new RuntimeException("L'Utente con mail"+u.getEmailIstituzionale()+" non appartiene al gruppo");
+		}
+		
 	}
 
 }

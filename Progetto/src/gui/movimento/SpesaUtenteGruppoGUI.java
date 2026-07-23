@@ -1,76 +1,58 @@
 package gui.movimento;
 
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import control.MovimentoController;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import control.MovimentoController;
 
-public class SpesaUtenteGruppo extends JFrame {
+public class SpesaUtenteGruppoGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
 	private MovimentoController controller;
-
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JLabel lblTitolo;
-	private JLabel lblNomeSpesa;
-	private JLabel lblDescrizione;
-	private JTextArea textArea;
-	private JLabel lblImporto;
-	private JLabel lblDestinatario;
-	private JButton btnPagaDebito;
-	private JButton btnIndietro;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SpesaUtenteGruppo frame = new SpesaUtenteGruppo(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
-	public SpesaUtenteGruppo(MovimentoController controller) {
-		this.controller = controller;
 
-		setTitle("Dettaglio Spesa");
+	public SpesaUtenteGruppoGUI(MovimentoController controller) {
+		super("Spesa");
+		this.controller=controller;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setSize(430, 290);
-		setLocationRelativeTo(null);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblTitolo = new JLabel("Dettaglio Spesa");
+		JLabel lblTitolo = new JLabel("DettaglioSpesa");
 		lblTitolo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitolo.setFont(new Font("Arial", Font.BOLD, 18));
-		lblTitolo.setBounds(110, 10, 200, 28);
+		lblTitolo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTitolo.setBounds(150, 11, 122, 17);
 		contentPane.add(lblTitolo);
 		
-		lblNomeSpesa = new JLabel("Nome Spesa");
+		JLabel lblNomeSpesa = new JLabel("Nome Spesa");
 		lblNomeSpesa.setBounds(110, 39, 73, 14);
 		contentPane.add(lblNomeSpesa);
 		
-		lblDescrizione = new JLabel("Descrizione");
+		JLabel lblDescrizione = new JLabel("Descrizione");
 		lblDescrizione.setBounds(110, 64, 73, 14);
 		contentPane.add(lblDescrizione);
 		
-		textArea = new JTextArea();
+		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setBounds(193, 59, 179, 88);
 		contentPane.add(textArea);
@@ -81,7 +63,7 @@ public class SpesaUtenteGruppo extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		lblImporto = new JLabel("Importo");
+		JLabel lblImporto = new JLabel("Importo");
 		lblImporto.setBounds(110, 158, 48, 14);
 		contentPane.add(lblImporto);
 		
@@ -91,7 +73,7 @@ public class SpesaUtenteGruppo extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
-		lblDestinatario = new JLabel("Destinatario");
+		JLabel lblDestinatario = new JLabel("Destinatario");
 		lblDestinatario.setBounds(110, 187, 73, 14);
 		contentPane.add(lblDestinatario);
 		
@@ -101,11 +83,11 @@ public class SpesaUtenteGruppo extends JFrame {
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
-		btnPagaDebito = new JButton("Paga Spesa");
+		JButton btnPagaDebito = new JButton("Paga Spesa");
 		btnPagaDebito.setBounds(110, 230, 104, 22);
 		contentPane.add(btnPagaDebito);
 		
-		btnIndietro = new JButton("Indietro");
+		JButton btnIndietro = new JButton("Indietro");
 		btnIndietro.setBounds(258, 230, 104, 22);
 		contentPane.add(btnIndietro);
 

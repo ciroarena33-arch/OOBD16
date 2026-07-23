@@ -1,6 +1,7 @@
 package control;
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane; 
 
+import java.sql.SQLException;
 import gui.utente.DatiUtenteGUI;
 import gui.utente.HomeGUI;
 import gui.utente.LoginGUI;
@@ -113,15 +114,34 @@ public class UtenteController {
 	}
 	
 	public void btn_home_mieiGruppi() {
-		homeGUI.setVisible(false);
-		GruppoController gruppoController=new GruppoController(this);
-		gruppoController.avvia();
+		try {
+			GruppoController gruppoController=new GruppoController(this);
+			gruppoController.avvia();
+			homeGUI.setVisible(false);
+		}
+		catch(RuntimeException e) {
+			JOptionPane.showMessageDialog(homeGUI, e.getMessage());
+		}
+		
+		
 	}
 	
 	public void btn_home_datiUtente() {
 		datiUtenteGUI=new DatiUtenteGUI(this);
 		datiUtenteGUI.setVisible(true);
 		homeGUI.setVisible(false);
+	}
+
+	public void btn_home_visualizzaNotifiche() {
+		homeGUI.setVisible(false);
+		NotificaController notificaController = new NotificaController(this);
+		notificaController.avvia();
+	}
+
+	public void btn_home_reportGenerale() {
+		homeGUI.setVisible(false);
+		MovimentoController movimentoController = new MovimentoController(this);
+		movimentoController.avvia();
 	}
 	
 	public void btn_home_esci() {
