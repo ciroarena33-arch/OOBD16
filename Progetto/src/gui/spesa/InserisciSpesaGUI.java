@@ -1,178 +1,149 @@
 package gui.spesa;
 
 import javax.swing.*;
-import gui.gruppo.DettagliGruppoGUI;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import control.SpesaController;
+import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class InserisciSpesaGUI extends JFrame {
-    private static final long serialVersionUID = 1L;
 
     private SpesaController controller;
-
     private JPanel contentPane;
-    private JLabel titolo;
-    private JLabel labelNome;
-    private JTextField fieldNome;
-    private JLabel labelDescrizione;
-    private JTextField fieldDescrizione;
-    private JLabel labelImporto;
-    private JTextField fieldImporto;
-    private JLabel labelData;
-    private JTextField fieldData;
-    private JLabel labelTipo;
+    private JLabel titolo, messaggio;
+    private JLabel labelNome, labelDescrizione, labelImporto, labelData, labelTipo, labelPagataDa;
+    private JTextField fieldNome, fieldDescrizione, fieldImporto, fieldPagataDa;
+    private JCalendarComboBox fieldData;
     private JComboBox<String> comboTipo;
-    private JLabel labelPagataDa;
-    private JTextField fieldPagataDa;
-    private JButton registraSpesa;
-    private JButton tornaGruppo;
-    private JLabel messaggio;
+    private JButton registraSpesa, tornaGruppo;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    InserisciSpesaGUI frame = new InserisciSpesaGUI(null);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public InserisciSpesaGUI(SpesaController controller) {
+        super();
+        setTitle("Inserisci Spesa");
         this.controller = controller;
 
-        setTitle("Inserisci spesa");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(550, 580);
+        setSize(520, 520);
         setLocationRelativeTo(null);
 
         contentPane = new JPanel();
         contentPane.setLayout(null);
+        contentPane.setBackground(new Color(245, 245, 250));
         setContentPane(contentPane);
 
-        titolo = new JLabel("Inserisci nuova spesa", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 24));
-        titolo.setBounds(100, 30, 350, 35);
+        JLabel titolo = new JLabel("Inserisci nuova spesa", SwingConstants.CENTER);
+        titolo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titolo.setForeground(new Color(30, 41, 59));
+        titolo.setBounds(0, 18, 520, 36);
         contentPane.add(titolo);
 
-        // Nome spesa
         labelNome = new JLabel("Nome spesa:");
-        labelNome.setFont(new Font("Arial", Font.BOLD, 14));
-        labelNome.setBounds(60, 80, 120, 25);
+        labelNome.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelNome.setForeground(new Color(70, 85, 105));
+        labelNome.setBounds(35, 70, 110, 36);
         contentPane.add(labelNome);
 
         fieldNome = new JTextField();
-        fieldNome.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldNome.setBounds(190, 80, 280, 25);
+        fieldNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldNome.setBounds(150, 70, 330, 36);
         contentPane.add(fieldNome);
 
-        // Descrizione
         labelDescrizione = new JLabel("Descrizione:");
-        labelDescrizione.setFont(new Font("Arial", Font.BOLD, 14));
-        labelDescrizione.setBounds(60, 125, 120, 25);
+        labelDescrizione.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelDescrizione.setForeground(new Color(70, 85, 105));
+        labelDescrizione.setBounds(35, 118, 110, 36);
         contentPane.add(labelDescrizione);
 
         fieldDescrizione = new JTextField();
-        fieldDescrizione.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldDescrizione.setBounds(190, 125, 280, 25);
+        fieldDescrizione.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldDescrizione.setBounds(150, 118, 330, 36);
         contentPane.add(fieldDescrizione);
 
-        // Importo
-        labelImporto = new JLabel("Importo:");
-        labelImporto.setFont(new Font("Arial", Font.BOLD, 14));
-        labelImporto.setBounds(60, 170, 120, 25);
+        labelImporto = new JLabel("Importo (€):");
+        labelImporto.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelImporto.setForeground(new Color(70, 85, 105));
+        labelImporto.setBounds(35, 166, 110, 36);
         contentPane.add(labelImporto);
 
         fieldImporto = new JTextField();
-        fieldImporto.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldImporto.setBounds(190, 170, 280, 25);
+        fieldImporto.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldImporto.setBounds(150, 166, 330, 36);
         contentPane.add(fieldImporto);
 
-        // Data
         labelData = new JLabel("Data spesa:");
-        labelData.setFont(new Font("Arial", Font.BOLD, 14));
-        labelData.setBounds(60, 215, 120, 25);
+        labelData.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelData.setForeground(new Color(70, 85, 105));
+        labelData.setBounds(35, 214, 110, 36);
         contentPane.add(labelData);
 
-        fieldData = new JTextField();
-        fieldData.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldData.setBounds(190, 215, 280, 25);
+        fieldData = new JCalendarComboBox();
+        fieldData.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldData.setBounds(150, 214, 330, 36);
         contentPane.add(fieldData);
 
-        // Tipo spesa
         labelTipo = new JLabel("Tipo spesa:");
-        labelTipo.setFont(new Font("Arial", Font.BOLD, 14));
-        labelTipo.setBounds(60, 260, 120, 25);
+        labelTipo.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelTipo.setForeground(new Color(70, 85, 105));
+        labelTipo.setBounds(35, 262, 110, 36);
         contentPane.add(labelTipo);
 
         String[] tipiSpesa = {"COMUNE", "PERSONALE"};
         comboTipo = new JComboBox<>(tipiSpesa);
-        comboTipo.setFont(new Font("Arial", Font.PLAIN, 14));
-        comboTipo.setBounds(190, 260, 280, 25);
+        comboTipo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        comboTipo.setBounds(150, 262, 330, 36);
         contentPane.add(comboTipo);
 
-        // Pagata da
         labelPagataDa = new JLabel("Pagata da:");
-        labelPagataDa.setFont(new Font("Arial", Font.BOLD, 14));
-        labelPagataDa.setBounds(60, 305, 120, 25);
+        labelPagataDa.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelPagataDa.setForeground(new Color(70, 85, 105));
+        labelPagataDa.setBounds(35, 310, 110, 36);
         contentPane.add(labelPagataDa);
 
         fieldPagataDa = new JTextField();
-        fieldPagataDa.setFont(new Font("Arial", Font.PLAIN, 14));
-        fieldPagataDa.setBounds(190, 305, 280, 25);
+        fieldPagataDa.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldPagataDa.setBounds(150, 310, 330, 36);
         contentPane.add(fieldPagataDa);
 
-        // Pulsanti
         registraSpesa = new JButton("REGISTRA SPESA");
-        registraSpesa.setFont(new Font("Arial", Font.BOLD, 13));
-        registraSpesa.setBounds(60, 380, 190, 35);
+        registraSpesa.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        registraSpesa.setBackground(new Color(60, 120, 216));
+        registraSpesa.setForeground(Color.WHITE);
+        registraSpesa.setFocusPainted(false);
+        registraSpesa.setBounds(35, 370, 215, 40);
         contentPane.add(registraSpesa);
 
         tornaGruppo = new JButton("TORNA AL GRUPPO");
-        tornaGruppo.setFont(new Font("Arial", Font.BOLD, 13));
-        tornaGruppo.setBounds(280, 380, 190, 35);
+        tornaGruppo.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tornaGruppo.setBackground(new Color(110, 120, 135));
+        tornaGruppo.setForeground(Color.WHITE);
+        tornaGruppo.setFocusPainted(false);
+        tornaGruppo.setBounds(265, 370, 215, 40);
         contentPane.add(tornaGruppo);
 
         messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 13));
-        messaggio.setBounds(60, 440, 410, 25);
+        messaggio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        messaggio.setBounds(35, 425, 445, 25);
         contentPane.add(messaggio);
 
-        registraSpesa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nome = fieldNome.getText();
-                String descrizione = fieldDescrizione.getText();
-                String importo = fieldImporto.getText();
-                String data = fieldData.getText();
-                String tipo = comboTipo.getSelectedItem().toString();
-                String pagataDa = fieldPagataDa.getText();
+        registraSpesa.addActionListener(e -> {
+            String nome = fieldNome.getText().trim();
+            String descrizione = fieldDescrizione.getText().trim();
+            String importo = fieldImporto.getText().trim();
+            String tipo = comboTipo.getSelectedItem().toString();
+            String pagataDa = fieldPagataDa.getText().trim();
 
-                if (nome.isEmpty() || importo.isEmpty() || data.isEmpty() || pagataDa.isEmpty()) {
-                    messaggio.setText("Compila nome, importo, data e pagante");
-                } else {
-                    controller.btn_inserisciSpesa_registraSpesa(nome, descrizione, importo, "EUR", data, tipo);
-                }
+            if (nome.isEmpty() || importo.isEmpty() || pagataDa.isEmpty() || fieldData.getDate() == null) {
+                messaggio.setText("Compila nome, importo, data e pagante");
+            } else {
+                LocalDate data = fieldData.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                controller.btn_inserisciSpesa_registraSpesa(nome, descrizione, importo, "EUR", data, tipo);
             }
         });
 
-        tornaGruppo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_inserisciSpesa_tornaGruppo();
-            }
-        });
+        tornaGruppo.addActionListener(e -> controller.btn_inserisciSpesa_tornaGruppo());
     }
 }

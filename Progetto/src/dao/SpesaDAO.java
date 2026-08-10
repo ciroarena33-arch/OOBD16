@@ -10,6 +10,7 @@ public interface SpesaDAO {
 	public void nuovaSpesa(Spesa s);
 	public void aggiornaSpesa(Spesa s);
 	public Spesa cercaSpesaById(int id);
-	public ArrayList<Spesa> cercaSpesaByGruppo(Gruppo g, Utente u);
+	public ArrayList<Spesa> cercaSpeseComuni(Gruppo g);
+	public ArrayList<Spesa> cercaSpesePersonali(Gruppo g, Utente u);
 	public void eliminaSpesa(Spesa s);
 }

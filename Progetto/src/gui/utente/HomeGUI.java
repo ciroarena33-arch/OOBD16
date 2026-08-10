@@ -1,62 +1,79 @@
 package gui.utente;
 
 import javax.swing.*;
-
-import control.UtenteController;
-
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import gui.movimento.ReportGeneraleGUI;
-import control.NotificaController;
+import control.UtenteController;
 
 public class HomeGUI extends JFrame {
 
     private UtenteController controller;
 
     public HomeGUI(UtenteController controller) {
-        super("Home");
+        super();
+        setTitle("Home");
         this.controller = controller;
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(245, 245, 250));
 
         JLabel logo = new JLabel("UninaMoneySplit", SwingConstants.CENTER);
-        logo.setFont(new Font("Arial", Font.BOLD, 50));
-        logo.setBounds(250, 45, 500, 70);
+        logo.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        logo.setForeground(new Color(30, 41, 59));
+        logo.setBounds(100, 40, 580, 45);
 
-        JLabel benvenuto = new JLabel("Benvenuto, "+controller.getUtente().getNome(), SwingConstants.CENTER);
-        benvenuto.setFont(new Font("Arial", Font.BOLD, 22));
-        benvenuto.setBounds(250, 130, 500, 35);
+        JLabel benvenuto = new JLabel("Benvenuto, " + controller.getUtente().getNome(), SwingConstants.CENTER);
+        benvenuto.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        benvenuto.setForeground(new Color(70, 85, 105));
+        benvenuto.setBounds(100, 100, 580, 32);
 
         JLabel descrizione = new JLabel("Gestisci le spese di gruppo in modo semplice e trasparente", SwingConstants.CENTER);
-        descrizione.setFont(new Font("Arial", Font.BOLD, 14));
-        descrizione.setBounds(200, 175, 600, 30);
+        descrizione.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        descrizione.setForeground(new Color(100, 116, 139));
+        descrizione.setBounds(60, 140, 660, 28);
 
         JButton mieiGruppi = new JButton("I MIEI GRUPPI");
-        mieiGruppi.setFont(new Font("Arial", Font.BOLD, 16));
-        mieiGruppi.setBounds(315, 355, 400, 40);
+        mieiGruppi.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        mieiGruppi.setBackground(new Color(60, 120, 216));
+        mieiGruppi.setForeground(Color.WHITE);
+        mieiGruppi.setFocusPainted(false);
 
         JButton reportGenerale = new JButton("REPORT GENERALE");
-        reportGenerale.setFont(new Font("Arial", Font.BOLD, 16));
-        reportGenerale.setBounds(315, 300, 400, 40);
+        reportGenerale.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        reportGenerale.setBackground(new Color(60, 120, 216));
+        reportGenerale.setForeground(Color.WHITE);
+        reportGenerale.setFocusPainted(false);
 
         JButton datiUtente = new JButton("VISUALIZZA DATI UTENTE");
-        datiUtente.setFont(new Font("Arial", Font.BOLD, 16));
-        datiUtente.setBounds(315, 245, 400, 40);
+        datiUtente.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        datiUtente.setBackground(new Color(60, 120, 216));
+        datiUtente.setForeground(Color.WHITE);
+        datiUtente.setFocusPainted(false);
 
         JButton visualizzaNotifiche = new JButton("CENTRO NOTIFICHE");
-        visualizzaNotifiche.setFont(new Font("Arial", Font.BOLD, 16));
-        visualizzaNotifiche.setBounds(315, 410, 400, 40);
+        visualizzaNotifiche.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        visualizzaNotifiche.setBackground(new Color(60, 120, 216));
+        visualizzaNotifiche.setForeground(Color.WHITE);
+        visualizzaNotifiche.setFocusPainted(false);
+
+        mieiGruppi.setBounds(60, 210, 290, 60);
+        reportGenerale.setBounds(380, 210, 290, 60);
+        datiUtente.setBounds(60, 300, 290, 60);
+        visualizzaNotifiche.setBounds(380, 300, 290, 60);
 
         JButton esci = new JButton("ESCI");
-        esci.setFont(new Font("Arial", Font.BOLD, 16));
-        esci.setBounds(315, 465, 400, 40);
+        esci.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        esci.setBackground(new Color(210, 60, 60));
+        esci.setForeground(Color.WHITE);
+        esci.setFocusPainted(false);
+        esci.setBounds(570, 20, 100, 38);
 
         JLabel messaggio = new JLabel("Seleziona un'operazione", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
-        messaggio.setBounds(250, 530, 500, 35);
+        messaggio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        messaggio.setForeground(new Color(100, 116, 139));
+        messaggio.setBounds(100, 385, 580, 30);
 
         panel.add(logo);
         panel.add(benvenuto);
@@ -68,43 +85,15 @@ public class HomeGUI extends JFrame {
         panel.add(esci);
         panel.add(messaggio);
 
-        mieiGruppi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_home_mieiGruppi();
-            }
-        });
-
-        reportGenerale.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_home_reportGenerale();
-            }
-        });
-
-        datiUtente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_home_datiUtente();
-            }
-        });
-
-        visualizzaNotifiche.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_home_visualizzaNotifiche();
-            }
-        });
-
-        esci.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_home_esci();
-            }
-        });
+        mieiGruppi.addActionListener(e -> controller.btn_home_mieiGruppi());
+        reportGenerale.addActionListener(e -> controller.btn_home_reportGenerale());
+        datiUtente.addActionListener(e -> controller.btn_home_datiUtente());
+        visualizzaNotifiche.addActionListener(e -> controller.btn_home_visualizzaNotifiche());
+        esci.addActionListener(e -> controller.btn_home_esci());
 
         setContentPane(panel);
-        setSize(1000, 700);
+        setSize(730, 450);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

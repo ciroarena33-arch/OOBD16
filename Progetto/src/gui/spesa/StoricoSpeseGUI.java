@@ -1,10 +1,9 @@
 package gui.spesa;
 
 import javax.swing.*;
-import gui.gruppo.DettagliGruppoGUI;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import control.SpesaController;
 
 public class StoricoSpeseGUI extends JFrame {
@@ -17,75 +16,65 @@ public class StoricoSpeseGUI extends JFrame {
     private JTable tabellaSpese;
     private JScrollPane scrollPane;
     private JButton tornaGruppo;
+    private DefaultTableModel tableModel;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    StoricoSpeseGUI frame = new StoricoSpeseGUI(null);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
     public StoricoSpeseGUI(SpesaController controller) {
+        super();
+        setTitle("Storico Spese");
         this.controller = controller;
 
-        setTitle("Storico spese");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(650, 500);
+        setSize(780, 540);
         setLocationRelativeTo(null);
 
         contentPane = new JPanel();
+        contentPane.setBackground(new Color(245, 245, 250));
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        titolo = new JLabel("Storico spese", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 26));
-        titolo.setBounds(150, 30, 350, 35);
+        titolo = new JLabel("Storico Spese del Gruppo", SwingConstants.CENTER);
+        titolo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titolo.setForeground(new Color(30, 41, 59));
+        titolo.setBounds(0, 20, 780, 36);
         contentPane.add(titolo);
 
         String[] colonne = {
-                "Nome spesa",
+                "Nome",
                 "Data",
                 "Importo",
                 "Valuta",
+                "Tipo Spesa",
                 "Pagata da"
         };
 
-        String[][] dati = {
-                {"Cena", "10/06/2026", "45.00", "Euro", "Davide"},
-                {"Taxi", "11/06/2026", "20.00", "Dollaro Americano", "Marco"},
-                {"Libro", "12/06/2026", "18.00", "Sterlina", "Luca"}
-        };
+        tableModel = new DefaultTableModel(colonne, 0);
+        tabellaSpese = new JTable(tableModel);
+        tabellaSpese.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tabellaSpese.setRowHeight(28);
 
-        tabellaSpese = new JTable(dati, colonne);
-        tabellaSpese.setFont(new Font("Arial", Font.PLAIN, 13));
-        tabellaSpese.setRowHeight(24);
+        JTableHeader header = tabellaSpese.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        header.setBackground(new Color(60, 120, 216));
+        header.setForeground(Color.WHITE);
+
         scrollPane = new JScrollPane(tabellaSpese);
-        scrollPane.setBounds(50, 80, 550, 260);
+        scrollPane.setBounds(40, 75, 700, 350);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(203, 213, 225)));
         contentPane.add(scrollPane);
 
         tornaGruppo = new JButton("TORNA AL GRUPPO");
-        tornaGruppo.setFont(new Font("Arial", Font.BOLD, 14));
-        tornaGruppo.setBounds(225, 370, 200, 35);
+        tornaGruppo.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tornaGruppo.setBackground(new Color(110, 120, 135));
+        tornaGruppo.setForeground(Color.WHITE);
+        tornaGruppo.setFocusPainted(false);
+        tornaGruppo.setBounds(265, 440, 250, 40);
         contentPane.add(tornaGruppo);
 
-        tornaGruppo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_storicoSpese_tornaGruppo();
-            }
-        });
+        tornaGruppo.addActionListener(e -> controller.btn_storicoSpese_tornaGruppo());
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }

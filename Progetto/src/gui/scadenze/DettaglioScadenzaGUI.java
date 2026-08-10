@@ -1,120 +1,131 @@
 package gui.scadenze;
 
-import java.awt.EventQueue; 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import java.awt.Color;
 import java.awt.Font;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-
 import control.ScadenzeController;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class DettaglioScadenzaGUI extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private ScadenzeController controller;
-	private JPanel contentPane;
-	private JTextField textField;
-	private JCalendarComboBox textField_1;
-	private JTextField textField_2;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_1_1;
-	private JButton btnNewButton;
-	private JButton btnCancella;
-	private JButton btnIndietro;
-	private JLabel lblNewLabel_2;
+    private static final long serialVersionUID = 1L;
+    private ScadenzeController controller;
 
-	
+    private JPanel contentPane;
+    private JTextField fieldNome;
+    private JCalendarComboBox fieldDataScadenza;
+    private JTextField fieldImporto;
+    private JLabel lblNome;
+    private JLabel lblDataScadenza;
+    private JLabel lblImporto;
+    private JLabel lblTitolo;
+    private JButton btnSalva;
+    private JButton btnCancella;
+    private JButton btnIndietro;
 
-	public DettaglioScadenzaGUI(ScadenzeController controller, String nome, LocalDate data, String importo) {
-		this(controller);
-		textField.setText(nome);
-		textField_1.setDate(Date.valueOf(data));
-		textField_2.setText(importo);
-	}
+    public DettaglioScadenzaGUI(ScadenzeController controller, String nome, LocalDate data, String importo) {
+        this(controller);
+        fieldNome.setText(nome);
+        fieldDataScadenza.setDate(Date.valueOf(data));
+        fieldImporto.setText(importo);
+    }
 
-	public DettaglioScadenzaGUI(ScadenzeController controller) {
-		this.controller = controller;
+    public DettaglioScadenzaGUI(ScadenzeController controller) {
+        this.controller = controller;
 
-		setTitle("Dettaglio Scadenza");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setSize(430, 290);
-		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		lblNewLabel = new JLabel("Nome");
-		lblNewLabel.setBounds(83, 72, 46, 14);
-		contentPane.add(lblNewLabel);
-		
-		lblNewLabel_1 = new JLabel("Data di Scadenza");
-		lblNewLabel_1.setBounds(83, 121, 100, 14);
-		contentPane.add(lblNewLabel_1);
-		
-		lblNewLabel_1_1 = new JLabel("Importo");
-		lblNewLabel_1_1.setBounds(83, 172, 100, 14);
-		contentPane.add(lblNewLabel_1_1);
-		
-		textField = new JTextField(controller.getScadenza().getNome());
-		textField.setBounds(204, 69, 120, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JCalendarComboBox();
-		textField_1.setDate(Date.valueOf(controller.getScadenza().getDataScadenza()));
-		textField_1.setBounds(204, 118, 120, 20);
-		contentPane.add(textField_1);
-		
-		textField_2 = new JTextField(String.valueOf(controller.getScadenza().getImporto()));
-		textField_2.setBounds(204, 169, 120, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		btnNewButton = new JButton("Salva");
-		btnNewButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				controller.btn_dettaglioScadenza_salva(textField.getText(), textField_1.getDate().toInstant()
-                        .atZone(ZoneId.systemDefault()).toLocalDate(),
-						textField_2.getText());
-			}
-		});
-		btnNewButton.setBounds(60, 214, 89, 23);
-		contentPane.add(btnNewButton);
-		
-		btnCancella = new JButton("Cancella");
-		btnCancella.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				controller.btn_dettaglioScadenza_cancella();
-			}
-		});
-		btnCancella.setBounds(160, 214, 89, 23);
-		contentPane.add(btnCancella);
-		
-		btnIndietro = new JButton("Indietro");
-		btnIndietro.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				controller.btn_dettaglioScadenza_indietro();
-			}
-		});
-		btnIndietro.setBounds(259, 214, 89, 23);
-		contentPane.add(btnIndietro);
-		
-		lblNewLabel_2 = new JLabel("Dettaglio scadenza");
-		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 22));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(83, 15, 239, 35);
-		contentPane.add(lblNewLabel_2);
+        setTitle("Dettaglio Scadenza");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(480, 360);
+        setLocationRelativeTo(null);
 
-	}
+        contentPane = new JPanel();
+        contentPane.setLayout(null);
+        contentPane.setBackground(new Color(245, 245, 250));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+
+        lblTitolo = new JLabel("Dettaglio Scadenza", SwingConstants.CENTER);
+        lblTitolo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblTitolo.setForeground(new Color(30, 41, 59));
+        lblTitolo.setBounds(0, 20, 480, 36);
+        contentPane.add(lblTitolo);
+
+        lblNome = new JLabel("Nome");
+        lblNome.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblNome.setForeground(new Color(70, 85, 105));
+        lblNome.setBounds(60, 80, 110, 30);
+        contentPane.add(lblNome);
+
+        lblDataScadenza = new JLabel("Data di Scadenza");
+        lblDataScadenza.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblDataScadenza.setForeground(new Color(70, 85, 105));
+        lblDataScadenza.setBounds(60, 130, 130, 30);
+        contentPane.add(lblDataScadenza);
+
+        lblImporto = new JLabel("Importo");
+        lblImporto.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblImporto.setForeground(new Color(70, 85, 105));
+        lblImporto.setBounds(60, 180, 110, 30);
+        contentPane.add(lblImporto);
+
+        String nomeIniziale = (controller.getScadenza() != null) ? controller.getScadenza().getNome() : "";
+        fieldNome = new JTextField(nomeIniziale);
+        fieldNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldNome.setBounds(200, 80, 220, 32);
+        fieldNome.setColumns(10);
+        contentPane.add(fieldNome);
+
+        fieldDataScadenza = new JCalendarComboBox();
+        if (controller.getScadenza() != null) {
+            fieldDataScadenza.setDate(Date.valueOf(controller.getScadenza().getDataScadenza()));
+        }
+        fieldDataScadenza.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldDataScadenza.setBounds(200, 130, 220, 32);
+        contentPane.add(fieldDataScadenza);
+
+        String importoIniziale = (controller.getScadenza() != null) ? String.valueOf(controller.getScadenza().getImporto()) : "";
+        fieldImporto = new JTextField(importoIniziale);
+        fieldImporto.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldImporto.setBounds(200, 180, 220, 32);
+        fieldImporto.setColumns(10);
+        contentPane.add(fieldImporto);
+
+        btnSalva = new JButton("Salva");
+        btnSalva.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnSalva.setBackground(new Color(60, 120, 216));
+        btnSalva.setForeground(Color.WHITE);
+        btnSalva.setFocusPainted(false);
+        btnSalva.setBounds(50, 260, 110, 38);
+        btnSalva.addActionListener(e ->
+            controller.btn_dettaglioScadenza_salva(
+                fieldNome.getText(),
+                fieldDataScadenza.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                fieldImporto.getText()
+            )
+        );
+        contentPane.add(btnSalva);
+
+        btnCancella = new JButton("Cancella");
+        btnCancella.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnCancella.setBackground(new Color(210, 60, 60));
+        btnCancella.setForeground(Color.WHITE);
+        btnCancella.setFocusPainted(false);
+        btnCancella.setBounds(185, 260, 110, 38);
+        btnCancella.addActionListener(e -> controller.btn_dettaglioScadenza_cancella());
+        contentPane.add(btnCancella);
+
+        btnIndietro = new JButton("Indietro");
+        btnIndietro.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnIndietro.setBackground(new Color(110, 120, 135));
+        btnIndietro.setForeground(Color.WHITE);
+        btnIndietro.setFocusPainted(false);
+        btnIndietro.setBounds(320, 260, 110, 38);
+        btnIndietro.addActionListener(e -> controller.btn_dettaglioScadenza_indietro());
+        contentPane.add(btnIndietro);
+    }
 }

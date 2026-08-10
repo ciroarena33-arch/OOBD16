@@ -1,6 +1,6 @@
 package jdbc;
 
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,10 +22,18 @@ public class JDBCGruppoDAO implements GruppoDAO{
 	private JDBCUtenteDAO utenteDAO;
 	private JDBCIndirizzoDAO indirizzoDAO;
 	
-	public JDBCGruppoDAO(JDBCUtenteDAO utenteDAO) {
+	private JDBCGruppoDAO() {
 		this.conn=DBConnection.getDBConnection().getConnection();
-		this.utenteDAO=utenteDAO;
-		this.indirizzoDAO=new JDBCIndirizzoDAO();
+		this.utenteDAO=JDBCUtenteDAO.getSelf();
+		this.indirizzoDAO=JDBCIndirizzoDAO.getSelf();
+	}
+	
+	private static JDBCGruppoDAO self;
+	public static synchronized JDBCGruppoDAO getSelf() {
+		if(self==null) {
+			self=new JDBCGruppoDAO();
+		}
+		return self;
 	}
 	@Override
 	public void inserisciGruppo(Gruppo g) {

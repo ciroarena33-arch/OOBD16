@@ -14,123 +14,155 @@ import model.Utente;
 
 public class JDBCSpesaDAO implements SpesaDAO {
 
-private Connection conn;
-private JDBCUtenteDAO utenteDAO=new JDBCUtenteDAO();
-private JDBCGruppoDAO gruppoDAO=new JDBCGruppoDAO(utenteDAO);
-private JDBCValutaDAO valutaDAO=new JDBCValutaDAO();
-	
-	public JDBCSpesaDAO() {
-		this.conn=DBConnection.getDBConnection().getConnection();
-	}
-	@Override
-	public void nuovaSpesa(Spesa s) {
-		String sql="INSERT INTO SPESA(nomespesa,descrizione,data,importo,iscomune,idgruppo,emailutente,valuta) VALUES (?,?,?,?,?,?,?,?)";
-		try(PreparedStatement ps=conn.prepareStatement(sql)){
-			ps.setString(1, s.getNomeSpesa());
-			ps.setString(2, s.getDescrizione());
-			ps.setDate(3, Date.valueOf(s.getData()));
-			ps.setDouble(4, s.getImporto());
-			if(s.isComune()==true) {
-				ps.setInt(5, 1);
-			}
-			else if(s.isComune()==false) {
-				ps.setInt(5, 0);
-			}
-			ps.setInt(6, s.getGruppo().getId());
-			ps.setString(7, s.getUtenteEffettuante().getEmailIstituzionale());
-			ps.setString(8, s.getValuta().getNome());
-			int righeInserite = ps.executeUpdate();
-		    if (righeInserite > 0) {
-		        try (ResultSet rs = ps.getGeneratedKeys()) {
-		            if (rs.next()) {
-		                int idGenerato = rs.getInt(1); 
-		                s.setId(idGenerato);      
-		            }
-		        }
-		    }
-		}
-		catch(SQLException e) {
-			throw new RuntimeException("Errore nell'inserimento della spesa: "+e.getMessage());
-		}
-		
-	}
+    private Connection conn;
+    private JDBCUtenteDAO utenteDAO;
+    private JDBCGruppoDAO gruppoDAO;
+    private JDBCValutaDAO valutaDAO;
 
-	@Override
-	public void aggiornaSpesa(Spesa s) {
-		// TODO Auto-generated method stub
+    private JDBCSpesaDAO() {
+        this.conn = DBConnection.getDBConnection().getConnection();
+        this.utenteDAO = JDBCUtenteDAO.getSelf();
+        this.gruppoDAO = JDBCGruppoDAO.getSelf();
+        this.valutaDAO = JDBCValutaDAO.getSelf();
+    }
 
-	}
+    private static JDBCSpesaDAO self = null;
 
-	@Override
-	public Spesa cercaSpesaById(int id) {
-		String sql="SELECT * FROM SPESA WHERE idspesa=?";
-		try(PreparedStatement ps=conn.prepareStatement(sql)){
-			ps.setInt(1, id);
-			ResultSet rs=ps.executeQuery();
-			if(rs.next()) {
-				if(rs.getInt("iscomune")==1) {
-					return new Spesa(rs.getInt("id"), rs.getString("nomespesa"), rs.getString("Descrizione"), 
-							rs.getDate("data").toLocalDate(),rs.getDouble("importo"),true,
-							valutaDAO.cercaValuta(rs.getString("valuta")),gruppoDAO.cercaGruppoById(rs.getInt("idgruppo")), 
-							utenteDAO.cercaUtentePerEmail(rs.getString("emailutente"))
-							);
-				}
-				else {
-					return new Spesa(rs.getInt("id"), rs.getString("nomespesa"), rs.getString("Descrizione"), 
-							rs.getDate("data").toLocalDate(),rs.getDouble("importo"),false,
-							valutaDAO.cercaValuta(rs.getString("valuta")),gruppoDAO.cercaGruppoById(rs.getInt("idgruppo")), 
-							utenteDAO.cercaUtentePerEmail(rs.getString("emailutente"))
-							);
-				}		
-			}
-			return null;
-		}
-		catch(SQLException e) {
-			throw new RuntimeException("Nessuna spesa trovata");
-		}
-	}
+    public static synchronized JDBCSpesaDAO getSelf() {
+        if (self == null) {
+            self = new JDBCSpesaDAO();
+        }
+        return self;
+    }
 
-	@Override
-	public ArrayList<Spesa> cercaSpesaByGruppo(Gruppo g, Utente u) {
-		String sql="SELECT * FROM Spesa WHERE IdGruppo=? AND (EmailUtente=? OR isComune=1)";
-		ArrayList<Spesa> spese= new ArrayList<Spesa>();
-		try(PreparedStatement ps=conn.prepareStatement(sql)){
-			ps.setInt(1, g.getId());
-			ps.setString(2, u.getEmailIstituzionale());
-			ResultSet rs=ps.executeQuery();
-			while(rs.next()) {
-				Spesa s;
-				if(rs.getInt("iscomune")==1) {
-					 s=new Spesa(rs.getInt("id"), rs.getString("nomespesa"), rs.getString("Descrizione"), 
-							rs.getDate("data").toLocalDate(),rs.getDouble("importo"),true,
-							valutaDAO.cercaValuta(rs.getString("valuta")),g, u);
-				}
-				else {
-					 s=new Spesa(rs.getInt("id"), rs.getString("nomespesa"), rs.getString("Descrizione"), 
-							rs.getDate("data").toLocalDate(),rs.getDouble("importo"),false,
-							valutaDAO.cercaValuta(rs.getString("valuta")),g, u);
-				}
-				spese.add(s);
-			}
-			return spese;
-		}
-		catch(SQLException e) {
-			throw new RuntimeException("Nessuna spesa trovata per il gruppo "+g.getNome());
-		}
-	}
+    @Override
+    public void nuovaSpesa(Spesa s) {
+        String sql = "INSERT INTO SPESA(nomespesa,descrizione,data,importo,iscomune,idgruppo,emailutente,valuta) VALUES (?,?,?,?,?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, s.getNomeSpesa());
+            ps.setString(2, s.getDescrizione());
+            ps.setDate(3, Date.valueOf(s.getData()));
+            ps.setDouble(4, s.getImporto());
+            ps.setInt(5, s.isComune() ? 1 : 0);
+            ps.setInt(6, s.getGruppo().getId());
+            ps.setString(7, s.getUtenteEffettuante().getEmailIstituzionale());
+            ps.setString(8, s.getValuta().getNome());
+            int righeInserite = ps.executeUpdate();
+            if (righeInserite > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int idGenerato = rs.getInt(1);
+                        s.setId(idGenerato);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nell'inserimento della spesa: " + e.getMessage());
+        }
+    }
 
-	@Override
-	public void eliminaSpesa(Spesa s) {
-			String sql="DELETE * FROM SPESA WHERE idspesa=?";
-			try(PreparedStatement ps=conn.prepareStatement(sql)){
-				ps.setInt(1, s.getId());
-				ps.executeQuery();
-			}
-			catch(SQLException e) {
-				throw new RuntimeException("Nessuna spesa trovata");
-			}
+    @Override
+    public void aggiornaSpesa(Spesa s) {
+    }
 
+    @Override
+    public Spesa cercaSpesaById(int id) {
+        String sql = "SELECT * FROM SPESA WHERE idspesa=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                boolean isComune = rs.getInt("iscomune") == 1;
+                return new Spesa(
+                        rs.getInt("idspesa"),
+                        rs.getString("nomespesa"),
+                        rs.getString("Descrizione"),
+                        rs.getDate("data").toLocalDate(),
+                        rs.getDouble("importo"),
+                        isComune,
+                        valutaDAO.cercaValuta(rs.getString("valuta")),
+                        gruppoDAO.cercaGruppoById(rs.getInt("idgruppo")),
+                        utenteDAO.cercaUtentePerEmail(rs.getString("emailutente"))
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella ricerca della spesa, " + e.getMessage());
+        }
+    }
 
-	}
+    @Override
+    public ArrayList<Spesa> cercaSpeseComuni(Gruppo g) {
+        String sql = "SELECT * FROM Spesa WHERE IdGruppo=? AND isComune=?";
+        ArrayList<Spesa> spese = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, g.getId());
+            ps.setInt(2, 1);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Spesa s = new Spesa(
+                        rs.getInt("idspesa"),
+                        rs.getString("nomespesa"),
+                        rs.getString("Descrizione"),
+                        rs.getDate("data").toLocalDate(),
+                        rs.getDouble("importo"),
+                        true,
+                        valutaDAO.cercaValuta(rs.getString("valuta")),
+                        g,
+                        utenteDAO.cercaUtentePerEmail(rs.getString("emailUtente"))
+                );
+                spese.add(s);
+            }
+            return spese;
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella ricerca delle spese comuni del gruppo, " + e.getMessage());
+        }
+    }
 
+    @Override
+    public ArrayList<Spesa> cercaSpesePersonali(Gruppo g, Utente u) {
+        String sql = "SELECT * FROM Spesa WHERE IdGruppo=? AND EmailUtente=? AND isComune=?";
+        ArrayList<Spesa> spese = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, g.getId());
+            ps.setString(2, u.getEmailIstituzionale());
+            ps.setInt(3, 0);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Spesa s = new Spesa(
+                        rs.getInt("idspesa"),
+                        rs.getString("nomespesa"),
+                        rs.getString("Descrizione"),
+                        rs.getDate("data").toLocalDate(),
+                        rs.getDouble("importo"),
+                        false,
+                        valutaDAO.cercaValuta(rs.getString("valuta")),
+                        g,
+                        u
+                );
+                spese.add(s);
+            }
+            return spese;
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella ricerca delle spese personali dell'utente");
+        }
+    }
+
+    @Override
+    public void eliminaSpesa(Spesa s) {
+        String sql = "DELETE FROM SPESA WHERE idspesa=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, s.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Nessuna spesa trovata per la cancellazione");
+        }
+    }
+
+    public ArrayList<Spesa> cercaSpesaByGruppo(Gruppo gruppoSelezionato, Utente utenteLoggato) {
+        ArrayList<Spesa> lista = cercaSpesePersonali(gruppoSelezionato, utenteLoggato);
+        ArrayList<Spesa> listaComuni = cercaSpeseComuni(gruppoSelezionato);
+        lista.addAll(listaComuni);
+        return lista;
+    }
 }

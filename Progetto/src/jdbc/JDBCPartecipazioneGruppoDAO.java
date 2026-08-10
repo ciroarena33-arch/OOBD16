@@ -17,14 +17,22 @@ import dao.PartecipazioneGruppoDAO;
 
 public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 
+	public Connection conn;
 	private JDBCGruppoDAO gruppoDAO;
 	private JDBCUtenteDAO utenteDAO;
-	public Connection conn;
 	
-	public JDBCPartecipazioneGruppoDAO(JDBCGruppoDAO gruppoDAO, JDBCUtenteDAO utenteDAO) {
+	private JDBCPartecipazioneGruppoDAO() {
 		this.conn = DBConnection.getDBConnection().getConnection();
-		this.gruppoDAO=gruppoDAO;
-		this.utenteDAO=utenteDAO;
+		this.gruppoDAO=JDBCGruppoDAO.getSelf();
+		this.utenteDAO=JDBCUtenteDAO.getSelf();
+	}
+	
+	private static JDBCPartecipazioneGruppoDAO self=null;
+	public static synchronized JDBCPartecipazioneGruppoDAO getSelf() {
+		if(self==null) {
+			self=new JDBCPartecipazioneGruppoDAO();
+		}
+		return self;
 	}
 	
 	@Override

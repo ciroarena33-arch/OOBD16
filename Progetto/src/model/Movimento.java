@@ -4,11 +4,15 @@ import java.util.Objects;
 
 public abstract class Movimento {
 	private int id;
+	private double importo;
 	
-	public Movimento() {};
+	public Movimento(double importo) {
+		this.importo=importo;
+	};
 	
-	public Movimento(int id) {
+	public Movimento(int id, double importo) {
 		this.id=id;
+		this.importo=importo;
 	};
 	
 	public void setId(int id) {
@@ -17,6 +21,10 @@ public abstract class Movimento {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public double getImporto() {
+		return importo;
 	}
 
 	@Override

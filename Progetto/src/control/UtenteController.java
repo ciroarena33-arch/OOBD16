@@ -20,7 +20,8 @@ public class UtenteController {
 	private JDBCUtenteDAO utenteDAO;
 	
 	public UtenteController() {
-		utenteDAO=new JDBCUtenteDAO();
+		utenteDAO=JDBCUtenteDAO.getSelf();
+		
 		loginGUI=new LoginGUI(this);
 		registrazioneGUI=new RegistrazioneGUI(this);
 		loginGUI.setVisible(true);
@@ -28,10 +29,6 @@ public class UtenteController {
 	
 	public Utente getUtente() {
 		return utenteLoggato;
-	}
-	
-	public JDBCUtenteDAO getUtenteDAO() {
-		return utenteDAO;
 	}
 	
 	public void tornaHome() {
@@ -139,9 +136,15 @@ public class UtenteController {
 	}
 
 	public void btn_home_reportGenerale() {
-		homeGUI.setVisible(false);
-		MovimentoController movimentoController = new MovimentoController(this);
-		movimentoController.avvia();
+		try {
+			MovimentoController movimentoController = new MovimentoController(this);
+			movimentoController.avvia();
+				homeGUI.setVisible(false);
+
+		}catch(RuntimeException e) {
+    		JOptionPane.showMessageDialog(null, e.getMessage());
+    	}
+		
 	}
 	
 	public void btn_home_esci() {

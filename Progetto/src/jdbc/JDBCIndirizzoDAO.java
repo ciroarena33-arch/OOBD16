@@ -1,6 +1,6 @@
 package jdbc;
 
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +11,17 @@ import model.Indirizzo;
 public class JDBCIndirizzoDAO implements IndirizzoDAO{
 
 	private Connection conn;
-	public JDBCIndirizzoDAO() {
+	
+	private JDBCIndirizzoDAO() {
 		this.conn=DBConnection.getDBConnection().getConnection();
+	}
+	
+	private static JDBCIndirizzoDAO self=null;
+	public static synchronized JDBCIndirizzoDAO getSelf() {
+		if(self==null) {
+			self=new JDBCIndirizzoDAO();
+		}
+		return self;
 	}
 	@Override
 	public void nuovoIndirizzo(Indirizzo i) {

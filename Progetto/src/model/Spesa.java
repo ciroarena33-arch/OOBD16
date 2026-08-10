@@ -15,10 +15,10 @@ public class Spesa extends Movimento{
 	
 	public Spesa(String nomeSpesa, String descrizione, LocalDate data, double importo, boolean isComune, Valuta valuta, Gruppo gruppo,
 			Utente utenteEffettuante) {
+		super(importo);
 		this.nomeSpesa = nomeSpesa;
 		this.descrizione = descrizione;
 		this.data = data;
-		this.importo = importo;
 		this.isComune=isComune;
 		this.valuta = valuta;
 		this.gruppo = gruppo;
@@ -27,11 +27,10 @@ public class Spesa extends Movimento{
 	
 	public Spesa(int id, String nomeSpesa, String descrizione, LocalDate data, double importo, boolean isComune, Valuta valuta, Gruppo gruppo,
 			Utente utenteEffettuante) {
-		super(id);
+		super(id, importo);
 		this.nomeSpesa = nomeSpesa;
 		this.descrizione = descrizione;
 		this.data = data;
-		this.importo = importo;
 		this.isComune=isComune;
 		this.valuta = valuta;
 		this.gruppo = gruppo;
@@ -48,10 +47,6 @@ public class Spesa extends Movimento{
 
 	public LocalDate getData() {
 		return data;
-	}
-
-	public double getImporto() {
-		return importo;
 	}
 
 	public boolean isComune() {
@@ -85,17 +80,11 @@ public class Spesa extends Movimento{
 	public void setValuta(Valuta valuta) {
 		this.valuta=valuta;
 	}
-
-
-
-
-
 	
-	
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return this.nomeSpesa;
+	}
 	
 	
 }

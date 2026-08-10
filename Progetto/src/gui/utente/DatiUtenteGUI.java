@@ -1,107 +1,117 @@
 package gui.utente;
 
 import javax.swing.*;
-
-import control.UtenteController;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import control.UtenteController;
 
 public class DatiUtenteGUI extends JFrame {
 
     private UtenteController controller;
 
     public DatiUtenteGUI(UtenteController controller) {
-        super("Dati utente");
+        super();
+        setTitle("Dati Utente");
         this.controller = controller;
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(245, 245, 250));
+        setContentPane(panel);
 
-        JLabel titolo = new JLabel("Dati utente", SwingConstants.CENTER);
-        titolo.setFont(new Font("Arial", Font.BOLD, 45));
-        titolo.setBounds(250, 45, 500, 70);
-
-        JLabel labelNome = new JLabel("Nome:");
-        labelNome.setFont(new Font("Arial", Font.BOLD, 16));
-        labelNome.setBounds(315, 145, 180, 30);
-
-        JTextField fieldNome = new JTextField(controller.getUtente().getNome());
-        fieldNome.setFont(new Font("Arial", Font.PLAIN, 18));
-        fieldNome.setBounds(455, 145, 260, 35);
-
-        JLabel labelCognome = new JLabel("Cognome:");
-        labelCognome.setFont(new Font("Arial", Font.BOLD, 16));
-        labelCognome.setBounds(315, 200, 180, 30);
-
-        JTextField fieldCognome = new JTextField(controller.getUtente().getCognome());
-        fieldCognome.setFont(new Font("Arial", Font.PLAIN, 18));
-        fieldCognome.setBounds(455, 200, 260, 35);
-
-        JLabel labelPassword = new JLabel("Password:");
-        labelPassword.setFont(new Font("Arial", Font.BOLD, 16));
-        labelPassword.setBounds(315, 255, 180, 30);
-
-        JPasswordField fieldPassword = new JPasswordField(controller.getUtente().getPassword());
-        fieldPassword.setFont(new Font("Arial", Font.PLAIN, 18));
-        fieldPassword.setBounds(455, 255, 260, 35);
-
-        JCheckBox mostraPassword = new JCheckBox("Mostra password");
-        mostraPassword.setFont(new Font("Arial", Font.BOLD, 13));
-        mostraPassword.setBounds(730, 262, 180, 25);
-
-        JLabel labelEmail = new JLabel("Email:");
-        labelEmail.setFont(new Font("Arial", Font.BOLD, 16));
-        labelEmail.setBounds(315, 310, 180, 30);
-
-        JTextField fieldEmail = new JTextField(controller.getUtente().getEmailIstituzionale());
-        fieldEmail.setFont(new Font("Arial", Font.PLAIN, 18));
-        fieldEmail.setBounds(455, 310, 260, 35);
-        fieldEmail.setEditable(false);
-
-        JLabel labelTelefono = new JLabel("Telefono:");
-        labelTelefono.setFont(new Font("Arial", Font.BOLD, 16));
-        labelTelefono.setBounds(315, 365, 180, 30);
-
-        String telefono=controller.getUtente().getTelefono();
-        JTextField fieldTelefono = new JTextField(telefono.isEmpty()?"":telefono);
-        fieldTelefono.setFont(new Font("Arial", Font.PLAIN, 18));
-        fieldTelefono.setBounds(455, 365, 260, 35);
-
-        JButton salvaModifiche = new JButton("SALVA MODIFICHE");
-        salvaModifiche.setFont(new Font("Arial", Font.BOLD, 16));
-        salvaModifiche.setBounds(315, 445, 190, 40);
-
-        JButton tornaHome = new JButton("TORNA HOME");
-        tornaHome.setFont(new Font("Arial", Font.BOLD, 16));
-        tornaHome.setBounds(525, 445, 190, 40);
-
-        JLabel messaggio = new JLabel("", SwingConstants.CENTER);
-        messaggio.setFont(new Font("Arial", Font.BOLD, 15));
-        messaggio.setBounds(250, 510, 500, 35);
-
+        JLabel titolo = new JLabel("Dati Utente", SwingConstants.CENTER);
+        titolo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titolo.setForeground(new Color(30, 41, 59));
+        titolo.setBounds(30, 20, 450, 35);
         panel.add(titolo);
 
+        JLabel labelNome = new JLabel("Nome:");
+        labelNome.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelNome.setForeground(new Color(70, 85, 105));
+        labelNome.setBounds(35, 75, 100, 36);
         panel.add(labelNome);
+
+        JTextField fieldNome = new JTextField(controller.getUtente().getNome());
+        fieldNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldNome.setBounds(140, 75, 340, 36);
         panel.add(fieldNome);
 
+        JLabel labelCognome = new JLabel("Cognome:");
+        labelCognome.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelCognome.setForeground(new Color(70, 85, 105));
+        labelCognome.setBounds(35, 123, 100, 36);
         panel.add(labelCognome);
+
+        JTextField fieldCognome = new JTextField(controller.getUtente().getCognome());
+        fieldCognome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldCognome.setBounds(140, 123, 340, 36);
         panel.add(fieldCognome);
 
+        JLabel labelPassword = new JLabel("Password:");
+        labelPassword.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelPassword.setForeground(new Color(70, 85, 105));
+        labelPassword.setBounds(35, 171, 100, 36);
         panel.add(labelPassword);
+
+        JPasswordField fieldPassword = new JPasswordField(controller.getUtente().getPassword());
+        fieldPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldPassword.setBounds(140, 171, 240, 36);
         panel.add(fieldPassword);
+
+        JCheckBox mostraPassword = new JCheckBox("Mostra");
+        mostraPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        mostraPassword.setOpaque(false);
+        mostraPassword.setBounds(390, 171, 90, 36);
         panel.add(mostraPassword);
 
+        JLabel labelEmail = new JLabel("Email:");
+        labelEmail.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelEmail.setForeground(new Color(70, 85, 105));
+        labelEmail.setBounds(35, 219, 100, 36);
         panel.add(labelEmail);
+
+        JTextField fieldEmail = new JTextField(controller.getUtente().getEmailIstituzionale());
+        fieldEmail.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldEmail.setBounds(140, 219, 340, 36);
+        fieldEmail.setEditable(false);
+        fieldEmail.setBackground(new Color(230, 232, 240));
         panel.add(fieldEmail);
 
+        JLabel labelTelefono = new JLabel("Telefono:");
+        labelTelefono.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        labelTelefono.setForeground(new Color(70, 85, 105));
+        labelTelefono.setBounds(35, 267, 100, 36);
         panel.add(labelTelefono);
+
+        String telefono = controller.getUtente().getTelefono();
+        JTextField fieldTelefono = new JTextField(telefono == null || telefono.isEmpty() ? "" : telefono);
+        fieldTelefono.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        fieldTelefono.setBounds(140, 267, 340, 36);
         panel.add(fieldTelefono);
 
+        JButton salvaModifiche = new JButton("SALVA MODIFICHE");
+        salvaModifiche.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        salvaModifiche.setBackground(new Color(60, 120, 216));
+        salvaModifiche.setForeground(Color.WHITE);
+        salvaModifiche.setFocusPainted(false);
+        salvaModifiche.setBounds(35, 325, 215, 40);
         panel.add(salvaModifiche);
+
+        JButton tornaHome = new JButton("TORNA HOME");
+        tornaHome.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tornaHome.setBackground(new Color(110, 120, 135));
+        tornaHome.setForeground(Color.WHITE);
+        tornaHome.setFocusPainted(false);
+        tornaHome.setBounds(265, 325, 215, 40);
         panel.add(tornaHome);
+
+        JLabel messaggio = new JLabel("", SwingConstants.CENTER);
+        messaggio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        messaggio.setBounds(35, 378, 445, 25);
         panel.add(messaggio);
 
         mostraPassword.addItemListener(e -> {
@@ -112,32 +122,22 @@ public class DatiUtenteGUI extends JFrame {
             }
         });
 
-        salvaModifiche.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nome = fieldNome.getText();
-                String cognome = fieldCognome.getText();
-                String telefono = fieldTelefono.getText();
-                String password = new String(fieldPassword.getPassword());
-
-                if (nome.isEmpty() || cognome.isEmpty() || password.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,"Nome, cognome e password non possono essere vuoti");
-                } else {
-                    controller.btn_datiUtente_salvaModifiche(password, nome, cognome, telefono);
-                }
+        salvaModifiche.addActionListener(e -> {
+            String nome = fieldNome.getText().trim();
+            String cognome = fieldCognome.getText().trim();
+            String tel = fieldTelefono.getText().trim();
+            String pw = new String(fieldPassword.getPassword()).trim();
+            if (nome.isEmpty() || cognome.isEmpty() || pw.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nome, cognome e password non possono essere vuoti");
+            } else {
+                controller.btn_datiUtente_salvaModifiche(pw, nome, cognome, tel);
             }
         });
 
-        tornaHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.btn_datiUtente_tornaHome();
-            }
-        });
+        tornaHome.addActionListener(e -> controller.btn_datiUtente_tornaHome());
 
-        setContentPane(panel);
-        setSize(1000, 700);
+        setSize(520, 440);
+        setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

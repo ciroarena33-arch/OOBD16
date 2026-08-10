@@ -4,22 +4,19 @@ public class Debito extends Movimento{
 	
 	private Spesa spesa;
 	private Utente debitore;
-	private double importo;
 	private boolean debitoSaldato;
 
 	public Debito(Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {
-		super();
+		super(importo);
 		this.spesa = spesa;
 		this.debitore = debitore;
-		this.importo = importo;
 		this.debitoSaldato = debitoSaldato;
 	}
 	
 	public Debito(int id, Spesa spesa, Utente debitore, double importo, boolean debitoSaldato) {
-		super(id);
+		super(id, importo);
 		this.spesa = spesa;
 		this.debitore = debitore;
-		this.importo = importo;
 		this.debitoSaldato = debitoSaldato;
 	}
 
@@ -29,10 +26,6 @@ public class Debito extends Movimento{
 
 	public Utente getDebitore() {
 		return debitore;
-	}
-
-	public double getImporto() {
-		return importo;
 	}
 
 	public boolean isDebitoSaldato() {

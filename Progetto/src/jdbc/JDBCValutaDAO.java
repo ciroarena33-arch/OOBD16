@@ -13,20 +13,26 @@ public class JDBCValutaDAO implements ValutaDAO {
 
 	private Connection conn;
 	
-	public JDBCValutaDAO() {
+	private JDBCValutaDAO() {
 		this.conn=DBConnection.getDBConnection().getConnection();
+	}
+	
+	private static JDBCValutaDAO self=null;
+	public static synchronized JDBCValutaDAO getSelf() {
+		if(self==null) {
+			self=new JDBCValutaDAO();
+		}
+		return self;
 	}
 	
 	@Override
 	public Valuta cercaValuta(String nome) {
-		nome=nome.toLowerCase();
 		String sql="SELECT * FROM VALUTA WHERE nome=?";
 		try(PreparedStatement ps=conn.prepareStatement(sql)){
 			ps.setString(1, nome);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()) {
-				Valuta v=new Valuta(rs.getString("nome"),rs.getDouble("conversioneEuro"));
-				return v;
+				return new Valuta(rs.getString("nome"),rs.getDouble("conversioneEuro"));
 			}
 			return null;
 		}

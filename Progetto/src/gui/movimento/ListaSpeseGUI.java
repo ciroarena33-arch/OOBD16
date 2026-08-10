@@ -1,87 +1,81 @@
 package gui.movimento;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.table.JTableHeader;
 import control.MovimentoController;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ListaSpeseGUI extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private MovimentoController controller;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private MovimentoController controller;
 
-	
-	public ListaSpeseGUI(MovimentoController controller) {
-		super("Lista Delle Spese");
-    	this.controller=controller;    	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 498, 486);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		
-		 JLabel titolo = new JLabel("Gestione debiti", SwingConstants.CENTER);
-	        titolo.setFont(new Font("Arial", Font.BOLD, 28));
+    public ListaSpeseGUI(MovimentoController controller) {
+        super();
+        setTitle("Lista delle Spese");
+        this.controller = controller;
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(600, 520);
+        setLocationRelativeTo(null);
 
-	        String[] colonne = {
-	                "Creditore",
-	                "Importo",
-	                "Tipo di Spesa",
-	                "Pagata"
-	        };
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(245, 245, 250));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-	        String[][] dati = {
-	                {"Marco", "10.00 €", "Spesa comune", "Y"},
-	                {"Luca M.", "10.00 €", "Spesa personale", "Y"},
-	                {"Luca P.", "5.00 €", "Spesa comune", "F"}
-	        };
-	        contentPane.setLayout(null);
+        JLabel lblTitolo = new JLabel("Spese del Gruppo", SwingConstants.CENTER);
+        lblTitolo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblTitolo.setForeground(new Color(30, 41, 59));
+        lblTitolo.setBounds(0, 20, 600, 36);
+        contentPane.add(lblTitolo);
 
-	        JTable tabellaDebiti = new JTable(dati, colonne);
-	        JScrollPane scrollPane = new JScrollPane(tabellaDebiti);
-	        scrollPane.setBounds(15,92,452,279);
-	        contentPane.add(scrollPane);
-	        
-	        JLabel lblNewLabel = new JLabel("Spese del Gruppo");
-	        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
-	        lblNewLabel.setBounds(142, 11, 189, 55);
-	        contentPane.add(lblNewLabel);
-	        
-	        JLabel lblNewLabel_1 = new JLabel("Nome gruppo");
-	        lblNewLabel_1.setBounds(204, 67, 64, 14);
-	        contentPane.add(lblNewLabel_1);
-	        
-	        JButton btnApriSpesa = new JButton("Apri Spesa");
-	        btnApriSpesa.addActionListener(new ActionListener() {
-	        	public void actionPerformed(ActionEvent e) {
-	        	}
-	        });
-	        btnApriSpesa.setBounds(126, 382, 105, 23);
-	        contentPane.add(btnApriSpesa);
-	        
-	        JButton btnIndietro = new JButton("Indietro");
-	        btnIndietro.addActionListener(new ActionListener() {
-	        	public void actionPerformed(ActionEvent e) {
-	        	}
-	        });
-	        btnIndietro.setBounds(241, 382, 119, 23);
-	        contentPane.add(btnIndietro);
-	        
+        JLabel lblNomeGruppo = new JLabel("Resoconto spese per la partecipazione selezionata", SwingConstants.CENTER);
+        lblNomeGruppo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        lblNomeGruppo.setForeground(new Color(100, 116, 139));
+        lblNomeGruppo.setBounds(0, 58, 600, 22);
+        contentPane.add(lblNomeGruppo);
 
-	}
+        String[] colonne = {"Creditore", "Importo", "Tipo di Spesa", "Pagata"};
+        String[][] dati = {
+                {"Marco", "10.00 €", "Spesa comune", "Y"},
+                {"Luca M.", "10.00 €", "Spesa personale", "Y"},
+                {"Luca P.", "5.00 €", "Spesa comune", "F"}
+        };
 
+        JTable tabellaSpese = new JTable(dati, colonne);
+        tabellaSpese.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tabellaSpese.setRowHeight(28);
+        JTableHeader header = tabellaSpese.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        header.setBackground(new Color(60, 120, 216));
+        header.setForeground(Color.WHITE);
+
+        JScrollPane scrollPane = new JScrollPane(tabellaSpese);
+        scrollPane.setBounds(40, 90, 520, 320);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(203, 213, 225)));
+        contentPane.add(scrollPane);
+
+        JButton btnApriSpesa = new JButton("Apri Spesa");
+        btnApriSpesa.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnApriSpesa.setBackground(new Color(60, 120, 216));
+        btnApriSpesa.setForeground(Color.WHITE);
+        btnApriSpesa.setFocusPainted(false);
+        btnApriSpesa.setBounds(130, 425, 160, 38);
+        btnApriSpesa.addActionListener(e -> {});
+        contentPane.add(btnApriSpesa);
+
+        JButton btnIndietro = new JButton("Indietro");
+        btnIndietro.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnIndietro.setBackground(new Color(110, 120, 135));
+        btnIndietro.setForeground(Color.WHITE);
+        btnIndietro.setFocusPainted(false);
+        btnIndietro.setBounds(310, 425, 160, 38);
+        btnIndietro.addActionListener(e -> controller.btn_reportGenerale_tornaHome());
+        contentPane.add(btnIndietro);
+    }
 }

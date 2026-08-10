@@ -1,79 +1,93 @@
 package model;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Gruppo{
-	
-	private int id;
-	private String nome;
-	private ArrayList<PartecipazioneGruppo> componenti;
-	private Utente proprietario;
-	
-	private LocalDate dataCreazione;
-	private ArrayList<Spesa> spese;
-	
-	public Gruppo(int id,String nome, Utente proprietario, LocalDate dataCreazione) {
-		this.id=id;
-		this.nome = nome;
-		this.proprietario = proprietario;
-		this.componenti=new ArrayList<PartecipazioneGruppo>();
-		this.dataCreazione=dataCreazione;
-		this.spese=new ArrayList<Spesa>();
-	}
-	
-	public Gruppo(String nome, Utente proprietario, LocalDate dataCreazione) {
-		this.nome = nome;
-		this.proprietario = proprietario;
-		this.componenti=new ArrayList<PartecipazioneGruppo>();
-		this.dataCreazione=LocalDate.now();
-		this.spese=new ArrayList<Spesa>();
-	}
+public class Gruppo {
 
-	public int getId() {
-		return id;
-	}
+    private int id;
+    private String nome;
+    private ArrayList<PartecipazioneGruppo> componenti;
+    private Utente proprietario;
+    private LocalDate dataCreazione;
+    private ArrayList<Spesa> spese;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Gruppo(int id, String nome, Utente proprietario, LocalDate dataCreazione) {
+        this.id = id;
+        this.nome = nome;
+        this.proprietario = proprietario;
+        this.componenti = new ArrayList<>();
+        this.dataCreazione = dataCreazione;
+        this.spese = new ArrayList<>();
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public Gruppo(String nome, Utente proprietario, LocalDate dataCreazione) {
+        this.nome = nome;
+        this.proprietario = proprietario;
+        this.componenti = new ArrayList<>();
+        this.dataCreazione = LocalDate.now();
+        this.spese = new ArrayList<>();
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Utente getProprietario() {
-		return proprietario;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setProprietario(Utente proprietario) {
-		this.proprietario = proprietario;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public ArrayList<PartecipazioneGruppo> getComponenti() {
-		return componenti;
-	}
-	
-	public LocalDate getDataCreazione() {
-		return dataCreazione;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void addComponente(PartecipazioneGruppo componente) {
-		for(PartecipazioneGruppo p:componenti) {
-			if (p.equals(componente)) {
-				return;
-			}
-		}
-		componenti.add(componente);
-	}
+    public Utente getProprietario() {
+        return proprietario;
+    }
 
-	public void removeComponente(PartecipazioneGruppo componente) {
-		if (!componenti.contains(componente)) {
-			throw new IllegalArgumentException("Il componente non fa parte del gruppo");
-		}
-		componenti.remove(componente);
-	}
+    public void setProprietario(Utente proprietario) {
+        this.proprietario = proprietario;
+    }
+
+    public ArrayList<PartecipazioneGruppo> getComponenti() {
+        return componenti;
+    }
+
+    public ArrayList<Spesa> getSpese() {
+        return spese;
+    }
+
+    public LocalDate getDataCreazione() {
+        return dataCreazione;
+    }
+
+    public void addComponente(PartecipazioneGruppo componente) {
+        if (componenti.contains(componente)) {
+            return;
+        }
+        componenti.add(componente);
+    }
+
+    public void removeComponente(PartecipazioneGruppo componente) {
+        if (!componenti.contains(componente)) {
+            return;
+        }
+        componenti.remove(componente);
+    }
+
+    public void addSpesa(Spesa s) {
+        if (!spese.contains(s)) {
+            spese.add(s);
+        }
+    }
+
+    public void removeSpesa(Spesa s) {
+        if (spese.contains(s)) {
+            spese.remove(s);
+        }
+    }
 }
