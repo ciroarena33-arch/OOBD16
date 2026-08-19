@@ -2,15 +2,13 @@ package gui.utente;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import control.UtenteController;
 
 public class HomeGUI extends JFrame {
 
     private UtenteController controller;
 
-    public HomeGUI(UtenteController controller) {
+    public HomeGUI(UtenteController controller, String nomeUtente) {
         super();
         setTitle("Home");
         this.controller = controller;
@@ -24,7 +22,7 @@ public class HomeGUI extends JFrame {
         logo.setForeground(new Color(30, 41, 59));
         logo.setBounds(100, 40, 580, 45);
 
-        JLabel benvenuto = new JLabel("Benvenuto, " + controller.getUtente().getNome(), SwingConstants.CENTER);
+        JLabel benvenuto = new JLabel("Benvenuto, " + nomeUtente, SwingConstants.CENTER);
         benvenuto.setFont(new Font("Segoe UI", Font.BOLD, 20));
         benvenuto.setForeground(new Color(70, 85, 105));
         benvenuto.setBounds(100, 100, 580, 32);

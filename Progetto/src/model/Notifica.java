@@ -74,6 +74,9 @@ public class Notifica{
 		this.descrizioneRisposta = descrizioneRisposta;
 	}
 
+	public String toString() {
+		return this.debito.getSpesa().getNomeSpesa() + " | "+this.debito.getSpesa().getUtenteEffettuante();
+	}
 	
 	
 	

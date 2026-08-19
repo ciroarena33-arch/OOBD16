@@ -2,8 +2,6 @@ package gui.utente;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import control.UtenteController;
 
@@ -11,7 +9,7 @@ public class DatiUtenteGUI extends JFrame {
 
     private UtenteController controller;
 
-    public DatiUtenteGUI(UtenteController controller) {
+    public DatiUtenteGUI(UtenteController controller, String nome, String cognome, String password, String email, String telefono) {
         super();
         setTitle("Dati Utente");
         this.controller = controller;
@@ -35,7 +33,7 @@ public class DatiUtenteGUI extends JFrame {
         labelNome.setBounds(35, 75, 100, 36);
         panel.add(labelNome);
 
-        JTextField fieldNome = new JTextField(controller.getUtente().getNome());
+        JTextField fieldNome = new JTextField(nome);
         fieldNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldNome.setBounds(140, 75, 340, 36);
         panel.add(fieldNome);
@@ -46,7 +44,7 @@ public class DatiUtenteGUI extends JFrame {
         labelCognome.setBounds(35, 123, 100, 36);
         panel.add(labelCognome);
 
-        JTextField fieldCognome = new JTextField(controller.getUtente().getCognome());
+        JTextField fieldCognome = new JTextField(cognome);
         fieldCognome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldCognome.setBounds(140, 123, 340, 36);
         panel.add(fieldCognome);
@@ -57,7 +55,7 @@ public class DatiUtenteGUI extends JFrame {
         labelPassword.setBounds(35, 171, 100, 36);
         panel.add(labelPassword);
 
-        JPasswordField fieldPassword = new JPasswordField(controller.getUtente().getPassword());
+        JPasswordField fieldPassword = new JPasswordField(password);
         fieldPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldPassword.setBounds(140, 171, 240, 36);
         panel.add(fieldPassword);
@@ -74,7 +72,7 @@ public class DatiUtenteGUI extends JFrame {
         labelEmail.setBounds(35, 219, 100, 36);
         panel.add(labelEmail);
 
-        JTextField fieldEmail = new JTextField(controller.getUtente().getEmailIstituzionale());
+        JTextField fieldEmail = new JTextField(email);
         fieldEmail.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldEmail.setBounds(140, 219, 340, 36);
         fieldEmail.setEditable(false);
@@ -87,7 +85,6 @@ public class DatiUtenteGUI extends JFrame {
         labelTelefono.setBounds(35, 267, 100, 36);
         panel.add(labelTelefono);
 
-        String telefono = controller.getUtente().getTelefono();
         JTextField fieldTelefono = new JTextField(telefono == null || telefono.isEmpty() ? "" : telefono);
         fieldTelefono.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldTelefono.setBounds(140, 267, 340, 36);
@@ -123,14 +120,14 @@ public class DatiUtenteGUI extends JFrame {
         });
 
         salvaModifiche.addActionListener(e -> {
-            String nome = fieldNome.getText().trim();
-            String cognome = fieldCognome.getText().trim();
-            String tel = fieldTelefono.getText().trim();
-            String pw = new String(fieldPassword.getPassword()).trim();
-            if (nome.isEmpty() || cognome.isEmpty() || pw.isEmpty()) {
+            String nomeInput = fieldNome.getText().trim();
+            String cognomeInput = fieldCognome.getText().trim();
+            String telInput = fieldTelefono.getText().trim();
+            String pwInput = new String(fieldPassword.getPassword()).trim();
+            if (nomeInput.isEmpty() || cognomeInput.isEmpty() || pwInput.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nome, cognome e password non possono essere vuoti");
             } else {
-                controller.btn_datiUtente_salvaModifiche(pw, nome, cognome, tel);
+                controller.btn_datiUtente_salvaModifiche(pwInput, nomeInput, cognomeInput, telInput);
             }
         });
 

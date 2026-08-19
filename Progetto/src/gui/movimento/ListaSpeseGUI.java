@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import control.MovimentoController;
 
@@ -12,6 +13,8 @@ public class ListaSpeseGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private MovimentoController controller;
+    private JTable tabellaSpese;
+    private DefaultTableModel tableModel;
 
     public ListaSpeseGUI(MovimentoController controller) {
         super();
@@ -40,14 +43,10 @@ public class ListaSpeseGUI extends JFrame {
         lblNomeGruppo.setBounds(0, 58, 600, 22);
         contentPane.add(lblNomeGruppo);
 
-        String[] colonne = {"Creditore", "Importo", "Tipo di Spesa", "Pagata"};
-        String[][] dati = {
-                {"Marco", "10.00 €", "Spesa comune", "Y"},
-                {"Luca M.", "10.00 €", "Spesa personale", "Y"},
-                {"Luca P.", "5.00 €", "Spesa comune", "F"}
-        };
+        String[] colonne = {"Movimento", "Creditore/Spesa", "Importo", "Stato"};
+        tableModel = new DefaultTableModel(colonne, 0);
 
-        JTable tabellaSpese = new JTable(dati, colonne);
+        tabellaSpese = new JTable(tableModel);
         tabellaSpese.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         tabellaSpese.setRowHeight(28);
         JTableHeader header = tabellaSpese.getTableHeader();
@@ -66,7 +65,15 @@ public class ListaSpeseGUI extends JFrame {
         btnApriSpesa.setForeground(Color.WHITE);
         btnApriSpesa.setFocusPainted(false);
         btnApriSpesa.setBounds(130, 425, 160, 38);
-        btnApriSpesa.addActionListener(e -> {});
+        btnApriSpesa.addActionListener(e -> {
+            int row = tabellaSpese.getSelectedRow();
+            if (row != -1) {
+                Object movimento = tableModel.getValueAt(row, 0);
+                controller.apriDettaglioMovimento(movimento);
+            } else {
+                JOptionPane.showMessageDialog(ListaSpeseGUI.this, "Seleziona prima una spesa o debito");
+            }
+        });
         contentPane.add(btnApriSpesa);
 
         JButton btnIndietro = new JButton("Indietro");
@@ -77,5 +84,9 @@ public class ListaSpeseGUI extends JFrame {
         btnIndietro.setBounds(310, 425, 160, 38);
         btnIndietro.addActionListener(e -> controller.btn_reportGenerale_tornaHome());
         contentPane.add(btnIndietro);
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }

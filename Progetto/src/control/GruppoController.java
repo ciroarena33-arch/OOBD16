@@ -106,7 +106,7 @@ public class GruppoController {
         partecipazioneSelezionata = (PartecipazioneGruppo) gruppo;
         try {
             gruppoSelezionato = partecipazioneSelezionata.getGruppo();
-            mostraFinestra(new DettagliGruppoGUI(this));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -230,11 +230,15 @@ public class GruppoController {
     }
 
     public void tornaDettagliGruppoDaSpesa() {
-        mostraFinestra(new DettagliGruppoGUI(this));
+        if (gruppoSelezionato != null) {
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+        }
     }
 
     public void btn_infoGruppo_tornaDettagli() {
-        mostraFinestra(new DettagliGruppoGUI(this));
+        if (gruppoSelezionato != null) {
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+        }
     }
 
     public void btn_infoGruppo_tornaHome() {
@@ -253,7 +257,9 @@ public class GruppoController {
     }
 
     public void tornaDettagliGruppoDaPartecipanti() {
-        mostraFinestra(new DettagliGruppoGUI(this));
+        if (gruppoSelezionato != null) {
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+        }
     }
 
     public void btn_dettagliGruppo_scadenze() {
@@ -266,6 +272,8 @@ public class GruppoController {
     }
 
     public void tornaDettagliGruppoDaScadenze() {
-        mostraFinestra(new DettagliGruppoGUI(this));
+        if (gruppoSelezionato != null) {
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+        }
     }
 }

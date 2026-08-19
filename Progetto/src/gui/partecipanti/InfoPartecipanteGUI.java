@@ -3,8 +3,6 @@ package gui.partecipanti;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import control.PartecipantiController;
 
 public class InfoPartecipanteGUI extends JFrame {
@@ -24,7 +22,7 @@ public class InfoPartecipanteGUI extends JFrame {
     private JButton btnIndietro;
     private JButton btnNewProprietario;
 
-    public InfoPartecipanteGUI(PartecipantiController controller) {
+    public InfoPartecipanteGUI(PartecipantiController controller, String nome, String cognome, String email, String telefono, boolean puoRendereProprietario) {
         this.controller = controller;
 
         setTitle("Dati Partecipante");
@@ -54,7 +52,7 @@ public class InfoPartecipanteGUI extends JFrame {
         lblNome.setBounds(50, startY, 100, 25);
         contentPane.add(lblNome);
 
-        textNome = new JTextField(controller.getPartecipanteSelezionato().getNome());
+        textNome = new JTextField(nome);
         textNome.setEditable(false);
         textNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         textNome.setBackground(new Color(230, 232, 240));
@@ -67,7 +65,7 @@ public class InfoPartecipanteGUI extends JFrame {
         lblCognome.setBounds(50, startY + stepY, 100, 25);
         contentPane.add(lblCognome);
 
-        textCognome = new JTextField(controller.getPartecipanteSelezionato().getCognome());
+        textCognome = new JTextField(cognome);
         textCognome.setEditable(false);
         textCognome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         textCognome.setBackground(new Color(230, 232, 240));
@@ -80,7 +78,7 @@ public class InfoPartecipanteGUI extends JFrame {
         lblEmailIstituzionale.setBounds(50, startY + stepY * 2, 100, 25);
         contentPane.add(lblEmailIstituzionale);
 
-        textEmail = new JTextField(controller.getPartecipanteSelezionato().getEmailIstituzionale());
+        textEmail = new JTextField(email);
         textEmail.setEditable(false);
         textEmail.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         textEmail.setBackground(new Color(230, 232, 240));
@@ -93,7 +91,6 @@ public class InfoPartecipanteGUI extends JFrame {
         lblNumTelefono.setBounds(50, startY + stepY * 3, 100, 25);
         contentPane.add(lblNumTelefono);
 
-        String telefono = controller.getPartecipanteSelezionato().getTelefono();
         textTelefono = new JTextField(telefono != null && !telefono.isEmpty() ? telefono : "Nessuno");
         textTelefono.setEditable(false);
         textTelefono.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -115,7 +112,7 @@ public class InfoPartecipanteGUI extends JFrame {
         btnNewProprietario.setFocusPainted(false);
         btnNewProprietario.addActionListener(e -> controller.btn_infoPartecipante_rendiProprietario());
 
-        if (controller.getUtenteLoggato().getEmailIstituzionale().equals(controller.getGruppoSelezionato().getProprietario().getEmailIstituzionale())) {
+        if (puoRendereProprietario) {
             btnNewProprietario.setBounds(50, 255, 190, 40);
             contentPane.add(btnNewProprietario);
             btnIndietro.setBounds(255, 255, 155, 40);

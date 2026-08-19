@@ -2,20 +2,16 @@ package gui.gruppo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import control.GruppoController;
 
 public class DettagliGruppoGUI extends JFrame {
 
     private GruppoController controller;
 
-    public DettagliGruppoGUI(GruppoController controller) {
+    public DettagliGruppoGUI(GruppoController controller, String nomeGruppo, String proprietarioStr) {
         super();
         setTitle("Dettaglio Gruppo");
         this.controller = controller;
-
-        String nome = controller.getGruppoSelezionato().getNome();
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(245, 245, 250));
@@ -26,12 +22,12 @@ public class DettagliGruppoGUI extends JFrame {
         logo.setForeground(new Color(30, 41, 59));
         logo.setBounds(0, 20, 500, 35);
 
-        JLabel titoloGruppo = new JLabel("Gruppo: " + nome, SwingConstants.CENTER);
+        JLabel titoloGruppo = new JLabel("Gruppo: " + nomeGruppo, SwingConstants.CENTER);
         titoloGruppo.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titoloGruppo.setForeground(new Color(60, 120, 216));
         titoloGruppo.setBounds(0, 60, 500, 30);
 
-        JLabel proprietario = new JLabel("Proprietario: " + controller.getGruppoSelezionato().getProprietario().toString(), SwingConstants.CENTER);
+        JLabel proprietario = new JLabel("Proprietario: " + proprietarioStr, SwingConstants.CENTER);
         proprietario.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         proprietario.setForeground(new Color(100, 116, 139));
         proprietario.setBounds(0, 95, 500, 25);

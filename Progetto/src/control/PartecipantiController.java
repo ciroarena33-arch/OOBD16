@@ -90,7 +90,15 @@ public class PartecipantiController {
 
     public void btn_visualizzaPartecipanti_vediDettagli(Object u) {
         partecipanteSelezionato = (Utente) u;
-        mostraFinestra(new InfoPartecipanteGUI(this));
+        boolean puoRendereProprietario = utenteLoggato.getEmailIstituzionale().equals(gruppoSelezionato.getProprietario().getEmailIstituzionale());
+        mostraFinestra(new InfoPartecipanteGUI(
+                this,
+                partecipanteSelezionato.getNome(),
+                partecipanteSelezionato.getCognome(),
+                partecipanteSelezionato.getEmailIstituzionale(),
+                partecipanteSelezionato.getTelefono(),
+                puoRendereProprietario
+        ));
     }
 
     public void btn_visualizzaPartecipanti_aggiungiPartecipante() {

@@ -57,6 +57,15 @@ public class JDBCDebitoDAO implements DebitoDAO {
 
     @Override
     public void aggiornaDebito(Debito d) {
+        String sql = "UPDATE DEBITO SET importo=?, saldato=? WHERE iddebito=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDouble(1, d.getImporto());
+            ps.setInt(2, d.isDebitoSaldato() ? 1 : 0);
+            ps.setInt(3, d.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nell'aggiornamento del debito, " + e.getMessage());
+        }
     }
 
     @Override

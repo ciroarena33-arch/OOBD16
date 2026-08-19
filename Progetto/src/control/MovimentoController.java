@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import gui.movimento.ListaSpeseGUI;
 import gui.movimento.ReportGeneraleGUI;
+import gui.movimento.SpesaUtenteGruppoGUI;
 import jdbc.JDBCDebitoDAO;
 import jdbc.JDBCGruppoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
@@ -25,6 +27,7 @@ public class MovimentoController {
     private UtenteController utenteController;
     private JFrame finestraAttiva;
     private ReportGeneraleGUI reportGeneraleGUI;
+    private ListaSpeseGUI listaSpeseGUI;
 
     private JDBCGruppoDAO gruppoDAO;
     private JDBCSpesaDAO spesaDAO;
@@ -54,11 +57,9 @@ public class MovimentoController {
         }
 
         ArrayList<PartecipazioneGruppo> partecipazioni = utenteLoggato.getPartecipazioniGruppi();
-
         if (partecipazioni == null || partecipazioni.isEmpty()) {
             partecipazioni = JDBCPartecipazioneGruppoDAO.getSelf().cercaPartecipazioniByUtenteId(utenteLoggato);
         }
-
         if (partecipazioni == null) throw new RuntimeException("L'utente non appartiene a nessun gruppo");
 
         for (PartecipazioneGruppo p : partecipazioni) {
@@ -94,9 +95,60 @@ public class MovimentoController {
 
     public void gestisciSelezione(Object oggetto) {
         if (oggetto instanceof PartecipazioneGruppo) {
-            mostraFinestra(new ListaSpeseGUI(this));
+            PartecipazioneGruppo p = (PartecipazioneGruppo) oggetto;
+            listaSpeseGUI = new ListaSpeseGUI(this);
+            caricaListaSpese(p);
+            mostraFinestra(listaSpeseGUI);
         } else {
             JOptionPane.showMessageDialog(null, "Tipo di elemento non riconosciuto.");
+        }
+    }
+
+    public void caricaListaSpese(PartecipazioneGruppo p) {
+        if (listaSpeseGUI == null) return;
+        DefaultTableModel model = listaSpeseGUI.getTableModel();
+        model.setRowCount(0);
+
+        ArrayList<Spesa> spesePersonali = spesaDAO.cercaSpesePersonali(p.getGruppo(), utenteLoggato);
+        ArrayList<Spesa> speseComuni = spesaDAO.cercaSpeseComuni(p.getGruppo());
+        ArrayList<Debito> debiti = debitoDAO.cercaDebitoByGruppoUtente(p.getGruppo(), utenteLoggato);
+
+        if (spesePersonali != null) {
+            for (Spesa s : spesePersonali) {
+                model.addRow(new Object[]{s, s.getUtenteEffettuante().toString(), s.getImporto() + " €", "Spesa Personale"});
+            }
+        }
+        if (speseComuni != null) {
+            for (Spesa s : speseComuni) {
+                model.addRow(new Object[]{s, s.getUtenteEffettuante().toString(), s.getImporto() + " €", "Spesa Comune"});
+            }
+        }
+        if (debiti != null) {
+            for (Debito d : debiti) {
+                model.addRow(new Object[]{d, d.getSpesa().getUtenteEffettuante().toString(), d.getImporto() + " €", d.isDebitoSaldato() ? "Saldato" : "Da Saldare"});
+            }
+        }
+    }
+
+    public void apriDettaglioMovimento(Object movimento) {
+        SpesaUtenteGruppoGUI gui = new SpesaUtenteGruppoGUI(this);
+        if (movimento instanceof Spesa) {
+            Spesa s = (Spesa) movimento;
+            gui.setDettagli(s.getNomeSpesa(), s.getDescrizione(), s.getImporto() + " €", s.getUtenteEffettuante().toString(), false, true, s);
+        } else if (movimento instanceof Debito) {
+            Debito d = (Debito) movimento;
+            gui.setDettagli(d.getSpesa().getNomeSpesa(), d.getSpesa().getDescrizione(), d.getImporto() + " €", d.getSpesa().getUtenteEffettuante().toString(), true, d.isDebitoSaldato(), d);
+        }
+        gui.setVisible(true);
+    }
+
+    public void sollecitaDebito(Object movimentoRef) {
+        if (finestraAttiva != null) {
+            finestraAttiva.dispose();
+        }
+        if (movimentoRef instanceof Debito) {
+            NotificaController notificaController = new NotificaController(utenteController);
+            notificaController.avviaConDebito((Debito) movimentoRef);
         }
     }
 }

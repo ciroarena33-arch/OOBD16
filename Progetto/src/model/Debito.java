@@ -37,6 +37,9 @@ public class Debito extends Movimento{
 	}
 
 
+	public String toString() {
+		return this.spesa.getNomeSpesa();
+	}
 	
 	
 	

@@ -10,9 +10,11 @@ import javax.swing.table.DefaultTableModel;
 import gui.spesa.InserisciSpesaGUI;
 import gui.spesa.StoricoSpeseGUI;
 import jdbc.JDBCSpesaDAO;
+import jdbc.JDBCValutaDAO;
 import model.Gruppo;
 import model.Spesa;
 import model.Utente;
+import model.Valuta;
 
 public class SpesaController {
 
@@ -24,11 +26,13 @@ public class SpesaController {
     private StoricoSpeseGUI storicoSpeseGUI;
 
     private JDBCSpesaDAO spesaDAO;
+    private JDBCValutaDAO valutaDAO;
 
     public SpesaController(GruppoController gruppoController) {
         try {
             this.gruppoController = gruppoController;
             this.spesaDAO = JDBCSpesaDAO.getSelf();
+            this.valutaDAO = JDBCValutaDAO.getSelf();
             this.utenteLoggato = gruppoController.getUtenteLoggato();
             this.gruppoSelezionato = gruppoController.getGruppoSelezionato();
             ArrayList<Spesa> spese = spesaDAO.cercaSpesaByGruppo(gruppoController.getGruppoSelezionato(), utenteLoggato);
@@ -58,7 +62,7 @@ public class SpesaController {
                         o,
                         o.getData(),
                         String.valueOf(o.getImporto()),
-                        o.getValuta().getNome(),
+                        o.getValuta() != null ? o.getValuta().getNome() : "EUR",
                         o.isComune() ? "Comune" : "Personale",
                         o.getUtenteEffettuante().toString()
                 };
@@ -79,11 +83,31 @@ public class SpesaController {
         mostraFinestra(storicoSpeseGUI);
     }
 
-    public void btn_inserisciSpesa_registraSpesa(String nome, String descrizione, String importo, String valuta, LocalDate data, String tipo) {
-        if (finestraAttiva != null) {
-            finestraAttiva.dispose();
+    public void btn_inserisciSpesa_registraSpesa(String nome, String descrizione, String importoStr, String valutaNome, LocalDate data, String tipo) {
+        try {
+            double importo = Double.parseDouble(importoStr);
+            boolean isComune = "COMUNE".equalsIgnoreCase(tipo);
+
+            Valuta v = valutaDAO.cercaValuta(valutaNome);
+            if (v == null) {
+                v = new Valuta("EUR", 1.0);
+            }
+
+            Spesa spesa = new Spesa(nome, descrizione, data, importo, isComune, v, gruppoSelezionato, utenteLoggato);
+            spesaDAO.nuovaSpesa(spesa);
+            gruppoSelezionato.addSpesa(spesa);
+
+            JOptionPane.showMessageDialog(null, "Spesa registrata con successo!");
+
+            if (finestraAttiva != null) {
+                finestraAttiva.dispose();
+            }
+            gruppoController.tornaDettagliGruppoDaSpesa();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Importo inserito non valido.");
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        gruppoController.tornaDettagliGruppoDaSpesa();
     }
 
     public void btn_inserisciSpesa_tornaGruppo() {

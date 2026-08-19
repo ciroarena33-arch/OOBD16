@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -23,6 +24,7 @@ public class SceltaDebitoGUI extends JFrame {
     private JPanel contentPane;
     private JLabel lblTitolo;
     private JTable tabellaSpese;
+    private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
     private JButton btnConferma;
 
@@ -41,20 +43,16 @@ public class SceltaDebitoGUI extends JFrame {
         contentPane.setLayout(null);
         setContentPane(contentPane);
 
-        String[] colonne = {"Nome spesa", "Debitore", "Importo"};
-        String[][] dati = {
-                {"Cena", "Luca", "45.00 €"},
-                {"Taxi", "Davide", "20.00 €"},
-                {"Libro", "Mirko", "18.00 €"}
-        };
-
         lblTitolo = new JLabel("Scegli il debito da notificare", SwingConstants.CENTER);
         lblTitolo.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblTitolo.setForeground(new Color(30, 41, 59));
         lblTitolo.setBounds(0, 18, 520, 32);
         contentPane.add(lblTitolo);
 
-        tabellaSpese = new JTable(dati, colonne);
+        String[] colonne = {"Debito", "Nome Spesa", "Importo"};
+        tableModel = new DefaultTableModel(colonne, 0);
+
+        tabellaSpese = new JTable(tableModel);
         tabellaSpese.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         tabellaSpese.setRowHeight(28);
         JTableHeader header = tabellaSpese.getTableHeader();
@@ -76,14 +74,16 @@ public class SceltaDebitoGUI extends JFrame {
         btnConferma.addActionListener(e -> {
             int selectedRow = tabellaSpese.getSelectedRow();
             if (selectedRow != -1) {
-                String spesa = (String) tabellaSpese.getValueAt(selectedRow, 0);
-                String debitore = (String) tabellaSpese.getValueAt(selectedRow, 1);
-                String importo = (String) tabellaSpese.getValueAt(selectedRow, 2);
-                controller.btn_sceltaDebito_ok(spesa + " (" + debitore + ": " + importo + ")");
+                Object debitoObj = tableModel.getValueAt(selectedRow, 0);
+                controller.btn_sceltaDebito_ok(debitoObj);
             } else {
                 JOptionPane.showMessageDialog(SceltaDebitoGUI.this, "Seleziona un debito");
             }
         });
         contentPane.add(btnConferma);
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }
