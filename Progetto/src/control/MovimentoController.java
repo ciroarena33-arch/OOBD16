@@ -2,18 +2,23 @@ package control;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import gui.movimento.ListaSpeseGUI;
 import gui.movimento.ReportGeneraleGUI;
+import gui.movimento.ReportGruppoGUI;
 import gui.movimento.SpesaUtenteGruppoGUI;
 import jdbc.JDBCDebitoDAO;
 import jdbc.JDBCGruppoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
 import jdbc.JDBCSpesaDAO;
 import model.Debito;
+import model.Gruppo;
 import model.Movimento;
 import model.PartecipazioneGruppo;
 import model.Spesa;
@@ -25,13 +30,18 @@ public class MovimentoController {
     private HashMap<Object, Double> map;
 
     private UtenteController utenteController;
+    private GruppoController gruppoController;
+    private Gruppo gruppoSelezionato;
+
     private JFrame finestraAttiva;
     private ReportGeneraleGUI reportGeneraleGUI;
+    private ReportGruppoGUI reportGruppoGUI;
     private ListaSpeseGUI listaSpeseGUI;
 
     private JDBCGruppoDAO gruppoDAO;
     private JDBCSpesaDAO spesaDAO;
     private JDBCDebitoDAO debitoDAO;
+    private JDBCPartecipazioneGruppoDAO partecipazioneGruppoDAO;
 
     public MovimentoController(UtenteController utenteController) {
         this.utenteController = utenteController;
@@ -39,6 +49,7 @@ public class MovimentoController {
         this.gruppoDAO = JDBCGruppoDAO.getSelf();
         this.spesaDAO = JDBCSpesaDAO.getSelf();
         this.debitoDAO = JDBCDebitoDAO.getSelf();
+        this.partecipazioneGruppoDAO = JDBCPartecipazioneGruppoDAO.getSelf();
     }
 
     private void mostraFinestra(JFrame nuovaFinestra) {
@@ -151,4 +162,14 @@ public class MovimentoController {
             notificaController.avviaConDebito((Debito) movimentoRef);
         }
     }
+
+	public void btn_reportGruppo_listaSpese() {
+		
+	}
+
+	public void btn_reportGruppo_tornaGruppo() {
+		
+	}
+    
+    
 }

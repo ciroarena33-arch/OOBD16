@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 	@Override
 	public void nuovaPartecipazione(PartecipazioneGruppo p) {
 		String sql="INSERT INTO PartecipazioneGruppo (datainvito,statoinvito,emailutente,idgruppo) VALUES (?,?,?,?)";
-		try(PreparedStatement ps=conn.prepareStatement(sql)){
+		try(PreparedStatement ps=conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 			ps.setDate(1,  Date.valueOf(p.getData()));
 			ps.setInt(2, 0);
 			ps.setString(3,  p.getUtente().getEmailIstituzionale());
@@ -46,10 +47,8 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 			int righeInserite = ps.executeUpdate();
 		    if (righeInserite > 0) {
 		        try (ResultSet rs = ps.getGeneratedKeys()) {
-		            if (rs.next()) {
-		                int idGenerato = rs.getInt(1); 
-		                p.setId(idGenerato);      
-		            }
+			        if (!rs.next()) throw new SQLException("Chiave generata non disponibile per la partecipazione");
+			        p.setId(rs.getInt(1));
 		        }
 		    }
 		}

@@ -75,7 +75,9 @@ public class Notifica{
 	}
 
 	public String toString() {
-		return this.debito.getSpesa().getNomeSpesa() + " | "+this.debito.getSpesa().getUtenteEffettuante();
+		return debito != null && debito.getSpesa() != null
+				? debito.getSpesa().getNomeSpesa()
+				: "N/D";
 	}
 	
 	

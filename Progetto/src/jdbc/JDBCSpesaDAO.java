@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dao.SpesaDAO;
@@ -38,7 +39,7 @@ public class JDBCSpesaDAO implements SpesaDAO {
     @Override
     public void nuovaSpesa(Spesa s) {
         String sql = "INSERT INTO SPESA(nomespesa,descrizione,data,importo,iscomune,idgruppo,emailutente,valuta) VALUES (?,?,?,?,?,?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, s.getNomeSpesa());
             ps.setString(2, s.getDescrizione());
             ps.setDate(3, Date.valueOf(s.getData()));
@@ -50,10 +51,8 @@ public class JDBCSpesaDAO implements SpesaDAO {
             int righeInserite = ps.executeUpdate();
             if (righeInserite > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGenerato = rs.getInt(1);
-                        s.setId(idGenerato);
-                    }
+                    if (!rs.next()) throw new SQLException("Chiave generata non disponibile per la spesa");
+                    s.setId(rs.getInt(1));
                 }
             }
         } catch (SQLException e) {
@@ -116,6 +115,31 @@ public class JDBCSpesaDAO implements SpesaDAO {
             return spese;
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella ricerca delle spese comuni del gruppo, " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Spesa> cercaTutteSpeseByGruppo(Gruppo g) {
+        String sql = "SELECT * FROM Spesa WHERE IdGruppo=?";
+        ArrayList<Spesa> spese = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, g.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                spese.add(new Spesa(
+                        rs.getInt("idspesa"),
+                        rs.getString("nomespesa"),
+                        rs.getString("Descrizione"),
+                        rs.getDate("data").toLocalDate(),
+                        rs.getDouble("importo"),
+                        rs.getInt("iscomune") == 1,
+                        valutaDAO.cercaValuta(rs.getString("valuta")),
+                        g,
+                        utenteDAO.cercaUtentePerEmail(rs.getString("emailUtente"))
+                ));
+            }
+            return spese;
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella ricerca delle spese del gruppo", e);
         }
     }
 

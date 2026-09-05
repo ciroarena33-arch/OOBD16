@@ -99,7 +99,8 @@ public class NotificheGUI extends JFrame {
         // Tab Notifiche Ricevute
         JPanel notRicevute = new JPanel(new BorderLayout());
         notRicevute.setBackground(Color.WHITE);
-        modelRicevute = new DefaultTableModel(new String[]{"Notifica", "Spesa/Debito", "Importo", "Data", "Messaggio"}, 0);
+        modelRicevute = new DefaultTableModel(
+                new String[]{"Notifica", "Creditore", "Importo", "Data invio", "Messaggio", "Stato"}, 0);
         tableRicevute = new JTable(modelRicevute);
         tableRicevute.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         tableRicevute.setRowHeight(28);
@@ -148,7 +149,8 @@ public class NotificheGUI extends JFrame {
         // Tab Notifiche Inviate
         JPanel notInviate = new JPanel(new BorderLayout());
         notInviate.setBackground(Color.WHITE);
-        modelInviate = new DefaultTableModel(new String[]{"Notifica", "Spesa/Debito", "Importo", "Data Invio", "Stato Debito"}, 0);
+        modelInviate = new DefaultTableModel(
+                new String[]{"Notifica", "Debitore", "Importo", "Data invio", "Stato"}, 0);
         tableInviate = new JTable(modelInviate);
         tableInviate.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         tableInviate.setRowHeight(28);

@@ -28,13 +28,6 @@ public class DettaglioScadenzaGUI extends JFrame {
     private JButton btnIndietro;
 
     public DettaglioScadenzaGUI(ScadenzeController controller, String nome, LocalDate data, String importo) {
-        this(controller);
-        fieldNome.setText(nome);
-        fieldDataScadenza.setDate(Date.valueOf(data));
-        fieldImporto.setText(importo);
-    }
-
-    public DettaglioScadenzaGUI(ScadenzeController controller) {
         this.controller = controller;
 
         setTitle("Dettaglio Scadenza");
@@ -73,23 +66,21 @@ public class DettaglioScadenzaGUI extends JFrame {
         lblImporto.setBounds(60, 180, 110, 30);
         contentPane.add(lblImporto);
 
-        String nomeIniziale = (controller.getScadenza() != null) ? controller.getScadenza().getNome() : "";
-        fieldNome = new JTextField(nomeIniziale);
+        fieldNome = new JTextField(nome != null ? nome : "");
         fieldNome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldNome.setBounds(200, 80, 220, 32);
         fieldNome.setColumns(10);
         contentPane.add(fieldNome);
 
         fieldDataScadenza = new JCalendarComboBox();
-        if (controller.getScadenza() != null) {
-            fieldDataScadenza.setDate(Date.valueOf(controller.getScadenza().getDataScadenza()));
+        if (data != null) {
+            fieldDataScadenza.setDate(Date.valueOf(data));
         }
         fieldDataScadenza.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldDataScadenza.setBounds(200, 130, 220, 32);
         contentPane.add(fieldDataScadenza);
 
-        String importoIniziale = (controller.getScadenza() != null) ? String.valueOf(controller.getScadenza().getImporto()) : "";
-        fieldImporto = new JTextField(importoIniziale);
+        fieldImporto = new JTextField(importo != null ? importo : "");
         fieldImporto.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fieldImporto.setBounds(200, 180, 220, 32);
         fieldImporto.setColumns(10);
@@ -101,13 +92,18 @@ public class DettaglioScadenzaGUI extends JFrame {
         btnSalva.setForeground(Color.WHITE);
         btnSalva.setFocusPainted(false);
         btnSalva.setBounds(50, 260, 110, 38);
-        btnSalva.addActionListener(e ->
+        btnSalva.addActionListener(e -> {
+            if (fieldNome.getText().trim().isEmpty() || fieldImporto.getText().trim().isEmpty() || fieldDataScadenza.getDate() == null) {
+                JOptionPane.showMessageDialog(DettaglioScadenzaGUI.this, "Inserisci tutti i campi correttamente.");
+                return;
+            }
+            LocalDate dataSel = fieldDataScadenza.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             controller.btn_dettaglioScadenza_salva(
-                fieldNome.getText(),
-                fieldDataScadenza.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                fieldImporto.getText()
-            )
-        );
+                fieldNome.getText().trim(),
+                dataSel,
+                fieldImporto.getText().trim()
+            );
+        });
         contentPane.add(btnSalva);
 
         btnCancella = new JButton("Cancella");

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import dao.IndirizzoDAO;
 import model.Indirizzo;
@@ -26,7 +27,7 @@ public class JDBCIndirizzoDAO implements IndirizzoDAO{
 	@Override
 	public void nuovoIndirizzo(Indirizzo i) {
 		String sql="INSERT INTO Indirizzo (provincia, citta, via, numcivico) VALUES (?,?,?,?)";
-		try(PreparedStatement ps=conn.prepareStatement(sql)){
+		try(PreparedStatement ps=conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 			ps.setString(1, i.getProvincia());
 			ps.setString(2, i.getCitta());
 			ps.setString(3, i.getVia());
@@ -34,15 +35,13 @@ public class JDBCIndirizzoDAO implements IndirizzoDAO{
 			int righeInserite = ps.executeUpdate();
 		    if (righeInserite > 0) {
 		        try (ResultSet rs = ps.getGeneratedKeys()) {
-		            if (rs.next()) {
-		                int idGenerato = rs.getInt("idIndirizzo"); 
-		                i.setId(idGenerato);      
-		            }
+		            if (!rs.next()) throw new SQLException("Chiave generata non disponibile per l'indirizzo");
+		            i.setId(rs.getInt(1));
 		        }
 		    }
 		}
 		catch(SQLException e) {
-			
+			throw new RuntimeException("Errore nell'inserimento dell'indirizzo, " + e.getMessage(), e);
 		}
 	}
 

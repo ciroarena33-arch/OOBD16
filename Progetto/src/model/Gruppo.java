@@ -90,4 +90,16 @@ public class Gruppo {
             spese.remove(s);
         }
     }
+
+    public int getNumeroSpese() {
+        return spese.size();
+    }
+
+    public double getImportoTotale() {
+        double totale = 0;
+        for (Spesa spesa : spese) {
+            totale += spesa.getImporto();
+        }
+        return totale;
+    }
 }

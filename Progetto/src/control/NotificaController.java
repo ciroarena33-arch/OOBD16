@@ -77,22 +77,27 @@ public class NotificaController {
         DefaultTableModel modelRicevute = notificheGUI.getModelRicevute();
         modelRicevute.setRowCount(0);
         for (Notifica n : notificheRicevute) {
+            Debito debito = n.getDebito();
+            String stato = debito != null && debito.isDebitoSaldato() ? "Saldato" : "Da saldare";
             modelRicevute.addRow(new Object[]{
                     n,
-                    n.getDebito() != null ? n.getDebito().getSpesa().getNomeSpesa() : "N/D",
+                    debito != null && debito.getSpesa() != null
+                            ? debito.getSpesa().getUtenteEffettuante().toString() : "N/D",
                     n.getDebito() != null ? n.getDebito().getImporto() + " €" : "0.00 €",
                     n.getData1(),
-                    n.getDescrizione1()
+                    n.getDescrizione1(),
+                    stato
             });
         }
 
         DefaultTableModel modelInviate = notificheGUI.getModelInviate();
         modelInviate.setRowCount(0);
         for (Notifica n : notificheInviate) {
-            String stato = (n.getDebito() != null && n.getDebito().isDebitoSaldato()) ? "Saldato" : "In Attesa";
+            Debito debito = n.getDebito();
+            String stato = debito != null && debito.isDebitoSaldato() ? "Saldato" : "In attesa";
             modelInviate.addRow(new Object[]{
                     n,
-                    n.getDebito() != null ? n.getDebito().getSpesa().getNomeSpesa() : "N/D",
+                    debito != null && debito.getDebitore() != null ? debito.getDebitore().toString() : "N/D",
                     n.getDebito() != null ? n.getDebito().getImporto() + " €" : "0.00 €",
                     n.getData1(),
                     stato

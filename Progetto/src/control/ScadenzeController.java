@@ -75,7 +75,9 @@ public class ScadenzeController {
 
     public void btn_scadenze_modifica(Object s) {
         scadenzaSelezionata = (Scadenza) s;
-        mostraFinestra(new DettaglioScadenzaGUI(this));
+        if (scadenzaSelezionata != null) {
+            mostraFinestra(new DettaglioScadenzaGUI(this, scadenzaSelezionata.getNome(), scadenzaSelezionata.getDataScadenza(), String.valueOf(scadenzaSelezionata.getImporto())));
+        }
     }
 
     public void btn_scadenze_indietro() {

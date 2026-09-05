@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dao.ScadenzaDAO;
@@ -31,7 +32,7 @@ public class JDBCScadenzaDAO implements ScadenzaDAO {
     @Override
     public void nuovaScadenza(Scadenza s) {
         String sql = "INSERT INTO Scadenza(nomescadenza,data,importo,idgruppo) VALUES (?,?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, s.getNome());
             ps.setDate(2, Date.valueOf(s.getDataScadenza()));
             ps.setDouble(3, s.getImporto());
@@ -39,10 +40,8 @@ public class JDBCScadenzaDAO implements ScadenzaDAO {
             int righeInserite = ps.executeUpdate();
             if (righeInserite > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGenerato = rs.getInt(1);
-                        s.setId(idGenerato);
-                    }
+                    if (!rs.next()) throw new SQLException("Chiave generata non disponibile per la scadenza");
+                    s.setId(rs.getInt(1));
                 }
             }
         } catch (SQLException e) {

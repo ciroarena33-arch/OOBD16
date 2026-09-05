@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Font;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import control.ScadenzeController;
 import de.wannawork.jcalendar.JCalendarComboBox;
@@ -86,13 +87,18 @@ public class AggiungiScadenzaGUI extends JFrame {
         btnAggiungi.setForeground(Color.WHITE);
         btnAggiungi.setFocusPainted(false);
         btnAggiungi.setBounds(100, 275, 140, 38);
-        btnAggiungi.addActionListener(e ->
+        btnAggiungi.addActionListener(e -> {
+            if (fieldNome.getText().trim().isEmpty() || fieldImporto.getText().trim().isEmpty() || fieldDataScadenza.getDate() == null) {
+                JOptionPane.showMessageDialog(AggiungiScadenzaGUI.this, "Inserisci tutti i campi correttamente.");
+                return;
+            }
+            LocalDate data = fieldDataScadenza.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             controller.btn_aggiungiScadenza_aggiungi(
-                fieldNome.getText(),
-                fieldDataScadenza.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                fieldImporto.getText()
-            )
-        );
+                fieldNome.getText().trim(),
+                data,
+                fieldImporto.getText().trim()
+            );
+        });
         contentPane.add(btnAggiungi);
 
         btnIndietro = new JButton("Indietro");

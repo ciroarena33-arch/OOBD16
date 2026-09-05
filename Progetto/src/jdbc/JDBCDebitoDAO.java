@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dao.DebitoDAO;
@@ -36,7 +37,7 @@ public class JDBCDebitoDAO implements DebitoDAO {
     @Override
     public void nuovoDebito(Debito d) {
         String sql = "INSERT INTO DEBITO (importo,saldato,idspesa,emailutente) VALUES (?,?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setDouble(1, d.getImporto());
             ps.setInt(2, d.isDebitoSaldato() ? 1 : 0);
             ps.setInt(3, d.getSpesa().getId());
@@ -44,10 +45,8 @@ public class JDBCDebitoDAO implements DebitoDAO {
             int righeInserite = ps.executeUpdate();
             if (righeInserite > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGenerato = rs.getInt(1);
-                        d.setId(idGenerato);
-                    }
+                    if (!rs.next()) throw new SQLException("Chiave generata non disponibile per il debito");
+                    d.setId(rs.getInt(1));
                 }
             }
         } catch (SQLException e) {

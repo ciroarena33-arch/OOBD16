@@ -1,21 +1,29 @@
 package control;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Coinquilini;
+import model.Debito;
 import model.Gruppo;
 import model.Indirizzo;
 import model.PartecipazioneGruppo;
+import model.Spesa;
 import model.Studio;
 import model.Utente;
 import model.Viaggio;
 import gui.gruppo.*;
+import gui.movimento.ReportGruppoGUI;
 import jdbc.JDBCGruppoDAO;
 import jdbc.JDBCIndirizzoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
+import jdbc.JDBCDebitoDAO;
+import jdbc.JDBCSpesaDAO;
 import jdbc.JDBCUtenteDAO;
 
 public class GruppoController {
@@ -31,6 +39,8 @@ public class GruppoController {
     private JDBCPartecipazioneGruppoDAO partecipazioneGruppoDAO;
     private JDBCGruppoDAO gruppoDAO;
     private JDBCIndirizzoDAO indirizzoDAO;
+    private JDBCSpesaDAO spesaDAO;
+    private JDBCDebitoDAO debitoDAO;
 
     public UtenteController utenteController;
     public SpesaController spesaController;
@@ -57,6 +67,8 @@ public class GruppoController {
             this.gruppoDAO = JDBCGruppoDAO.getSelf();
             this.partecipazioneGruppoDAO = JDBCPartecipazioneGruppoDAO.getSelf();
             this.indirizzoDAO = JDBCIndirizzoDAO.getSelf();
+            this.spesaDAO = JDBCSpesaDAO.getSelf();
+            this.debitoDAO = JDBCDebitoDAO.getSelf();
 
             this.utenteController = utenteController;
             this.utenteLoggato = utenteController.getUtente();
@@ -73,6 +85,20 @@ public class GruppoController {
         }
         finestraAttiva = nuovaFinestra;
         finestraAttiva.setVisible(true);
+    }
+
+    public boolean isUltimoMembro() {
+        if (gruppoSelezionato == null) return true;
+        ArrayList<PartecipazioneGruppo> part = partecipazioneGruppoDAO.cercaPartecipazioniByGruppoId(gruppoSelezionato);
+        int count = 0;
+        if (part != null) {
+            for (PartecipazioneGruppo p : part) {
+                if (p.isInvitoAccettato()) {
+                    count++;
+                }
+            }
+        }
+        return count <= 1;
     }
 
     public void caricaGruppi() {
@@ -106,7 +132,7 @@ public class GruppoController {
         partecipazioneSelezionata = (PartecipazioneGruppo) gruppo;
         try {
             gruppoSelezionato = partecipazioneSelezionata.getGruppo();
-            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -222,6 +248,12 @@ public class GruppoController {
         mostraFinestra(new InfoGruppoGUI(this));
     }
 
+    public void apriListaSpeseDaReport() {
+        spesaController = new SpesaController(this);
+        spesaController.avviaStoricoSpese();
+    }
+
+
     public void btn_dettagliGruppo_tornaHome() {
         if (finestraAttiva != null) {
             finestraAttiva.dispose();
@@ -229,15 +261,48 @@ public class GruppoController {
         utenteController.tornaHome();
     }
 
+    public void btn_dettagliGruppo_abbandonaOElimina() {
+        if (gruppoSelezionato == null) return;
+        boolean ultimo = isUltimoMembro();
+        if (ultimo) {
+            int confirm = JOptionPane.showConfirmDialog(finestraAttiva, "Sei l'unico membro rimasto. Confermi l'eliminazione definitiva del gruppo \"" + gruppoSelezionato.getNome() + "\"?", "Conferma Eliminazione Gruppo", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    gruppoDAO.eliminaGruppo(gruppoSelezionato);
+                    utenteLoggato.getPartecipazioniGruppi().removeIf(p -> p.getGruppo().getId() == gruppoSelezionato.getId());
+                    JOptionPane.showMessageDialog(null, "Gruppo eliminato con successo.");
+                    btn_dettagliGruppo_tornaGruppi();
+                } catch (RuntimeException e) {
+                    JOptionPane.showMessageDialog(finestraAttiva, e.getMessage());
+                }
+            }
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(finestraAttiva, "Confermi di voler abbandonare il gruppo \"" + gruppoSelezionato.getNome() + "\"?", "Conferma Abbandono Gruppo", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    PartecipazioneGruppo miaPartecipazione = partecipazioneGruppoDAO.getPartecipazione(utenteLoggato, gruppoSelezionato);
+                    if (miaPartecipazione != null) {
+                        partecipazioneGruppoDAO.eliminaPartecipazione(miaPartecipazione);
+                        utenteLoggato.getPartecipazioniGruppi().removeIf(p -> p.getId() == miaPartecipazione.getId());
+                    }
+                    JOptionPane.showMessageDialog(null, "Hai abbandonato il gruppo.");
+                    btn_dettagliGruppo_tornaGruppi();
+                } catch (RuntimeException e) {
+                    JOptionPane.showMessageDialog(finestraAttiva, e.getMessage());
+                }
+            }
+        }
+    }
+    
     public void tornaDettagliGruppoDaSpesa() {
         if (gruppoSelezionato != null) {
-            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));
         }
     }
 
     public void btn_infoGruppo_tornaDettagli() {
         if (gruppoSelezionato != null) {
-            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));
         }
     }
 
@@ -258,7 +323,7 @@ public class GruppoController {
 
     public void tornaDettagliGruppoDaPartecipanti() {
         if (gruppoSelezionato != null) {
-            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));
         }
     }
 
@@ -273,7 +338,7 @@ public class GruppoController {
 
     public void tornaDettagliGruppoDaScadenze() {
         if (gruppoSelezionato != null) {
-            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString()));
+            mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));
         }
     }
 }

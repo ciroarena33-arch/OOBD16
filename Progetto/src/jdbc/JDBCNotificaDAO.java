@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -34,17 +35,15 @@ public class JDBCNotificaDAO implements NotificaDAO {
     @Override
     public void nuovaNotifica(Notifica n) {
         String sql = "INSERT INTO NOTIFICA (DATA1,DESCRIZIONE1,IDDEBITO) VALUES (?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setDate(1, Date.valueOf(n.getData1()));
             ps.setString(2, n.getDescrizione1());
             ps.setInt(3, n.getDebito().getId());
             int righeInserite = ps.executeUpdate();
             if (righeInserite > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGenerato = rs.getInt(1);
-                        n.setId(idGenerato);
-                    }
+                    if (!rs.next()) throw new SQLException("Chiave generata non disponibile per la notifica");
+                    n.setId(rs.getInt(1));
                 }
             }
         } catch (SQLException e) {
