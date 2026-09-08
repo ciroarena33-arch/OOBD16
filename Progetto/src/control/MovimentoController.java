@@ -1,10 +1,7 @@
 package control;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

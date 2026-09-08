@@ -1,6 +1,6 @@
 package control;
 
-import gui.scadenze.ScadenzeGUI;
+import gui.scadenze.ScadenzeGUI; 
 import jdbc.JDBCScadenzaDAO;
 import model.Coinquilini;
 import model.Scadenza;

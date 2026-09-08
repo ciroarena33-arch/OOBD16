@@ -1,0 +1,11 @@
+/.classpath
+/.project
+/UninaMoneySplit.sql
+/control/
+/dao/
+/gui/
+/jdbc/
+/main/
+/model/
+/pwdfile
+/pwdfile.txt

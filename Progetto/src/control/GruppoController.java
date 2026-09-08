@@ -1,24 +1,19 @@
 package control;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Coinquilini;
-import model.Debito;
 import model.Gruppo;
 import model.Indirizzo;
 import model.PartecipazioneGruppo;
-import model.Spesa;
 import model.Studio;
 import model.Utente;
 import model.Viaggio;
 import gui.gruppo.*;
-import gui.movimento.ReportGruppoGUI;
 import jdbc.JDBCGruppoDAO;
 import jdbc.JDBCIndirizzoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
@@ -196,7 +191,7 @@ public class GruppoController {
     public void btn_creazioneGruppo_coinquilini(String nome, String provincia, String citta, String via, String numCivicoStr) {
         try {
             if (JOptionPane.showConfirmDialog(null, "Confermi la creazione del gruppo coinquilini \"" + nome + "\"?") == JOptionPane.YES_OPTION) {
-                int numCivico = Integer.parseInt(numCivicoStr);
+                int numCivico = Integer.parseInt(numCivicoStr.trim());
                 Indirizzo indirizzo = new Indirizzo(provincia.toUpperCase(), citta, via, numCivico);
                 indirizzoDAO.nuovoIndirizzo(indirizzo);
                 Coinquilini g = new Coinquilini(nome, utenteLoggato, LocalDate.now(), indirizzo);
