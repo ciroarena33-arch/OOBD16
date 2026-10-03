@@ -12,18 +12,10 @@ import model.Utente;
 public class JDBCUtenteDAO implements UtenteDAO {
     private Connection conn;
 
-    private JDBCUtenteDAO() {
+    public JDBCUtenteDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
     }
 
-    private static JDBCUtenteDAO self = null;
-
-    public static synchronized JDBCUtenteDAO getSelf() {
-        if (self == null) {
-            self = new JDBCUtenteDAO();
-        }
-        return self;
-    }
 
     @Override
     public void nuovoUtente(Utente u) {

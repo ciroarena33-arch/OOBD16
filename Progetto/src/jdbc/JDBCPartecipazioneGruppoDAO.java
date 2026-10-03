@@ -22,18 +22,10 @@ public class JDBCPartecipazioneGruppoDAO implements PartecipazioneGruppoDAO {
 	private JDBCGruppoDAO gruppoDAO;
 	private JDBCUtenteDAO utenteDAO;
 	
-	private JDBCPartecipazioneGruppoDAO() {
+	public JDBCPartecipazioneGruppoDAO() {
 		this.conn = DBConnection.getDBConnection().getConnection();
-		this.gruppoDAO=JDBCGruppoDAO.getSelf();
-		this.utenteDAO=JDBCUtenteDAO.getSelf();
-	}
-	
-	private static JDBCPartecipazioneGruppoDAO self=null;
-	public static synchronized JDBCPartecipazioneGruppoDAO getSelf() {
-		if(self==null) {
-			self=new JDBCPartecipazioneGruppoDAO();
-		}
-		return self;
+		this.gruppoDAO=new JDBCGruppoDAO();
+		this.utenteDAO=new JDBCUtenteDAO();
 	}
 	
 	@Override

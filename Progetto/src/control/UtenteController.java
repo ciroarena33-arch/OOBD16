@@ -17,7 +17,7 @@ public class UtenteController {
     private JDBCUtenteDAO utenteDAO;
 
     public UtenteController() {
-        utenteDAO = JDBCUtenteDAO.getSelf();
+        utenteDAO =new JDBCUtenteDAO();
 
         loginGUI = new LoginGUI(this);
         registrazioneGUI = new RegistrazioneGUI(this);

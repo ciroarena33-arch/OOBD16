@@ -58,12 +58,12 @@ public class GruppoController {
 
     public GruppoController(UtenteController utenteController) {
         try {
-            this.utenteDAO = JDBCUtenteDAO.getSelf();
-            this.gruppoDAO = JDBCGruppoDAO.getSelf();
-            this.partecipazioneGruppoDAO = JDBCPartecipazioneGruppoDAO.getSelf();
-            this.indirizzoDAO = JDBCIndirizzoDAO.getSelf();
-            this.spesaDAO = JDBCSpesaDAO.getSelf();
-            this.debitoDAO = JDBCDebitoDAO.getSelf();
+            this.utenteDAO =new JDBCUtenteDAO();
+            this.gruppoDAO =new JDBCGruppoDAO();
+            this.partecipazioneGruppoDAO =new JDBCPartecipazioneGruppoDAO();
+            this.indirizzoDAO =new JDBCIndirizzoDAO();
+            this.spesaDAO =new JDBCSpesaDAO();
+            this.debitoDAO =new JDBCDebitoDAO();
 
             this.utenteController = utenteController;
             this.utenteLoggato = utenteController.getUtente();

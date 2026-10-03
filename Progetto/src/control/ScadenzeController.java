@@ -34,7 +34,7 @@ public class ScadenzeController {
     public ScadenzeController(GruppoController gruppoController) {
         this.gruppoController = gruppoController;
         this.gruppoSelezionato = (Coinquilini) gruppoController.getGruppoSelezionato();
-        this.scadenzaDAO = JDBCScadenzaDAO.getSelf();
+        this.scadenzaDAO =new JDBCScadenzaDAO();
         List<Scadenza> lista = scadenzaDAO.cercaScadenzePerGruppo(gruppoSelezionato);
         for (Scadenza s : lista) {
             gruppoSelezionato.addScadenza(s);

@@ -43,10 +43,10 @@ public class MovimentoController {
     public MovimentoController(UtenteController utenteController) {
         this.utenteController = utenteController;
         this.utenteLoggato = utenteController.getUtente();
-        this.gruppoDAO = JDBCGruppoDAO.getSelf();
-        this.spesaDAO = JDBCSpesaDAO.getSelf();
-        this.debitoDAO = JDBCDebitoDAO.getSelf();
-        this.partecipazioneGruppoDAO = JDBCPartecipazioneGruppoDAO.getSelf();
+        this.gruppoDAO =new JDBCGruppoDAO();
+        this.spesaDAO =new JDBCSpesaDAO();
+        this.debitoDAO =new JDBCDebitoDAO();
+        this.partecipazioneGruppoDAO =new JDBCPartecipazioneGruppoDAO();
     }
 
     private void mostraFinestra(JFrame nuovaFinestra) {
@@ -66,7 +66,7 @@ public class MovimentoController {
 
         ArrayList<PartecipazioneGruppo> partecipazioni = utenteLoggato.getPartecipazioniGruppi();
         if (partecipazioni == null || partecipazioni.isEmpty()) {
-            partecipazioni = JDBCPartecipazioneGruppoDAO.getSelf().cercaPartecipazioniByUtenteId(utenteLoggato);
+            partecipazioni = partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
         }
         if (partecipazioni == null) throw new RuntimeException("L'utente non appartiene a nessun gruppo");
 
@@ -159,14 +159,6 @@ public class MovimentoController {
             notificaController.avviaConDebito((Debito) movimentoRef);
         }
     }
-
-	public void btn_reportGruppo_listaSpese() {
-		
-	}
-
-	public void btn_reportGruppo_tornaGruppo() {
-		
-	}
     
     
 }

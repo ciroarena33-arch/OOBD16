@@ -16,17 +16,8 @@ public class JDBCScadenzaDAO implements ScadenzaDAO {
 
     private Connection conn;
 
-    private JDBCScadenzaDAO() {
+    public JDBCScadenzaDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
-    }
-
-    private static JDBCScadenzaDAO self = null;
-
-    public static synchronized JDBCScadenzaDAO getSelf() {
-        if (self == null) {
-            self = new JDBCScadenzaDAO();
-        }
-        return self;
     }
 
     @Override

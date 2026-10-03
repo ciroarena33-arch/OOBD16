@@ -29,9 +29,9 @@ public class NotificaController {
     private CreaNotificaGUI creaNotificaGUI;
     private Debito debitoSelezionato;
 
-    private JDBCPartecipazioneGruppoDAO partecipazioneDAO = JDBCPartecipazioneGruppoDAO.getSelf();
-    private JDBCDebitoDAO debitoDAO = JDBCDebitoDAO.getSelf();
-    private JDBCNotificaDAO notificaDAO = JDBCNotificaDAO.getSelf();
+    private JDBCPartecipazioneGruppoDAO partecipazioneDAO =new JDBCPartecipazioneGruppoDAO();
+    private JDBCDebitoDAO debitoDAO =new JDBCDebitoDAO();
+    private JDBCNotificaDAO notificaDAO =new JDBCNotificaDAO();
 
     public NotificaController(UtenteController utenteController) {
         try {

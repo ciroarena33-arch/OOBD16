@@ -13,17 +13,10 @@ public class JDBCValutaDAO implements ValutaDAO {
 
 	private Connection conn;
 	
-	private JDBCValutaDAO() {
+	public JDBCValutaDAO() {
 		this.conn=DBConnection.getDBConnection().getConnection();
 	}
-	
-	private static JDBCValutaDAO self=null;
-	public static synchronized JDBCValutaDAO getSelf() {
-		if(self==null) {
-			self=new JDBCValutaDAO();
-		}
-		return self;
-	}
+
 	
 	@Override
 	public Valuta cercaValuta(String nome) {

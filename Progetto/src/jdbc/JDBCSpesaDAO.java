@@ -20,20 +20,11 @@ public class JDBCSpesaDAO implements SpesaDAO {
     private JDBCGruppoDAO gruppoDAO;
     private JDBCValutaDAO valutaDAO;
 
-    private JDBCSpesaDAO() {
+    public JDBCSpesaDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
-        this.utenteDAO = JDBCUtenteDAO.getSelf();
-        this.gruppoDAO = JDBCGruppoDAO.getSelf();
-        this.valutaDAO = JDBCValutaDAO.getSelf();
-    }
-
-    private static JDBCSpesaDAO self = null;
-
-    public static synchronized JDBCSpesaDAO getSelf() {
-        if (self == null) {
-            self = new JDBCSpesaDAO();
-        }
-        return self;
+        this.utenteDAO =new JDBCUtenteDAO();
+        this.gruppoDAO =new JDBCGruppoDAO();
+        this.valutaDAO =new JDBCValutaDAO();
     }
 
     @Override

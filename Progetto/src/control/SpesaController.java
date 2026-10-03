@@ -37,10 +37,10 @@ public class SpesaController {
     public SpesaController(GruppoController gruppoController) {
         try {
             this.gruppoController = gruppoController;
-            this.spesaDAO = JDBCSpesaDAO.getSelf();
-            this.valutaDAO = JDBCValutaDAO.getSelf();
-            this.debitoDAO = JDBCDebitoDAO.getSelf();
-            this.partecipazioneDAO = JDBCPartecipazioneGruppoDAO.getSelf();
+            this.spesaDAO =new JDBCSpesaDAO();
+            this.valutaDAO =new JDBCValutaDAO();
+            this.debitoDAO =new JDBCDebitoDAO();
+            this.partecipazioneDAO =new JDBCPartecipazioneGruppoDAO();
             this.utenteLoggato = gruppoController.getUtenteLoggato();
             this.gruppoSelezionato = gruppoController.getGruppoSelezionato();
             ArrayList<Spesa> spese = spesaDAO.cercaSpesaByGruppo(gruppoController.getGruppoSelezionato(), utenteLoggato);

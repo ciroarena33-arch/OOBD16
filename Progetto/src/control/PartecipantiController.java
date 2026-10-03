@@ -34,9 +34,9 @@ public class PartecipantiController {
 
     public PartecipantiController(GruppoController gruppoController) {
         this.gruppoController = gruppoController;
-        this.utenteDAO = JDBCUtenteDAO.getSelf();
-        this.gruppoDAO = JDBCGruppoDAO.getSelf();
-        this.partecipazioneGruppoDAO = JDBCPartecipazioneGruppoDAO.getSelf();
+        this.utenteDAO =new JDBCUtenteDAO();
+        this.gruppoDAO =new JDBCGruppoDAO();
+        this.partecipazioneGruppoDAO =new JDBCPartecipazioneGruppoDAO();
 
         this.utenteLoggato = gruppoController.getUtenteLoggato();
         this.gruppoSelezionato = gruppoController.getGruppoSelezionato();

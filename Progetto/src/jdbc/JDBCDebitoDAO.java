@@ -19,19 +19,10 @@ public class JDBCDebitoDAO implements DebitoDAO {
     private JDBCSpesaDAO spesaDAO;
     private JDBCUtenteDAO utenteDAO;
 
-    private JDBCDebitoDAO() {
+    public JDBCDebitoDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
-        this.spesaDAO = JDBCSpesaDAO.getSelf();
-        this.utenteDAO = JDBCUtenteDAO.getSelf();
-    }
-
-    private static JDBCDebitoDAO self = null;
-
-    public static synchronized JDBCDebitoDAO getSelf() {
-        if (self == null) {
-            self = new JDBCDebitoDAO();
-        }
-        return self;
+        this.spesaDAO =new JDBCSpesaDAO();
+        this.utenteDAO =new JDBCUtenteDAO();
     }
 
     @Override

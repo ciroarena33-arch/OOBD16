@@ -18,18 +18,9 @@ public class JDBCNotificaDAO implements NotificaDAO {
     private Connection conn;
     private JDBCDebitoDAO debitoDAO;
 
-    private JDBCNotificaDAO() {
+    public JDBCNotificaDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
-        this.debitoDAO = JDBCDebitoDAO.getSelf();
-    }
-
-    private static JDBCNotificaDAO self = null;
-
-    public static synchronized JDBCNotificaDAO getSelf() {
-        if (self == null) {
-            self = new JDBCNotificaDAO();
-        }
-        return self;
+        this.debitoDAO =new JDBCDebitoDAO();
     }
 
     @Override

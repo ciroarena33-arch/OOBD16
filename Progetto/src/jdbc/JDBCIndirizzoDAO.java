@@ -13,17 +13,11 @@ public class JDBCIndirizzoDAO implements IndirizzoDAO{
 
 	private Connection conn;
 	
-	private JDBCIndirizzoDAO() {
+	public JDBCIndirizzoDAO() {
 		this.conn=DBConnection.getDBConnection().getConnection();
 	}
 	
-	private static JDBCIndirizzoDAO self=null;
-	public static synchronized JDBCIndirizzoDAO getSelf() {
-		if(self==null) {
-			self=new JDBCIndirizzoDAO();
-		}
-		return self;
-	}
+	
 	@Override
 	public void nuovoIndirizzo(Indirizzo i) {
 		String sql="INSERT INTO Indirizzo (provincia, citta, via, numcivico) VALUES (?,?,?,?)";

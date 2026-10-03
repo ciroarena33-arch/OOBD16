@@ -23,19 +23,10 @@ public class JDBCGruppoDAO implements GruppoDAO {
     private JDBCUtenteDAO utenteDAO;
     private JDBCIndirizzoDAO indirizzoDAO;
 
-    private JDBCGruppoDAO() {
+    public JDBCGruppoDAO() {
         this.conn = DBConnection.getDBConnection().getConnection();
-        this.utenteDAO = JDBCUtenteDAO.getSelf();
-        this.indirizzoDAO = JDBCIndirizzoDAO.getSelf();
-    }
-
-    private static JDBCGruppoDAO self;
-
-    public static synchronized JDBCGruppoDAO getSelf() {
-        if (self == null) {
-            self = new JDBCGruppoDAO();
-        }
-        return self;
+        this.utenteDAO =new JDBCUtenteDAO();
+        this.indirizzoDAO =new JDBCIndirizzoDAO();
     }
 
     @Override
