@@ -1,21 +1,25 @@
 package control;
 
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane; 
 import gui.utente.DatiUtenteGUI;
 import gui.utente.HomeGUI;
 import gui.utente.LoginGUI;
 import gui.utente.RegistrazioneGUI;
 import jdbc.JDBCUtenteDAO;
+import jdbc.JDBCDebitoDAO;
 import model.Utente;
 
 public class UtenteController {
+	private double debito;
+	
     private Utente utenteLoggato;
     private DatiUtenteGUI datiUtenteGUI;
     private HomeGUI homeGUI;
     private LoginGUI loginGUI;
     private RegistrazioneGUI registrazioneGUI;
     private JDBCUtenteDAO utenteDAO;
-
+    private JDBCDebitoDAO debitoDAO;
+    
     public UtenteController() {
         utenteDAO =new JDBCUtenteDAO();
 
@@ -27,11 +31,20 @@ public class UtenteController {
     public Utente getUtente() {
         return utenteLoggato;
     }
+    
+    public double getCredito() {
+
+    	
+    	//da fare dopo push vista assenza del metodo JDBCDebitoDAO.getCredito()
+    	
+    	
+    	
+    	return 0;
+    }
 
     public void tornaHome() {
-        if (homeGUI != null) {
-            homeGUI.setVisible(true);
-        }
+        homeGUI= new HomeGUI(this,utenteLoggato.getNome());
+        homeGUI.setVisible(true);
     }
 
     public void btn_login_esci() {

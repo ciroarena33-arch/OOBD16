@@ -60,13 +60,6 @@ public class LoginGUI extends JFrame {
         registrati.setFocusPainted(false);
         registrati.setBounds(80, 407, 420, 42);
 
-        JButton esci = new JButton("ESCI");
-        esci.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        esci.setBackground(new Color(210, 60, 60));
-        esci.setForeground(Color.WHITE);
-        esci.setFocusPainted(false);
-        esci.setBounds(404, 38, 96, 38);
-
         JLabel messaggio = new JLabel("", SwingConstants.CENTER);
         messaggio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         messaggio.setBounds(80, 466, 420, 24);
@@ -79,7 +72,6 @@ public class LoginGUI extends JFrame {
         panel.add(mostraPassword);
         panel.add(accedi);
         panel.add(registrati);
-        panel.add(esci);
         panel.add(messaggio);
 
         mostraPassword.addActionListener(e -> {
@@ -101,7 +93,6 @@ public class LoginGUI extends JFrame {
         });
 
         registrati.addActionListener(e -> controller.btn_login_registrati());
-        esci.addActionListener(e -> controller.btn_login_esci());
 
         setContentPane(panel);
         setSize(580, 530);

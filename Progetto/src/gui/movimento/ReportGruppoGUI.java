@@ -64,22 +64,13 @@ public class ReportGruppoGUI extends JFrame {
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(203, 213, 225)));
         contentPane.add(scrollPane);
 
-        btnListaSpese = new JButton("LISTA SPESE");
-        btnListaSpese.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        btnListaSpese.setBackground(new Color(60, 120, 216));
-        btnListaSpese.setForeground(Color.WHITE);
-        btnListaSpese.setFocusPainted(false);
-        btnListaSpese.setBounds(180, 460, 210, 38);
-        btnListaSpese.addActionListener(e -> controller.btn_reportGruppo_listaSpese());
-        contentPane.add(btnListaSpese);
-
         btnTornaGruppo = new JButton("TORNA AL GRUPPO");
         btnTornaGruppo.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnTornaGruppo.setBackground(new Color(110, 120, 135));
         btnTornaGruppo.setForeground(Color.WHITE);
         btnTornaGruppo.setFocusPainted(false);
-        btnTornaGruppo.setBounds(410, 460, 210, 38);
-        btnTornaGruppo.addActionListener(e -> controller.btn_reportGruppo_tornaGruppo());
+        btnTornaGruppo.setBounds(277, 465, 210, 38);
+        btnTornaGruppo.addActionListener(e -> controller.btn_reportGruppo_listaSpese());
         contentPane.add(btnTornaGruppo);
     }
 

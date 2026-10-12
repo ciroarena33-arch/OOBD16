@@ -160,5 +160,20 @@ public class MovimentoController {
         }
     }
     
+    public void btn_listaSpese_reportGruppo() {
+    	listaSpeseGUI.dispose();
+    	reportGruppoGUI=new ReportGruppoGUI(this);
+    	reportGruppoGUI.setVisible(true);
+    	
+    }
+
+	public void btn_reportGruppo_listaSpese() {
+		reportGruppoGUI.dispose();
+    	listaSpeseGUI=new ListaSpeseGUI(this);
+    	listaSpeseGUI.setVisible(true);
+	}
+
+	
+    
     
 }

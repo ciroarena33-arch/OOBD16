@@ -64,7 +64,7 @@ public class ListaSpeseGUI extends JFrame {
         btnApriSpesa.setBackground(new Color(60, 120, 216));
         btnApriSpesa.setForeground(Color.WHITE);
         btnApriSpesa.setFocusPainted(false);
-        btnApriSpesa.setBounds(130, 425, 160, 38);
+        btnApriSpesa.setBounds(50, 421, 160, 38);
         btnApriSpesa.addActionListener(e -> {
             int row = tabellaSpese.getSelectedRow();
             if (row != -1) {
@@ -81,9 +81,18 @@ public class ListaSpeseGUI extends JFrame {
         btnIndietro.setBackground(new Color(110, 120, 135));
         btnIndietro.setForeground(Color.WHITE);
         btnIndietro.setFocusPainted(false);
-        btnIndietro.setBounds(310, 425, 160, 38);
+        btnIndietro.setBounds(400, 421, 160, 38);
         btnIndietro.addActionListener(e -> controller.btn_reportGenerale_tornaHome());
         contentPane.add(btnIndietro);
+        
+        JButton btnDettagliPartecipanti = new JButton("Dettaglio partecipanti");
+        btnDettagliPartecipanti.setForeground(Color.WHITE);
+        btnDettagliPartecipanti.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btnDettagliPartecipanti.setFocusPainted(false);
+        btnDettagliPartecipanti.setBackground(new Color(60, 120, 216));
+        btnDettagliPartecipanti.setBounds(230, 421, 160, 38);
+        btnDettagliPartecipanti.addActionListener(e -> controller.btn_listaSpese_reportGruppo());
+        contentPane.add(btnDettagliPartecipanti);
     }
 
     public DefaultTableModel getTableModel() {

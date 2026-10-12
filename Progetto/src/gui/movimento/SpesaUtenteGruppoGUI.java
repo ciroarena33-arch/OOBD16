@@ -114,15 +114,6 @@ public class SpesaUtenteGruppoGUI extends JFrame {
         btnPagaDebito.setBounds(40, 280, 130, 38);
         contentPane.add(btnPagaDebito);
 
-        btnSollecita = new JButton("SOLLECITA");
-        btnSollecita.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btnSollecita.setBackground(new Color(215, 120, 40));
-        btnSollecita.setForeground(Color.WHITE);
-        btnSollecita.setFocusPainted(false);
-        btnSollecita.setBounds(185, 280, 130, 38);
-        btnSollecita.addActionListener(e -> controller.sollecitaDebito(movimentoCorrente));
-        contentPane.add(btnSollecita);
-
         btnIndietro = new JButton("INDIETRO");
         btnIndietro.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnIndietro.setBackground(new Color(110, 120, 135));
