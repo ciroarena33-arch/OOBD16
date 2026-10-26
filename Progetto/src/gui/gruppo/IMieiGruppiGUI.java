@@ -5,11 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import control.GruppoController;
+import model.PartecipazioneGruppo;
 
 public class IMieiGruppiGUI extends JFrame {
 
     private GruppoController controller;
-    private JList<Object> listaGruppi;
+    private JList<PartecipazioneGruppo> listaGruppi;
 
     public IMieiGruppiGUI(GruppoController controller) {
         super();
@@ -69,7 +70,7 @@ public class IMieiGruppiGUI extends JFrame {
         panel.add(messaggio);
 
         apriGruppo.addActionListener(e -> {
-            Object gruppoSelezionato = listaGruppi.getSelectedValue();
+            PartecipazioneGruppo gruppoSelezionato = listaGruppi.getSelectedValue(); //restituisce oggetto selezionato nella Jlist
             if (gruppoSelezionato == null) {
                 JOptionPane.showMessageDialog(IMieiGruppiGUI.this, "Seleziona prima un gruppo");
             } else {
@@ -82,12 +83,12 @@ public class IMieiGruppiGUI extends JFrame {
 
         setContentPane(panel);
         setSize(715, 540);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false); //impedisce all'utente di ridimensionare la finestra
+        setLocationRelativeTo(null); //centra la finestra sullo schermo
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quando chiudi la finestra termina l'applicazione
     }
 
-    public void aggiornaJList(DefaultListModel<Object> model) {
+    public void aggiornaJList(DefaultListModel<PartecipazioneGruppo> model) { //aggiorna elementi visualizzati nella lista grafica
         listaGruppi.setModel(model);
     }
 }

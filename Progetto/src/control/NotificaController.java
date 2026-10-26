@@ -29,9 +29,9 @@ public class NotificaController {
     private CreaNotificaGUI creaNotificaGUI;
     private Debito debitoSelezionato;
 
-    private JDBCPartecipazioneGruppoDAO partecipazioneDAO =new JDBCPartecipazioneGruppoDAO();
-    private JDBCDebitoDAO debitoDAO =new JDBCDebitoDAO();
-    private JDBCNotificaDAO notificaDAO =new JDBCNotificaDAO();
+    private JDBCPartecipazioneGruppoDAO partecipazioneDAO = new JDBCPartecipazioneGruppoDAO();
+    private JDBCDebitoDAO debitoDAO = new JDBCDebitoDAO();
+    private JDBCNotificaDAO notificaDAO = new JDBCNotificaDAO();
 
     public NotificaController(UtenteController utenteController) {
         try {
@@ -62,7 +62,6 @@ public class NotificaController {
 
     public void caricaTabelleNotifiche() {
         if (notificheGUI == null) return;
-
         DefaultTableModel modelInviti = notificheGUI.getModelInviti();
         modelInviti.setRowCount(0);
         for (PartecipazioneGruppo p : inviti) {
@@ -73,38 +72,58 @@ public class NotificaController {
                     p.getGruppo().getProprietario().toString()
             });
         }
-
         DefaultTableModel modelRicevute = notificheGUI.getModelRicevute();
         modelRicevute.setRowCount(0);
         for (Notifica n : notificheRicevute) {
             Debito debito = n.getDebito();
-            String stato = debito != null && debito.isDebitoSaldato() ? "Saldato" : "Da saldare";
+            String stato = "Da saldare";
+            if (debito != null && debito.isDebitoSaldato()) {
+                stato = "Saldato";
+            }
+            String mittente = "N/D";
+            String importo = "0.00 €";
+            if (debito != null) {
+                importo = debito.getImporto() + " €";
+                if (debito.getSpesa() != null) {
+                    mittente = debito.getSpesa().getUtenteEffettuante().toString();
+                }
+            }
             modelRicevute.addRow(new Object[]{
                     n,
-                    debito != null && debito.getSpesa() != null
-                            ? debito.getSpesa().getUtenteEffettuante().toString() : "N/D",
-                    n.getDebito() != null ? n.getDebito().getImporto() + " €" : "0.00 €",
+                    mittente,
+                    importo,
                     n.getData1(),
                     n.getDescrizione1(),
                     stato
             });
         }
-
         DefaultTableModel modelInviate = notificheGUI.getModelInviate();
         modelInviate.setRowCount(0);
         for (Notifica n : notificheInviate) {
             Debito debito = n.getDebito();
-            String stato = debito != null && debito.isDebitoSaldato() ? "Saldato" : "In attesa";
+            String stato = "In attesa";
+            if (debito != null && debito.isDebitoSaldato()) {
+                stato = "Saldato";
+            }
+            String destinatario = "N/D";
+            String importo = "0.00 €";
+            if (debito != null) {
+                importo = debito.getImporto() + " €";
+
+                if (debito.getDebitore() != null) {
+                    destinatario = debito.getDebitore().toString();
+                }
+            }
             modelInviate.addRow(new Object[]{
                     n,
-                    debito != null && debito.getDebitore() != null ? debito.getDebitore().toString() : "N/D",
-                    n.getDebito() != null ? n.getDebito().getImporto() + " €" : "0.00 €",
+                    destinatario,
+                    importo,
                     n.getData1(),
                     stato
             });
         }
     }
-
+    
     public void avvia() {
         notificheGUI = new NotificheGUI(this);
         caricaTabelleNotifiche();
@@ -141,9 +160,12 @@ public class NotificaController {
             PartecipazioneGruppo p = (PartecipazioneGruppo) pObj;
             try {
                 partecipazioneDAO.eliminaPartecipazione(p);
+                utenteLoggato.getPartecipazioniGruppi().remove(p);
                 inviti.remove(p);
+
                 JOptionPane.showMessageDialog(null, "Invito rifiutato.");
                 caricaTabelleNotifiche();
+
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -241,8 +263,5 @@ public class NotificaController {
                 creaNotificaGUI.setDebitoSelezionato(debitoSelezionato.getSpesa().getNomeSpesa() + " (" + debitoSelezionato.getImporto() + " €)");
             }
         }
-    }
-
-    public void btn_sceltaDebito_annulla() {
     }
 }

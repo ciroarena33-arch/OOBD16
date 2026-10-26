@@ -8,6 +8,8 @@ import gui.utente.RegistrazioneGUI;
 import jdbc.JDBCUtenteDAO;
 import jdbc.JDBCDebitoDAO;
 import model.Utente;
+import model.Debito;
+import java.util.ArrayList;
 
 public class UtenteController {
 	private double debito;
@@ -163,5 +165,29 @@ public class UtenteController {
     public void btn_home_esci() {
         utenteLoggato = null;
         System.exit(0);
+    }
+    
+    public double calcolaTotaleDebiti() {
+        JDBCDebitoDAO debitoDAO = new JDBCDebitoDAO();
+        ArrayList<Debito> debiti = debitoDAO.cercaDebitoByUtente(utenteLoggato);
+        double totale = 0;
+        for (Debito debito : debiti) {
+            if (!debito.isDebitoSaldato()) {
+                totale += debito.getImporto();
+            }
+        }
+        return totale;
+    }
+    
+    public double calcolaTotaleCrediti() {
+        JDBCDebitoDAO debitoDAO = new JDBCDebitoDAO();
+        ArrayList<Debito> crediti = debitoDAO.cercaCreditiByUtente(utenteLoggato);
+        double totale = 0;
+        for (Debito debito : crediti) {
+            if (!debito.isDebitoSaldato()) {
+                totale += debito.getImporto();
+            }
+        }
+        return totale;
     }
 }

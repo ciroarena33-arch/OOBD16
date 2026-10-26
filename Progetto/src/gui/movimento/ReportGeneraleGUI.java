@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import control.MovimentoController;
+import model.PartecipazioneGruppo;
 
 public class ReportGeneraleGUI extends JFrame {
 
@@ -38,7 +39,7 @@ public class ReportGeneraleGUI extends JFrame {
     private int indiceSpicchioSelezionato = -1;
     private String spicchioSelezionato = null;
 
-    private ArrayList<Object> mappaLookup = new ArrayList<>();
+    private ArrayList<PartecipazioneGruppo> mappaLookup = new ArrayList<>();
 
     public ReportGeneraleGUI(MovimentoController controller) {
         super();
@@ -75,7 +76,7 @@ public class ReportGeneraleGUI extends JFrame {
         btnVisualizzaDettagli.setBounds(180, 500, 210, 38);
         btnVisualizzaDettagli.addActionListener(e -> {
             if (spicchioSelezionato != null) {
-                Object oggettoSelezionato = getOggettoDaSpicchioSelezionato(spicchioSelezionato);
+            	PartecipazioneGruppo oggettoSelezionato = getOggettoDaSpicchioSelezionato(spicchioSelezionato);
                 if (oggettoSelezionato != null) {
                     controller.gestisciSelezione(oggettoSelezionato);
                 } else {
@@ -134,12 +135,12 @@ public class ReportGeneraleGUI extends JFrame {
         contentPane.add(pannelloGrafico);
     }
 
-    public void aggiornaReport(HashMap<Object,Double> map) {
+    public void aggiornaReport(HashMap<PartecipazioneGruppo,Double> map) {
         if (map == null) return;
         this.dataset.clear();
         this.mappaLookup.clear();
-        for (Map.Entry<Object,Double> entry : map.entrySet()) {
-            Object p = entry.getKey();
+        for (Map.Entry<PartecipazioneGruppo,Double> entry : map.entrySet()) {
+        	PartecipazioneGruppo p = entry.getKey();
             mappaLookup.add(p);
             dataset.setValue(p.toString(), entry.getValue());
         }
@@ -149,11 +150,11 @@ public class ReportGeneraleGUI extends JFrame {
         }
     }
 
-    private Object getOggettoDaSpicchioSelezionato(String chiave) {
+    private PartecipazioneGruppo getOggettoDaSpicchioSelezionato(String chiave) {
         if (chiave == null) return null;
-        for (Object obj : mappaLookup) {
-            if (obj.toString().equals(chiave)) {
-                return obj;
+        for (PartecipazioneGruppo p : mappaLookup) {
+            if (p.toString().equals(chiave)) {
+                return p;
             }
         }
         return null;

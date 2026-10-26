@@ -72,6 +72,23 @@ public class HomeGUI extends JFrame {
         messaggio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         messaggio.setForeground(new Color(100, 116, 139));
         messaggio.setBounds(100, 385, 580, 30);
+        
+        //debiti utente
+        JLabel debiti = new JLabel(
+                String.format("DEBITI: %.2f €", controller.calcolaTotaleDebiti())
+        );
+        debiti.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        debiti.setForeground(new Color(210, 60, 60));
+        debiti.setBounds(25, 65, 220, 35);
+
+        //crediti utente
+        JLabel crediti = new JLabel(
+                String.format("CREDITI: %.2f €", controller.calcolaTotaleCrediti()),
+                SwingConstants.RIGHT
+        );
+        crediti.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        crediti.setForeground(new Color(34, 150, 80));
+        crediti.setBounds(445, 65, 220, 35);
 
         panel.add(logo);
         panel.add(benvenuto);
@@ -82,6 +99,8 @@ public class HomeGUI extends JFrame {
         panel.add(visualizzaNotifiche);
         panel.add(esci);
         panel.add(messaggio);
+        panel.add(debiti);
+        panel.add(crediti);
 
         mieiGruppi.addActionListener(e -> controller.btn_home_mieiGruppi());
         reportGenerale.addActionListener(e -> controller.btn_home_reportGenerale());

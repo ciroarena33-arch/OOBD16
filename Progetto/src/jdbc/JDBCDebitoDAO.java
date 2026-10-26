@@ -162,4 +162,28 @@ public class JDBCDebitoDAO implements DebitoDAO {
             throw new RuntimeException("Errore nella cancellazione del debito, " + e.getMessage());
         }
     }
+    
+    public ArrayList<Debito> cercaCreditiByUtente(Utente u) {
+        String sql = "SELECT D.* FROM DEBITO D " +
+                     "JOIN SPESA S ON D.IDSPESA = S.IDSPESA " +
+                     "WHERE S.EMAILUTENTE = ? AND D.EMAILUTENTE <> S.EMAILUTENTE";
+        ArrayList<Debito> crediti = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, u.getEmailIstituzionale());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                boolean saldato = rs.getInt("saldato") == 1;
+                Debito d = new Debito(
+                        rs.getInt("idDebito"),
+                        spesaDAO.cercaSpesaById(rs.getInt("idSpesa")),
+                        utenteDAO.cercaUtentePerEmail(rs.getString("emailutente")),
+                        rs.getDouble("importo"),
+                        saldato);
+                crediti.add(d);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nella ricerca dei crediti, " + e.getMessage());
+        }
+        return crediti;
+    }
 }

@@ -24,7 +24,7 @@ import model.Utente;
 public class MovimentoController {
 
     private Utente utenteLoggato;
-    private HashMap<Object, Double> map;
+    private HashMap<PartecipazioneGruppo, Double> map;
 
     private UtenteController utenteController;
     private GruppoController gruppoController;
@@ -43,10 +43,10 @@ public class MovimentoController {
     public MovimentoController(UtenteController utenteController) {
         this.utenteController = utenteController;
         this.utenteLoggato = utenteController.getUtente();
-        this.gruppoDAO =new JDBCGruppoDAO();
-        this.spesaDAO =new JDBCSpesaDAO();
-        this.debitoDAO =new JDBCDebitoDAO();
-        this.partecipazioneGruppoDAO =new JDBCPartecipazioneGruppoDAO();
+        this.gruppoDAO = new JDBCGruppoDAO();
+        this.spesaDAO = new JDBCSpesaDAO();
+        this.debitoDAO = new JDBCDebitoDAO();
+        this.partecipazioneGruppoDAO = new JDBCPartecipazioneGruppoDAO();
     }
 
     private void mostraFinestra(JFrame nuovaFinestra) {
@@ -63,7 +63,6 @@ public class MovimentoController {
         } else {
             this.map.clear();
         }
-
         ArrayList<PartecipazioneGruppo> partecipazioni = utenteLoggato.getPartecipazioniGruppi();
         if (partecipazioni == null || partecipazioni.isEmpty()) {
             partecipazioni = partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
@@ -77,10 +76,9 @@ public class MovimentoController {
                 ArrayList<Debito> debiti = debitoDAO.cercaDebitoByGruppoUtente(p.getGruppo(), utenteLoggato);
                 if (spese != null) movimenti.addAll(spese);
                 if (debiti != null) movimenti.addAll(debiti);
-
                 for (Movimento m : movimenti) {
-                    map.merge(p, m.getImporto(), Double::sum);
-                }
+                    map.merge(p, m.getImporto(), Double::sum); // double sum somma due numeri per volta 
+                } // merge aggiorna ogni volta il totale della partecipazione p
             }
         }
         if (reportGeneraleGUI != null) {
@@ -172,8 +170,4 @@ public class MovimentoController {
     	listaSpeseGUI=new ListaSpeseGUI(this);
     	listaSpeseGUI.setVisible(true);
 	}
-
-	
-    
-    
 }

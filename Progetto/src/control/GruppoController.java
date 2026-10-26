@@ -17,9 +17,6 @@ import gui.gruppo.*;
 import jdbc.JDBCGruppoDAO;
 import jdbc.JDBCIndirizzoDAO;
 import jdbc.JDBCPartecipazioneGruppoDAO;
-import jdbc.JDBCDebitoDAO;
-import jdbc.JDBCSpesaDAO;
-import jdbc.JDBCUtenteDAO;
 
 public class GruppoController {
 
@@ -30,12 +27,9 @@ public class GruppoController {
     private JFrame finestraAttiva;
     private IMieiGruppiGUI iMieiGruppiGUI;
 
-    private JDBCUtenteDAO utenteDAO;
     private JDBCPartecipazioneGruppoDAO partecipazioneGruppoDAO;
     private JDBCGruppoDAO gruppoDAO;
     private JDBCIndirizzoDAO indirizzoDAO;
-    private JDBCSpesaDAO spesaDAO;
-    private JDBCDebitoDAO debitoDAO;
 
     public UtenteController utenteController;
     public SpesaController spesaController;
@@ -58,17 +52,15 @@ public class GruppoController {
 
     public GruppoController(UtenteController utenteController) {
         try {
-            this.utenteDAO =new JDBCUtenteDAO();
-            this.gruppoDAO =new JDBCGruppoDAO();
-            this.partecipazioneGruppoDAO =new JDBCPartecipazioneGruppoDAO();
-            this.indirizzoDAO =new JDBCIndirizzoDAO();
-            this.spesaDAO =new JDBCSpesaDAO();
-            this.debitoDAO =new JDBCDebitoDAO();
+            this.gruppoDAO = new JDBCGruppoDAO();
+            this.partecipazioneGruppoDAO = new JDBCPartecipazioneGruppoDAO();
+            this.indirizzoDAO = new JDBCIndirizzoDAO();
 
             this.utenteController = utenteController;
             this.utenteLoggato = utenteController.getUtente();
 
             partecipazioneGruppoDAO.cercaPartecipazioniByUtenteId(utenteLoggato);
+
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -82,23 +74,25 @@ public class GruppoController {
         finestraAttiva.setVisible(true);
     }
 
-    public boolean isUltimoMembro() {
-        if (gruppoSelezionato == null) return true;
-        ArrayList<PartecipazioneGruppo> part = partecipazioneGruppoDAO.cercaPartecipazioniByGruppoId(gruppoSelezionato);
-        int count = 0;
-        if (part != null) {
-            for (PartecipazioneGruppo p : part) {
-                if (p.isInvitoAccettato()) {
-                    count++;
+    public boolean isUltimoMembro() { //verifica se nel gruppo selezionato rimane al massimo un membro che ha accettato l'invito
+        if (gruppoSelezionato == null) {
+            return true;
+        }
+        ArrayList<PartecipazioneGruppo> partecipazioni = partecipazioneGruppoDAO.cercaPartecipazioniByGruppoId(gruppoSelezionato);
+        int membriAccettati = 0;
+        if (partecipazioni != null) {
+            for (PartecipazioneGruppo partecipazione : partecipazioni) {
+                if (partecipazione.isInvitoAccettato()) {
+                    membriAccettati++;
                 }
             }
         }
-        return count <= 1;
+        return membriAccettati <= 1;
     }
-
-    public void caricaGruppi() {
+    
+    public void caricaGruppi() { 
         try {
-            DefaultListModel<Object> model = new DefaultListModel<>();
+            DefaultListModel<PartecipazioneGruppo> model = new DefaultListModel<>();
             for (PartecipazioneGruppo g : utenteLoggato.getPartecipazioniGruppi()) {
                 model.addElement(g);
             }
@@ -123,8 +117,8 @@ public class GruppoController {
         utenteController.tornaHome();
     }
 
-    public void btn_iMieiGruppi_apriGruppo(Object gruppo) {
-        partecipazioneSelezionata = (PartecipazioneGruppo) gruppo;
+    public void btn_iMieiGruppi_apriGruppo(PartecipazioneGruppo partecipazione) {
+    	partecipazioneSelezionata = partecipazione;
         try {
             gruppoSelezionato = partecipazioneSelezionata.getGruppo();
             mostraFinestra(new DettagliGruppoGUI(this, gruppoSelezionato.getNome(), gruppoSelezionato.getProprietario().toString(), isUltimoMembro()));

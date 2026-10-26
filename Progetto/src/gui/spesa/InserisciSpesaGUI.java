@@ -1,7 +1,6 @@
 package gui.spesa;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.time.LocalDate;
@@ -9,28 +8,37 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import control.SpesaController;
 import de.wannawork.jcalendar.JCalendarComboBox;
+import model.Utente;
 
 public class InserisciSpesaGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
+
     private SpesaController controller;
     private JPanel contentPane;
     private JLabel titolo, messaggio;
-    private JLabel labelNome, labelDescrizione, labelImporto, labelData, labelTipo, labelValuta, labelPartecipanti;
+    private JLabel labelNome, labelDescrizione, labelImporto, labelData;
+    private JLabel labelTipo, labelValuta, labelPartecipanti;
+
     private JTextField fieldNome, fieldDescrizione, fieldImporto;
     private JCalendarComboBox fieldData;
+
     private JComboBox<String> comboTipo;
     private JComboBox<String> comboValuta;
+
     private JPanel panelPartecipanti;
     private JScrollPane scrollPartecipanti;
+
     private JButton registraSpesa, tornaGruppo;
 
-    private Map<JCheckBox, Object> checkMap = new HashMap<>();
+    private Map<JCheckBox, Utente> checkMap = new HashMap<>();
 
     public InserisciSpesaGUI(SpesaController controller) {
         super();
+
         setTitle("Inserisci Spesa");
         this.controller = controller;
 
@@ -101,6 +109,7 @@ public class InserisciSpesaGUI extends JFrame {
         fieldData.setBounds(150, startY + stepY * 3, 340, 32);
         contentPane.add(fieldData);
 
+        // Tipo spesa
         labelTipo = new JLabel("Tipo spesa:");
         labelTipo.setFont(new Font("Segoe UI", Font.BOLD, 13));
         labelTipo.setForeground(new Color(70, 85, 105));
@@ -108,17 +117,21 @@ public class InserisciSpesaGUI extends JFrame {
         contentPane.add(labelTipo);
 
         String[] tipiSpesa = {"COMUNE", "PERSONALE"};
+
         comboTipo = new JComboBox<>(tipiSpesa);
         comboTipo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         comboTipo.setBounds(150, startY + stepY * 4, 340, 32);
+
         comboTipo.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 boolean isComune = "COMUNE".equalsIgnoreCase(e.getItem().toString());
                 impostaVisibilitaPartecipanti(isComune);
             }
         });
+
         contentPane.add(comboTipo);
 
+        // Valuta
         labelValuta = new JLabel("Valuta:");
         labelValuta.setFont(new Font("Segoe UI", Font.BOLD, 13));
         labelValuta.setForeground(new Color(70, 85, 105));
@@ -130,6 +143,7 @@ public class InserisciSpesaGUI extends JFrame {
         comboValuta.setBounds(150, startY + stepY * 5, 340, 32);
         contentPane.add(comboValuta);
 
+        // Partecipanti
         labelPartecipanti = new JLabel("Dividi con:");
         labelPartecipanti.setFont(new Font("Segoe UI", Font.BOLD, 13));
         labelPartecipanti.setForeground(new Color(70, 85, 105));
@@ -137,16 +151,21 @@ public class InserisciSpesaGUI extends JFrame {
         contentPane.add(labelPartecipanti);
 
         panelPartecipanti = new JPanel();
-        panelPartecipanti.setLayout(new BoxLayout(panelPartecipanti, BoxLayout.Y_AXIS));
+        panelPartecipanti.setLayout(
+                new BoxLayout(panelPartecipanti, BoxLayout.Y_AXIS)
+        );
         panelPartecipanti.setBackground(Color.WHITE);
 
         scrollPartecipanti = new JScrollPane(panelPartecipanti);
         scrollPartecipanti.setBounds(150, startY + stepY * 6, 340, 110);
-        scrollPartecipanti.setBorder(BorderFactory.createLineBorder(new Color(203, 213, 225)));
+        scrollPartecipanti.setBorder(
+                BorderFactory.createLineBorder(new Color(203, 213, 225))
+        );
         contentPane.add(scrollPartecipanti);
 
-        // Pulsanti Azione
+        // Pulsanti
         int btnY = 525;
+
         registraSpesa = new JButton("REGISTRA SPESA");
         registraSpesa.setFont(new Font("Segoe UI", Font.BOLD, 13));
         registraSpesa.setBackground(new Color(60, 120, 216));
@@ -172,40 +191,45 @@ public class InserisciSpesaGUI extends JFrame {
             String nome = fieldNome.getText().trim();
             String descrizione = fieldDescrizione.getText().trim();
             String importo = fieldImporto.getText().trim();
+
             String tipo = comboTipo.getSelectedItem().toString();
-            String valuta = comboValuta.getSelectedItem() != null ? comboValuta.getSelectedItem().toString() : "EUR";
+
+            String valuta = comboValuta.getSelectedItem() != null
+                    ? comboValuta.getSelectedItem().toString()
+                    : "EUR";
 
             if (nome.isEmpty() || importo.isEmpty() || fieldData.getDate() == null) {
                 messaggio.setText("Compila nome spesa, importo e data");
             } else {
                 LocalDate data = fieldData.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                controller.btn_inserisciSpesa_registraSpesa(nome, descrizione, importo, valuta, data, tipo);
+                controller.btn_inserisciSpesa_registraSpesa(nome, descrizione, importo, valuta, data, tipo
+                );
             }
         });
-
-        tornaGruppo.addActionListener(e -> controller.btn_inserisciSpesa_tornaGruppo());
+        tornaGruppo.addActionListener(e -> controller.btn_inserisciSpesa_tornaGruppo()
+        );
     }
 
     public void aggiornaValute(String[] valute) {
         comboValuta.removeAllItems();
         if (valute != null) {
-            for (String v : valute) {
-                comboValuta.addItem(v);
+            for (String valuta : valute) {
+                comboValuta.addItem(valuta);
             }
         }
     }
 
-    public void aggiornaPartecipanti(Object[] partecipanti) {
+    public void aggiornaPartecipanti(Utente[] partecipanti) {
         panelPartecipanti.removeAll();
         checkMap.clear();
         if (partecipanti != null) {
-            for (Object obj : partecipanti) {
-                JCheckBox cb = new JCheckBox(obj.toString());
+            for (Utente utente : partecipanti) {
+                JCheckBox cb = new JCheckBox(utente.toString());
                 cb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
                 cb.setBackground(Color.WHITE);
-                cb.setSelected(true); // Default to true (checked) for all participants
+                cb.setSelected(true);
                 panelPartecipanti.add(cb);
-                checkMap.put(cb, obj);
+                checkMap.put(cb, utente);
             }
         }
         panelPartecipanti.revalidate();
@@ -217,9 +241,10 @@ public class InserisciSpesaGUI extends JFrame {
         scrollPartecipanti.setVisible(visibile);
     }
 
-    public ArrayList<Object> getPartecipantiSelezionati() {
-        ArrayList<Object> selezionati = new ArrayList<>();
-        for (Map.Entry<JCheckBox, Object> entry : checkMap.entrySet()) {
+    public ArrayList<Utente> getPartecipantiSelezionati() {
+        ArrayList<Utente> selezionati = new ArrayList<>();
+
+        for (Map.Entry<JCheckBox, Utente> entry : checkMap.entrySet()) {
             if (entry.getKey().isSelected()) {
                 selezionati.add(entry.getValue());
             }
